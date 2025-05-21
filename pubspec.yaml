@@ -32,6 +32,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.7
+  flutter_launcher_icons: ^0.14.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -41,7 +42,14 @@ flutter_native_splash:
   android: true
   ios: true
   color: "#EF233C"
-  image: assets/images/logo_white.svg
+  image: "assets/images/logo_white.png"
+
+flutter_icons:
+  image_path: "assets/images/icon_app.png"
+  android: "launcher_icon"
+  ios: true
+  adaptive_icon_background: "#EF233C"
+  adaptive_icon_foreground: "assets/images/icon_app.png"
 
 dev_dependencies:
   flutter_test:
@@ -66,8 +74,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/images/logo_white.svg
+  # assets:
+  #  - assets/images/logo_white.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
