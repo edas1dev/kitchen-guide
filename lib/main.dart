@@ -4,11 +4,13 @@ import 'package:kitchen_guide/splash_page.dart';
 
 void main() {
   runApp(MaterialApp(
-    initialRoute: 'splash_page',
+    debugShowCheckedModeBanner: false,
+    home: HomePage(),
+    /*initialRoute: 'splash_page',
     routes: {
       'splash_page': (context) => splashPage(),
       'home_page': (context) => HomePage(),
-      },
+      },*/
     )
   );
 }
