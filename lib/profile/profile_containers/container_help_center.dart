@@ -27,7 +27,7 @@ class _ContainerHelpCenterState extends State<ContainerHelpCenter> {
       width: double.infinity,
       height: 80,
       child: Row(
-        spacing: 10,
+        spacing: 15,
         children: [
           Icon(Icons.headset_mic, size: 40),
           Column(

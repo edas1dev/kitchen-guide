@@ -27,7 +27,7 @@ class _ContainerManageAccountState extends State<ContainerManageAccount> {
       width: double.infinity,
       height: 80,
       child: Row(
-        spacing: 10,
+        spacing: 15,
         children: [
           Icon(Icons.manage_accounts, size: 40),
           Column(

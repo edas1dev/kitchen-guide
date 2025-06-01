@@ -34,7 +34,7 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
             spacing: 2,
             children: [
               Text(
-                'User Name',
+                'Exemplo da Silva',
                 style: TextStyle(
                   color: Color(0xFF1C1C1C),
                   fontSize: 20,
@@ -59,7 +59,7 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
                 borderRadius: BorderRadius.circular(100),
                 child: Image.network(
                   //'https://i.pinimg.com/236x/05/ab/3f/05ab3f93b3c22b80d9128532fd0fe2a6.jpg',
-                  'https://i.pinimg.com/736x/fd/fc/ef/fdfcefc24e58a4e3ed4dd6099d530353.jpg',
+                  'https://conteudo.imguol.com.br/c/noticias/30/2023/02/03/victor-coelho-1675430507059_v2_450x450.jpg',
                   height: 95, width: 95,
                 ),
               ),

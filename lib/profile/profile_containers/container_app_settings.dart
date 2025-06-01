@@ -27,7 +27,7 @@ class _ContainerAppSettingsState extends State<ContainerAppSettings> {
       width: double.infinity,
       height: 80,
       child: Row(
-        spacing: 10,
+        spacing: 15,
         children: [
           Icon(Icons.settings, size: 40),
           Column(

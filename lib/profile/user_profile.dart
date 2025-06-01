@@ -18,6 +18,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
         height: 93,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -58,7 +59,7 @@ buildColumnIcons(IconData icon, String nomeIcon){
         icon: Icon(icon),
         iconSize: 30,
       ),
-      Text(nomeIcon, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
+      Text(nomeIcon, style: TextStyle(fontSize: 14)),
     ],
   );
 }

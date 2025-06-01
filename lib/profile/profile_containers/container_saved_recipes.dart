@@ -27,7 +27,7 @@ class _ContainerSavedRecipesState extends State<ContainerSavedRecipes> {
       width: double.infinity,
       height: 80,
       child: Row(
-        spacing: 10,
+        spacing: 15,
         children: [
           Icon(Icons.bookmark, size: 40),
           Column(
