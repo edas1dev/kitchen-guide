@@ -24,7 +24,7 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
             )
           ]
       ),
-      width: 400,
+      width: double.infinity,
       height: 130,
       child: Row(
         children: [

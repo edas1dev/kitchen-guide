@@ -33,7 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             ContainerUserInfo(),
             SizedBox(height: 30),
-            //SavedRecipes(),
+            SavedRecipes(),
           ],
         ),
       ),
