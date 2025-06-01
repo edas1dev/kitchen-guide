@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/profile/profile_containers/saved_recipes.dart';
+import 'package:kitchen_guide/profile/profile_containers/container_app_settings.dart';
+import 'package:kitchen_guide/profile/profile_containers/container_help_center.dart';
+import 'package:kitchen_guide/profile/profile_containers/container_manage_account.dart';
+import 'package:kitchen_guide/profile/profile_containers/container_saved_recipes.dart';
 import 'package:kitchen_guide/profile/profile_containers/container_user_info.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -33,7 +36,13 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             ContainerUserInfo(),
             SizedBox(height: 30),
-            SavedRecipes(),
+            ContainerSavedRecipes(),
+            SizedBox(height: 3),
+            ContainerManageAccount(),
+            SizedBox(height: 3),
+            ContainerAppSettings(),
+            SizedBox(height: 3),
+            ContainerHelpCenter(),
           ],
         ),
       ),

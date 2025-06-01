@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SavedRecipes extends StatefulWidget {
-  const SavedRecipes({super.key});
+class ContainerSavedRecipes extends StatefulWidget {
+  const ContainerSavedRecipes({super.key});
 
   @override
-  State<SavedRecipes> createState() => _SavedRecipesState();
+  State<ContainerSavedRecipes> createState() => _ContainerSavedRecipesState();
 }
 
-class _SavedRecipesState extends State<SavedRecipes> {
+class _ContainerSavedRecipesState extends State<ContainerSavedRecipes> {
   @override
   Widget build(BuildContext context) {
     return Container(
