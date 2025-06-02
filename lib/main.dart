@@ -7,8 +7,8 @@ void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     // TODO: classe para o Onboarding e para os Container do profile page
-    home: ProfilePage(),
-    //home: Onboarding1(),
+    //home: ProfilePage(),
+    home: Onboarding1(),
     )
   );
 }
