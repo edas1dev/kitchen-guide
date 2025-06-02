@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/home_page.dart';
+import 'package:kitchen_guide/onboardings/onboarding2.dart';
+import 'package:kitchen_guide/profile/user_profile.dart';
 
 class Onboarding1 extends StatefulWidget {
   const Onboarding1({super.key});
@@ -14,7 +17,12 @@ class _Onboarding1State extends State<Onboarding1> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Image.asset('assets/images/foodOn1.jpg'),
+          Image.asset(
+              'assets/images/foodOn1.jpg',
+              fit: BoxFit.cover,
+              height: MediaQuery.of(context).size.height * 0.6,
+              width: MediaQuery.of(context).size.width,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
@@ -37,17 +45,21 @@ class _Onboarding1State extends State<Onboarding1> {
                     ),
                   ],
                 ),
-                SizedBox(height: 110),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ElevatedButton(onPressed: () {},
+                    ElevatedButton(onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                    },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Color(0xFFEF233C),
                       ),
                       child: Text('Pular', style: TextStyle(fontWeight: FontWeight.w900)),
                     ),
-                    ElevatedButton(onPressed: () {},
+                    ElevatedButton(onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Onboarding2()));
+                    },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFEF233C),
                       ),

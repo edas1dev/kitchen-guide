@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/profile/user_profile.dart';
 
 class CustomBottomAppBar extends StatefulWidget {
   const CustomBottomAppBar({super.key});
@@ -16,6 +17,9 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
       onTap: (index){
         setState(() {
           selectIndex = index;
+          /*if(selectIndex == 3){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+          }*/
         });
       },
       currentIndex: selectIndex,
