@@ -26,6 +26,7 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
       showUnselectedLabels: true,
       selectedItemColor: Color(0xFFEF233C),
       unselectedItemColor: Colors.grey[700],
+      type: BottomNavigationBarType.fixed,
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),

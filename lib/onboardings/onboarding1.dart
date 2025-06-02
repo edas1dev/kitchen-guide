@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/home_page.dart';
 import 'package:kitchen_guide/onboardings/onboarding2.dart';
-import 'package:kitchen_guide/profile/user_profile.dart';
 
 class Onboarding1 extends StatefulWidget {
   const Onboarding1({super.key});
