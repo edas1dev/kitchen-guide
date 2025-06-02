@@ -4,8 +4,7 @@ import 'package:kitchen_guide/profile/user_profile.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ProfilePage(),
-    // home: HomePage(),
+    // home: ,
     )
   );
 }
