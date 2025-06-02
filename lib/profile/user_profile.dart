@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/bottom_app_bar.dart';
 import 'package:kitchen_guide/profile/profile_containers/container_app_settings.dart';
 import 'package:kitchen_guide/profile/profile_containers/container_help_center.dart';
 import 'package:kitchen_guide/profile/profile_containers/container_manage_account.dart';
@@ -17,22 +18,11 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        height: 93,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            buildColumnIcons(Icons.home_outlined, 'Casa'),
-            buildColumnIcons(Icons.search, 'Busca'),
-            buildColumnIcons(Icons.category_outlined, 'Categorias'),
-            buildColumnIcons(Icons.person_outline, 'Perfil'),
-          ],
-        ),
-      ),
+      bottomNavigationBar: CustomBottomAppBar(),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 50),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
         child: Column(
+          spacing: 5,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ContainerUserInfo(),
@@ -49,17 +39,4 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-}
-
-buildColumnIcons(IconData icon, String nomeIcon){
-  return Column(
-    children: [
-      IconButton(
-        onPressed: () {},
-        icon: Icon(icon),
-        iconSize: 30,
-      ),
-      Text(nomeIcon, style: TextStyle(fontSize: 14)),
-    ],
-  );
 }
