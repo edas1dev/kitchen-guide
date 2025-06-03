@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import '../home_page.dart';
 
-class Onboarding2 extends StatefulWidget {
-  final String imageUrl;
+class Onboarding extends StatefulWidget {
+  final Image image;
   final String title;
   final String text;
-  const Onboarding2({super.key, required this.imageUrl, required this.title, required this.text});
+  final VoidCallback onNext;
+  const Onboarding({super.key, required this.image, required this.title, required this.text, required this.onNext});
 
   @override
-  State<Onboarding2> createState() => _Onboarding2State();
+  State<Onboarding> createState() => _OnboardingState();
 }
 
-class _Onboarding2State extends State<Onboarding2> {
+class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Image.network(
-            widget.imageUrl,
+          Image(
+            image: widget.image.image,
             fit: BoxFit.cover,
             height: MediaQuery.of(context).size.height * 0.6,
             width: MediaQuery.of(context).size.width,
@@ -50,7 +51,7 @@ class _Onboarding2State extends State<Onboarding2> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
                       },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Color(0xFFEF233C),
@@ -58,7 +59,7 @@ class _Onboarding2State extends State<Onboarding2> {
                         child: Text('Pular', style: TextStyle(fontWeight: FontWeight.w900)),
                       ),
                       ElevatedButton(onPressed: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => Onboarding2()));
+                        widget.onNext();
                       },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFEF233C),
