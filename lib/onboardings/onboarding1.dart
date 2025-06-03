@@ -57,7 +57,7 @@ class _Onboarding1State extends State<Onboarding1> {
                       child: Text('Pular', style: TextStyle(fontWeight: FontWeight.w900)),
                     ),
                     ElevatedButton(onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Onboarding2()));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) { print('hey'); }));
                     },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFEF233C),

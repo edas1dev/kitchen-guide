@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import '../home_page.dart';
 
 class Onboarding2 extends StatefulWidget {
-  const Onboarding2({super.key});
+  final String imageUrl;
+  final String title;
+  final String text;
+  const Onboarding2({super.key, required this.imageUrl, required this.title, required this.text});
 
   @override
   State<Onboarding2> createState() => _Onboarding2State();
@@ -16,7 +19,7 @@ class _Onboarding2State extends State<Onboarding2> {
       body: Column(
         children: [
           Image.network(
-            'https://media.istockphoto.com/id/1387274503/photo/mobile-food-photography-minimal.jpg?s=612x612&w=0&k=20&c=oeuYIbIN0PrneTVFIJi6IGGRSqw9g7qJ_69un9idPoA=',
+            widget.imageUrl,
             fit: BoxFit.cover,
             height: MediaQuery.of(context).size.height * 0.6,
             width: MediaQuery.of(context).size.width,
@@ -29,7 +32,7 @@ class _Onboarding2State extends State<Onboarding2> {
                 children: [
                   SizedBox(height: 30),
                   Text(
-                    'Digitalize ingredientes para gerar receitas',
+                    widget.title,
                     style: TextStyle(fontSize: 18.6, fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: 20),
@@ -37,7 +40,7 @@ class _Onboarding2State extends State<Onboarding2> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Use o recurso Pesquise & Ache, para gerar receitas com os ingredientes prontamente disponíveis com você!',
+                        widget.text,
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                       ),
                     ],
