@@ -21,49 +21,52 @@ class _Onboarding2State extends State<Onboarding2> {
             height: MediaQuery.of(context).size.height * 0.6,
             width: MediaQuery.of(context).size.width,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 30),
-                Text(
-                  'Digitalize ingredientes para gerar receitas',
-                  style: TextStyle(fontSize: 18.6, fontWeight: FontWeight.w500),
-                ),
-                SizedBox(height: 20),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Use o recurso Pesquise & Ache, para gerar receitas com os ingredientes prontamente disponíveis com você!',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                    ),
-                  ],
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-                    },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Color(0xFFEF233C),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 30),
+                  Text(
+                    'Digitalize ingredientes para gerar receitas',
+                    style: TextStyle(fontSize: 18.6, fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(height: 20),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Use o recurso Pesquise & Ache, para gerar receitas com os ingredientes prontamente disponíveis com você!',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                       ),
-                      child: Text('Pular', style: TextStyle(fontWeight: FontWeight.w900)),
-                    ),
-                    ElevatedButton(onPressed: () {
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) => Onboarding2()));
-                    },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFFEF233C),
+                    ],
+                  ),
+                  const Spacer(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton(onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                      },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Color(0xFFEF233C),
+                        ),
+                        child: Text('Pular', style: TextStyle(fontWeight: FontWeight.w900)),
                       ),
-                      child: Text('Próximo', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900)),
-                    ),
-                  ],
-                ),
-              ],
+                      ElevatedButton(onPressed: () {
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => Onboarding2()));
+                      },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFEF233C),
+                        ),
+                        child: Text('Próximo', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20,)
+                ],
+              ),
             ),
           ),
         ],
