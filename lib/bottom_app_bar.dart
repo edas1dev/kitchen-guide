@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/profile/user_profile.dart';
 
 class CustomBottomAppBar extends StatefulWidget {
   const CustomBottomAppBar({super.key});

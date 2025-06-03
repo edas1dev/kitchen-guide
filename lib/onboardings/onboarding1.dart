@@ -20,7 +20,6 @@ class _Onboarding1State extends State<Onboarding1> {
               'assets/images/foodOn1.jpg',
               fit: BoxFit.cover,
               height: MediaQuery.of(context).size.height * 0.6,
-              width: MediaQuery.of(context).size.width,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -33,6 +32,7 @@ class _Onboarding1State extends State<Onboarding1> {
                 ),
                 SizedBox(height: 20),
                 Column(
+                  spacing: 5,
                   children: [
                     Text(
                       'Conte-nos suas preferências alimentares e nós',

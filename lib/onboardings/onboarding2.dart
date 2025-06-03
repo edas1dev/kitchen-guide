@@ -24,42 +24,38 @@ class _Onboarding2State extends State<Onboarding2> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 30),
                 Text(
-                  'Digitalize ingredientes para gerar receitas',
-                  style: TextStyle(fontSize: 18.6, fontWeight: FontWeight.w500),
+                  'Digitalize ingredientes e gere receitas',
+                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
                 ),
                 SizedBox(height: 20),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 5,
                   children: [
                     Text(
-                      'Use o recurso Pesquise & Ache, para gerar receitas com os ingredientes prontamente disponíveis com você!',
+                      'Use o recurso de busca, para gerar receitas',
                       style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
+                    Text(
+                      ' com os ingredientes disponíveis com você!',
+                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400)
                     ),
                   ],
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height * 0.15),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                     },
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Color(0xFFEF233C),
-                      ),
-                      child: Text('Pular', style: TextStyle(fontWeight: FontWeight.w900)),
-                    ),
-                    ElevatedButton(onPressed: () {
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) => Onboarding2()));
-                    },
-                      style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFFEF233C),
                       ),
-                      child: Text('Próximo', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900)),
+                      child: Text('Iniciar experiência', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900)),
                     ),
                   ],
                 ),
