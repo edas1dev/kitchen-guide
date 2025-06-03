@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/bottom_app_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +16,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Opa'),
       ),
+      bottomNavigationBar: CustomBottomAppBar(),
     );
   }
 }
