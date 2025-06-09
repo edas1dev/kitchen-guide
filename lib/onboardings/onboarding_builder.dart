@@ -53,9 +53,9 @@ class _OnboardingBuilderState extends State<OnboardingBuilder> with SingleTicker
             onNext: _nextPage,
           ),
           Onboarding(
-            image: Image.network('https://media.istockphoto.com/id/1387274503/photo/mobile-food-photography-minimal.jpg?s=612x612&w=0&k=20&c=oeuYIbIN0PrneTVFIJi6IGGRSqw9g7qJ_69un9idPoA='),
+            image: Image.asset('assets/images/foodOn2.jpg'),
             title: 'Digitalize ingredientes para gerar receitas',
-            text: 'Use o recurso Pesquise & Ache, para gerar receitas com os ingredientes prontamente disponíveis com você!',
+            text: 'Use o recurso de Busca para gerar receitas com os ingredientes prontamente disponíveis com você!',
             onNext: _nextPage,
           ),
         ],

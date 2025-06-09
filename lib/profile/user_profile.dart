@@ -16,14 +16,14 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: Colors.white,
       bottomNavigationBar: CustomBottomAppBar(),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
         child: Column(
           spacing: 5,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ContainerUserInfo(),
             SizedBox(height: 30),
-            buildContainer(Icons.bookmark, 'Receitas salvas', 'Suas receitas salvas se encontram aqui.'),
+            buildContainer(Icons.bookmark, 'Receitas salvas', 'Suas receitas salvas aqui.'),
             SizedBox(height: 3),
             buildContainer(Icons.manage_accounts, 'Gerenciar conta', 'Edite com detalhes a sua conta.'),
             SizedBox(height: 3),
