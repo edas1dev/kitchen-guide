@@ -29,20 +29,20 @@ class _OnboardingState extends State<Onboarding> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 30),
                   Text(
                     widget.title,
-                    style: TextStyle(fontSize: 18.6, fontWeight: FontWeight.w500),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 17.8, fontWeight: FontWeight.w500),
                   ),
                   SizedBox(height: 20),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         widget.text,
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 13.5, fontWeight: FontWeight.w400),
                       ),
                     ],
                   ),
