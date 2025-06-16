@@ -56,12 +56,8 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.asset(
-                  //'https://i.pinimg.com/236x/05/ab/3f/05ab3f93b3c22b80d9128532fd0fe2a6.jpg',
-                  'assets/images/profile_person.jpg',
-                  height: 95, width: 95,
-                ),
+                borderRadius: BorderRadius.circular(60),
+                child: Image.asset('assets/images/profile_person.jpg', height: 95, width: 95)
               ),
             ],
           ),
