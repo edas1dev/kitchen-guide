@@ -5,7 +5,8 @@ class RecipeCard extends StatefulWidget {
   final String kcal;
   final String time;
   final Image image;
-  const RecipeCard({super.key, required this.title, required this.kcal, required this.time, required this.image});
+  final bool bookmarked;
+  const RecipeCard({super.key, required this.title, required this.kcal, required this.time, required this.image, required this.bookmarked});
 
   @override
   State<RecipeCard> createState() => _RecipeCardState();
@@ -62,7 +63,7 @@ class _RecipeCardState extends State<RecipeCard> {
                       ],
                     ),
                     Spacer(),
-                    Icon(Icons.bookmark, size: 40)
+                    Icon(widget.bookmarked ? Icons.bookmark : Icons.bookmark_outline, size: 40)
                   ],
                 )
               ],
