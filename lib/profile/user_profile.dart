@@ -18,17 +18,15 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
         child: Column(
-          spacing: 5,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ContainerUserInfo(),
             SizedBox(height: 30),
             buildContainer(Icons.bookmark, 'Receitas salvas', 'Suas receitas salvas aqui.'),
-            SizedBox(height: 3),
+            SizedBox(height: 15),
             buildContainer(Icons.manage_accounts, 'Gerenciar conta', 'Edite com detalhes a sua conta.'),
-            SizedBox(height: 3),
+            SizedBox(height: 15),
             buildContainer(Icons.settings, 'Configurações', 'Algumas configurações do App.'),
-            SizedBox(height: 3),
+            SizedBox(height: 15),
             buildContainer(Icons.headset_mic_rounded, 'Central de ajuda', 'Entre em contato com o suporte.'),
           ],
         ),
@@ -41,16 +39,16 @@ buildContainer(IconData icon, String titulo, String subtitulo){
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 15),
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(13),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFFD9D9D9).withOpacity(0.5),
-            spreadRadius: 4,
-            blurRadius: 4,
-            offset: Offset(0, 4),
-          )
-        ]
+      borderRadius: BorderRadius.circular(13),
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          color: Color(0xFFD9D9D9).withOpacity(0.5),
+          spreadRadius: 4,
+          blurRadius: 4,
+          offset: Offset(0, 4),
+        )
+      ]
     ),
     width: double.infinity,
     height: 80,
