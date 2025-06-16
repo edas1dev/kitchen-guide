@@ -16,7 +16,7 @@ class _SearchState extends State<Search> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container( // Barra de pesqusa
-            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+            margin: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
@@ -40,33 +40,70 @@ class _SearchState extends State<Search> {
               fontSize: 18
             ),),
           ),
-          Row(
+          Wrap(
+            direction: Axis.horizontal,
             children: [
-              Container(
-                padding: EdgeInsets.all(10),
-                margin: EdgeInsets.only(left: 25, top: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: Colors.grey[200]
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.add),
-                    Text("Milho")
-                  ],
-                  
-                ),  
-                
-              )
-              
+              buildTag('Cenoura'),
+              buildTag('Milho'),
             ],
-            
+          ),
+          SizedBox(height: 20,),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Text("Popular", style: TextStyle(
+                fontSize: 18
+            ),),
+          ),
+          Wrap(
+            direction: Axis.horizontal,
+            children: [
+              buildTag('Leite'),
+              buildTag('Ovos'),
+              buildTag('Pão'),
+              buildTag('Frango'),
+              buildTag('Cebola'),
+              buildTag('Manteiga'),
+              buildTag('Tomate'),
+              buildTag('Açafrão'),
+            ],
+          ),
+          Spacer(),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFF96167),
+                ),
+                child: Text('Gerar receita', style: TextStyle(
+                  color: Colors.white
+                ),)
+              ),
+            ),
           )
-
-
         ],
       ),
       bottomNavigationBar: CustomBottomAppBar(),
     );
   }
+}
+
+buildTag(String titulo) {
+  return Container(
+    width: 100,
+    padding: EdgeInsets.all(10),
+    margin: EdgeInsets.only(left: 25, top: 10),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(100)),
+        color: Colors.grey[200]
+    ),
+    child: Row(
+      children: [
+        Icon(Icons.add),
+        Text(titulo)
+      ],
+    ),
+  );
 }
