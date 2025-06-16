@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../home_page.dart';
+import '../homepage/home_page.dart';
 
 class Onboarding extends StatefulWidget {
   final Image image;
