@@ -56,12 +56,8 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.network(
-                  //'https://i.pinimg.com/236x/05/ab/3f/05ab3f93b3c22b80d9128532fd0fe2a6.jpg',
-                  'https://conteudo.imguol.com.br/c/noticias/30/2023/02/03/victor-coelho-1675430507059_v2_450x450.jpg',
-                  height: 95, width: 95,
-                ),
+                borderRadius: BorderRadius.circular(60),
+                child: Image.asset('assets/images/profile_person.jpg', height: 95, width: 95)
               ),
             ],
           ),
