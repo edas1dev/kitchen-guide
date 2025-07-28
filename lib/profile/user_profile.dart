@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/bottom_app_bar.dart';
 import 'package:kitchen_guide/profile/container_user_info.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -14,7 +13,6 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      bottomNavigationBar: CustomBottomAppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
         child: Column(

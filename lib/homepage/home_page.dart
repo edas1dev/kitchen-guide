@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/bottom_app_bar.dart';
 import 'package:kitchen_guide/homepage/recipe_card.dart';
 import 'package:kitchen_guide/homepage/recipe_carousell.dart';
 
@@ -159,7 +158,6 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      bottomNavigationBar: CustomBottomAppBar(),
     );
   }
 }

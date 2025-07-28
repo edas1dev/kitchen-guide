@@ -12,6 +12,7 @@ class _CategoriesState extends State<Categories> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: buildAppBar(),
         body: buildBody(),
       ),
@@ -76,12 +77,13 @@ class _CategoriesState extends State<Categories> {
   buildAppBar() {
     return AppBar(
       centerTitle: false,
-      backgroundColor: Color(0xFFEF233C),
+      backgroundColor: Colors.white,
+      // backgroundColor: Color(0xFFEF233C),
       title: Text(
         'Categorias',
         style: TextStyle(
           fontSize: 24,
-          color: Colors.white,
+          color: Colors.black,
           fontWeight: FontWeight.w500,
         ),
       ),
