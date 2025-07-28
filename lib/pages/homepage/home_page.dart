@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/homepage/recipe_card.dart';
-import 'package:kitchen_guide/homepage/recipe_carousell.dart';
+import 'package:kitchen_guide/pages/homepage/recipe_card.dart';
+import 'package:kitchen_guide/pages/homepage/recipe_carousell.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

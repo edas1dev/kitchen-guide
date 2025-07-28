@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/homepage/recipe_card.dart';
+import 'package:kitchen_guide/pages/homepage/recipe_card.dart';
 
 class RecipeCarousell extends StatefulWidget {
   final String title;

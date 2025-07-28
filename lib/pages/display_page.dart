@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/category/categories.dart';
-import 'package:kitchen_guide/homepage/home_page.dart';
-import 'package:kitchen_guide/profile/user_profile.dart';
-import 'package:kitchen_guide/search/search.dart';
+import 'package:kitchen_guide/pages/category/categories.dart';
+import 'package:kitchen_guide/pages/homepage/home_page.dart';
+import 'package:kitchen_guide/pages/profile/user_profile.dart';
+import 'package:kitchen_guide/pages/search/search.dart';
 
 class DisplayPage extends StatefulWidget {
   const DisplayPage({super.key});

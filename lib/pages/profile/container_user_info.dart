@@ -34,7 +34,7 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
             spacing: 2,
             children: [
               Text(
-                'Exemplo da Silva',
+                'Fulano de Tal',
                 style: TextStyle(
                   color: Color(0xFF1C1C1C),
                   fontSize: 20,
@@ -42,7 +42,7 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
                 ),
               ),
               Text(
-                'exemple@gmail.com',
+                'example@gmail.com',
                 style: TextStyle(
                   color: Color(0xFF1C1C1C),
                   fontSize: 16,

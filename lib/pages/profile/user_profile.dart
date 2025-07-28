@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/profile/container_user_info.dart';
+import 'package:kitchen_guide/pages/profile/container_user_info.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

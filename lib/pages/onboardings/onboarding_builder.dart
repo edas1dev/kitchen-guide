@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/homepage/home_page.dart';
+import 'package:kitchen_guide/pages/display_page.dart';
 
 import 'onboarding.dart';
 
@@ -34,7 +34,7 @@ class _OnboardingBuilderState extends State<OnboardingBuilder> with SingleTicker
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DisplayPage()));
     }
   }
 
