@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/db/tag_dao.dart';
+import '../../domain/tag.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -9,7 +10,7 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  var listaTags = [];
+  List<Tag> listaTags = [];
 
   @override
   void initState() {
@@ -29,7 +30,6 @@ class _SearchState extends State<Search> {
       body: Stack(
         children: [
         ListView(
-
           children: [
             Container( // Barra de pesqusa
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
@@ -72,7 +72,7 @@ class _SearchState extends State<Search> {
             ),
             Wrap(
               direction: Axis.horizontal,
-              children: listaTags.map<Widget>((tag) => buildTag(tag['nome']!)).toList()
+              children: listaTags.map<Widget>((tag) => buildTag(tag.nome)).toList()
             ),
             ],),
           Align(
