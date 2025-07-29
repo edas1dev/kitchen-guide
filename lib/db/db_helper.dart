@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 class DBHelper {
   initDB() async {
     String path = await getDatabasesPath();
-    String dbName = 'airbnb.db';
+    String dbName = 'kitchenguide.db';
 
     String dbPath = join(path, dbName);
     return await openDatabase(dbPath, version: 1, onCreate: onCreate);
@@ -17,9 +17,19 @@ class DBHelper {
       subtitulo TEXT NOT NULL,
       url TEXT NOT NULL
     );
-    
+    ''');
+
+    await db.execute('''
     CREATE TABLE PopularTags (
+      nome TEXT NOT NULL
+    );
+    ''');
+
+    await db.execute('''
+    CREATE TABLE Profile (
       nome TEXT NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      urlImage TEXT NOT NULL
     );
     ''');
 
@@ -31,7 +41,9 @@ class DBHelper {
       ('Culinária', 'Indiano, Chinesa, Italiana e mais', 'assets/images/categories/cat4.png'),
       ('Cursos', 'Aperitivos, Pratos Principais e mais', 'assets/images/categories/cat5.png'),
       ('Comida Saudável', 'Baixo em calorias e mais', 'assets/images/categories/cat6.png');
-    
+    ''');
+
+    await db.execute('''
     INSERT INTO PopularTags (nome) VALUES
       ('Leite'),
       ('Ovos'),
@@ -41,6 +53,11 @@ class DBHelper {
       ('Manteeeeeiga'),
       ('Tomate'),
       ('Açafrão');
+    ''');
+
+    await db.execute('''
+    INSERT INTO Profile (nome, email, urlImage) VALUES
+      ('Fulano de tal', 'example@gmail.com', 'assets/images/profile_person.jpg');
     ''');
   }
 }
