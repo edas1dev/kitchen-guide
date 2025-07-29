@@ -17,6 +17,10 @@ class DBHelper {
       subtitulo TEXT NOT NULL,
       url TEXT NOT NULL
     );
+    
+    CREATE TABLE PopularTags (
+      nome TEXT NOT NULL,
+    );
     ''');
 
     await db.execute('''
@@ -27,6 +31,16 @@ class DBHelper {
       ('Culinária', 'Indiano, Chinesa, Italiana e mais', 'assets/images/categories/cat4.png'),
       ('Cursos', 'Aperitivos, Pratos Principais e mais', 'assets/images/categories/cat5.png'),
       ('Comida Saudável', 'Baixo em calorias e mais', 'assets/images/categories/cat6.png');
+    
+    INSERT INTO PopularTags (nome) VALUES
+      ('Leite'),
+      ('Ovos'),
+      ('Pão'),
+      ('Frango'),
+      ('Cebola'),
+      ('Manteeeeeiga'),
+      ('Tomate'),
+      ('Açafrão');
     ''');
   }
 }

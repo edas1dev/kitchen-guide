@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/db/tag_dao.dart';
 
 class Search extends StatefulWidget {
   const Search({super.key});
@@ -8,6 +9,19 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+  var listaTags = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    listaTags = await TagDao().listarTags();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,6 +29,7 @@ class _SearchState extends State<Search> {
       body: Stack(
         children: [
         ListView(
+
           children: [
             Container( // Barra de pesqusa
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 50),
@@ -57,16 +72,7 @@ class _SearchState extends State<Search> {
             ),
             Wrap(
               direction: Axis.horizontal,
-              children: [
-                buildTag('Leite'),
-                buildTag('Ovos'),
-                buildTag('Pão'),
-                buildTag('Frango'),
-                buildTag('Cebola'),
-                buildTag('Manteiga'),
-                buildTag('Tomate'),
-                buildTag('Açafrão'),
-              ],
+              children: listaTags.map<Widget>((tag) => buildTag(tag['nome']!)).toList()
             ),
             ],),
           Align(
