@@ -53,7 +53,7 @@ buildContainer(IconData icon, String titulo, String subtitulo){
     child: Row(
       spacing: 15,
       children: [
-        Icon(icon, size: 40),
+        Icon(icon, size: 40, color: Color(0xFFEF233C)),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,

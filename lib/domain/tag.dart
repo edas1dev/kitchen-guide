@@ -1,14 +1,12 @@
 class Tag {
   late String nome;
 
-
   Tag({
     required this.nome,
   });
 
   Tag.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
-
   }
 
   Map<String, dynamic> toJson() {

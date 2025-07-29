@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_native_splash: ^2.4.6
   flutter_launcher_icons: ^0.14.3
+  sqflite:
 
 flutter_native_splash:
   android: true
