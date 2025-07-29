@@ -1,4 +1,3 @@
-import 'package:kitchen_guide/domain/category.dart';
 import 'package:kitchen_guide/domain/tag.dart';
 import 'package:sqflite/sqflite.dart';
 
