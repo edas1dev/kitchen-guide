@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/db/categories_dao.dart';
+import '../../domain/category.dart';
 
 class Categories extends StatefulWidget {
   const Categories({super.key});
@@ -8,6 +10,18 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
+  List<Category> listaCategorias = [];
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    listaCategorias = await CategoriesDao().listarPropriedades();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,16 +36,16 @@ class _CategoriesState extends State<Categories> {
   buildBody() {
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: ListView(
-        children: [
-          buildCard('Nível de Habilidade', 'Fácil, Médio, Avançado', 'assets/images/categories/cat1.png'),
-          buildCard('Tempo de Receita', 'Abaixo de 30 min, 1 hora ou mais', 'assets/images/categories/cat2.png'),
-          buildCard('Dieta', 'Vegetariano, Não Vegano, Vegano', 'assets/images/categories/cat3.png'),
-          buildCard('Culinária', 'Indiano, Chinesa, Italiana e mais', 'assets/images/categories/cat4.png'),
-          buildCard('Cursos', 'Aperitivos, Pratos Principais e mais', 'assets/images/categories/cat5.png'),
-          buildCard('Comida Saudável', 'Baixo em calorias e mais', 'assets/images/categories/cat6.png'),
-        ],
-      ),
+      child: ListView.builder(
+        itemCount: listaCategorias.length,
+        itemBuilder: (context, i) {
+          return buildCard(
+            listaCategorias[i].titulo,
+            listaCategorias[i].subtitulo,
+            listaCategorias[i].url
+          );
+        }
+      )
     );
   }
 
