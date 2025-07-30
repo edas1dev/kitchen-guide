@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/pages/profile/container_user_info.dart';
+import 'package:kitchen_guide/pages/profile/options/helpCenterOpt.dart';
+import 'package:kitchen_guide/pages/profile/options/manageAccountOpt.dart';
+import 'package:kitchen_guide/pages/profile/options/savedRecipesOpt.dart';
+import 'package:kitchen_guide/pages/profile/options/settingsOpt.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -19,13 +23,37 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             ContainerUserInfo(),
             SizedBox(height: 30),
-            buildContainer(Icons.bookmark, 'Receitas salvas', 'Suas receitas salvas aqui.'),
+            buildContainer(
+              Icons.bookmark, 'Receitas salvas', 'Suas receitas salvas aqui.', () {
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const SavedRecipesOPT()),
+                );
+              },
+            ),
             SizedBox(height: 15),
-            buildContainer(Icons.manage_accounts, 'Gerenciar conta', 'Edite com detalhes a sua conta.'),
+            buildContainer(
+              Icons.manage_accounts, 'Gerenciar conta', 'Edite com detalhes a sua conta.', () {
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const ManageAccountOPT()),
+                );
+              },
+            ),
             SizedBox(height: 15),
-            buildContainer(Icons.settings, 'Configurações', 'Algumas configurações do App.'),
+            buildContainer(
+              Icons.settings, 'Configurações', 'Algumas configurações do App.', () {
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const SettingsOPT()),
+                );
+              },
+            ),
             SizedBox(height: 15),
-            buildContainer(Icons.headset_mic_rounded, 'Central de ajuda', 'Entre em contato com o suporte.'),
+            buildContainer(
+              Icons.headset_mic_rounded, 'Central de ajuda', 'Entre em contato com o suporte.', () {
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const HelpCenterOPT()),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -33,36 +61,39 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-buildContainer(IconData icon, String titulo, String subtitulo){
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 15),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(13),
-      color: Colors.white,
-      boxShadow: [
-        BoxShadow(
-          color: Color(0xFFD9D9D9).withOpacity(0.5),
-          spreadRadius: 4,
-          blurRadius: 4,
-          offset: Offset(0, 4),
-        )
-      ]
-    ),
-    width: double.infinity,
-    height: 80,
-    child: Row(
-      spacing: 15,
-      children: [
-        Icon(icon, size: 40, color: Color(0xFFEF233C)),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(titulo, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-            Text(subtitulo),
-          ],
-        )
-      ],
+buildContainer(IconData icon, String titulo, String subtitulo, VoidCallback onTap) {
+  return InkWell(
+    onTap: onTap,
+    borderRadius: BorderRadius.circular(13),
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(13),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFFD9D9D9).withOpacity(0.5),
+              spreadRadius: 4,
+              blurRadius: 4,
+              offset: Offset(0, 4),
+            )
+          ]),
+      width: double.infinity,
+      height: 80,
+      child: Row(
+        children: [
+          Icon(icon, size: 40, color: Color(0xFFEF233C)),
+          SizedBox(width: 15),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(titulo, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+              Text(subtitulo),
+            ],
+          )
+        ],
+      ),
     ),
   );
 }
