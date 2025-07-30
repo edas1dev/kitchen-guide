@@ -27,9 +27,9 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
   Widget build(BuildContext context) {
     /*Operadores null-aware (??) para fornecer valores padrão
     caso userProfile seja nulo (ou seja, se nenhum perfil foi encontrado).*/
-    final String userName = userProfile?.nome ?? 'Nome do Usuário';
-    final String userEmail = userProfile?.email ?? 'generico@example.com';
-    final String userProfileImage = userProfile?.urlImage ?? 'assets/images/profile_person.jpg';
+    final String userName = userProfile?.nome ?? '...';
+    final String userEmail = userProfile?.email ?? '...';
+    final String userProfileImage = userProfile?.urlImage ?? '';
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24),
