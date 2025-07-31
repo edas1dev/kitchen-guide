@@ -21,14 +21,27 @@ class ProfileDao {
   Future<Profile?> getProfileByEmail(String email) async {
     Database db = await DBHelper().initDB();
     List<Map<String, dynamic>> maps = await db.query(
-      'Profile',
-      where: 'email = ?', // Condição WHERE para filtrar pelo e-mail
-      whereArgs: [email], // Argumento para a condição WHERE
-      limit: 1, // Limita o resultado a apenas um registro
+      'Profile', where: 'email = ?', whereArgs: [email], limit: 1,
     );
 
     if (maps.isNotEmpty) {
       // Se encontrou algum resultado, converte o primeiro (e único) para Profile
+      return Profile.fromJson(maps.first);
+    }
+    return null;
+  }
+
+  // Buscando o nome
+  Future<Profile?> getProfileByNome(String nome) async {
+    Database db = await DBHelper().initDB();
+    List<Map<String, dynamic>> maps = await db.query(
+      'Profile',
+      where: 'nome = ?',
+      whereArgs: [nome],
+      limit: 1,
+    );
+
+    if (maps.isNotEmpty) {
       return Profile.fromJson(maps.first);
     }
     return null;
