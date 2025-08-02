@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_card.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_carousell.dart';
 
+import '../../domain/recipe.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -106,25 +108,31 @@ class _HomePageState extends State<HomePage> {
             subtitle: 'Ver mais',
             recipes: [
               RecipeCard(
-                title: 'Omelete de Legumes',
-                kcal: '180 kcal',
-                time: '10 min',
-                image: Image.asset('assets/images/recipes/omelete.jpg'),
-                bookmarked: true,
+                recipe: Recipe(
+                  title: 'Omelete de Legumes',
+                  kcal: '180 kcal',
+                  time: '10 min',
+                  image: 'assets/images/recipes/omelete.jpg',
+                  bookmarked: true,
+                )
               ),
               RecipeCard(
-                title: 'Macarrão Alho e Óleo',
-                kcal: '320 kcal',
-                time: '15 min',
-                image: Image.asset('assets/images/recipes/macarrao.jpg'),
-                bookmarked: true,
+                recipe: Recipe(
+                  title: 'Macarrão Alho e Óleo',
+                  kcal: '320 kcal',
+                  time: '15 min',
+                  image: 'assets/images/recipes/macarrao.jpg',
+                  bookmarked: true,
+                ),
               ),
               RecipeCard(
-                title: 'Bolo de Cenoura',
-                kcal: '280 kcal',
-                time: '55 min',
-                image: Image.asset('assets/images/recipes/bolo.jpg'),
-                bookmarked: false,
+                recipe: Recipe(
+                  title: 'Bolo de Cenoura',
+                  kcal: '280 kcal',
+                  time: '55 min',
+                  image: 'assets/images/recipes/bolo.jpg',
+                  bookmarked: false,
+                ),
               ),
             ],
           ),
@@ -134,25 +142,31 @@ class _HomePageState extends State<HomePage> {
             subtitle: 'Ver mais',
             recipes: [
               RecipeCard(
-                title: 'Espaguete de Abobrinha',
-                kcal: '280 kcal',
-                time: '15 min',
-                image: Image.asset('assets/images/recipes/espaguete.jpg'),
-                bookmarked: false,
+                recipe: Recipe(
+                  title: 'Espaguete de Abobrinha',
+                  kcal: '280 kcal',
+                  time: '15 min',
+                  image: 'assets/images/recipes/espaguete.jpg',
+                  bookmarked: false,
+                ),
               ),
               RecipeCard(
-                title: 'Salada de Frango',
-                kcal: '130 kcal',
-                time: '20 min',
-                image: Image.asset('assets/images/recipes/salada.jpg'),
-                bookmarked: false,
+                recipe: Recipe(
+                  title: 'Salada de Frango',
+                  kcal: '130 kcal',
+                  time: '20 min',
+                  image: 'assets/images/recipes/salada.jpg',
+                  bookmarked: false,
+                ),
               ),
               RecipeCard(
-                title: 'Wrap de Frango',
-                kcal: '300 kcal',
-                time: '20 min',
-                image: Image.asset('assets/images/recipes/wrap.jpg'),
-                bookmarked: false,
+                recipe: Recipe(
+                  title: 'Wrap de Frango',
+                  kcal: '300 kcal',
+                  time: '20 min',
+                  image: 'assets/images/recipes/wrap.jpg',
+                  bookmarked: false,
+                ),
               ),
             ],
           )

@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/domain/recipe.dart';
 
 class RecipeCard extends StatefulWidget {
-  final String title;
-  final String kcal;
-  final String time;
-  final Image image;
-  final bool bookmarked;
-  const RecipeCard({super.key, required this.title, required this.kcal, required this.time, required this.image, required this.bookmarked});
+  late String title;
+  late String kcal;
+  late String time;
+  late String image;
+  late bool bookmarked;
+
+  RecipeCard({super.key, required Recipe recipe }) {
+    this.title = recipe.title;
+    this.kcal = recipe.kcal;
+    this.time = recipe.time;
+    this.image = recipe.image;
+    this.bookmarked = recipe.bookmarked;
+  }
 
   @override
   State<RecipeCard> createState() => _RecipeCardState();
@@ -25,10 +33,9 @@ class _RecipeCardState extends State<RecipeCard> {
       child: Column(
         children: [
           ClipRRect(
-            // borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            child: Image(
-              image: widget.image.image,
+            child: Image.asset(
+              widget.image,
               width: 200,
               height: 150,
               fit: BoxFit.cover,
