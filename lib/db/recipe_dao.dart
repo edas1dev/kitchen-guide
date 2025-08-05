@@ -18,13 +18,28 @@ class RecipeDao {
     return recipeList;
   }
 
+  Future<List<Recipe>> getBookmarkedRecipes() async {
+    Database db = await DBHelper().initDB();
+    List<Recipe> recipeList = [];
+
+    String sql = 'SELECT * FROM Recipes WHERE bookmarked = 1;';
+    var listResult = await db.rawQuery(sql);
+
+    for (var json in listResult) {
+      Recipe recipe = Recipe.fromJson(json);
+      recipeList.add(recipe);
+    }
+
+    return recipeList;
+  }
+
   Future<void> setRecipeBookmarkedState(int recipe_id, bool is_bookmarked) async {
     Database db = await DBHelper().initDB();
 
     String sql = 'UPDATE Recipes SET bookmarked = ? WHERE id = ?;';
     await db.update(
       'Recipes',
-      { 'bookmarked': is_bookmarked },
+      { 'bookmarked': is_bookmarked ? 1 : 0 },
       where: 'id = ?',
       whereArgs: [recipe_id]
     );

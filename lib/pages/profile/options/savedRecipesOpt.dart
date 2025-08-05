@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/pages/homepage/bookmark_button.dart';
+
+import '../../../db/recipe_dao.dart';
+import '../../../domain/recipe.dart';
 
 class SavedRecipesOPT extends StatefulWidget {
   const SavedRecipesOPT({super.key});
@@ -8,6 +12,19 @@ class SavedRecipesOPT extends StatefulWidget {
 }
 
 class _SavedRecipesOPTState extends State<SavedRecipesOPT> {
+  List<Recipe> savedRecipes = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    savedRecipes = await RecipeDao().getBookmarkedRecipes();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,9 +36,12 @@ class _SavedRecipesOPTState extends State<SavedRecipesOPT> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-        child: ListView(
-          children: [
-            Container(
+        child: ListView.builder(
+          itemCount: savedRecipes.length,
+          itemBuilder: (context, i) {
+            Recipe recipe = savedRecipes[i];
+            return Container(
+              margin: EdgeInsets.only(bottom: 24),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(13),
                 color: Colors.white,
@@ -45,174 +65,36 @@ class _SavedRecipesOPTState extends State<SavedRecipesOPT> {
                       bottomLeft: Radius.circular(13),
                     ),
                     child: Image.asset(
-                      'assets/images/recipes/bolo.jpg',
+                      recipe.image,
                       height: double.infinity,
                       width: 93,
                       fit: BoxFit.cover,
                     ),
                   ),
-                  const Spacer(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('Nome da comida.', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                      Text('outra coisa se precisar.'),
-                    ],
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child:
+                              Text(recipe.title, style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500)),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  const SizedBox(width: 15),
                   Padding(
                     padding: const EdgeInsets.only(right: 15.0),
-                    child: Icon(Icons.bookmark, size: 40, color: const Color(0xFFEF233C)),
+                    child: BookmarkButton(recipe_id: recipe.id, is_bookmarked: recipe.bookmarked)
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 18),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(13),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFD9D9D9).withOpacity(0.5),
-                    spreadRadius: 4,
-                    blurRadius: 4,
-                    offset: const Offset(0, 4),
-                  )
-                ],
-              ),
-              width: double.infinity,
-              height: 80,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(13),
-                      bottomLeft: Radius.circular(13),
-                    ),
-                    child: Image.asset(
-                      'assets/images/recipes/macarrao.jpg',
-                      height: double.infinity,
-                      width: 93,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const Spacer(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('Nome da comida.', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                      Text('outra coisa se precisar.'),
-                    ],
-                  ),
-                  const SizedBox(width: 15),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: Icon(Icons.bookmark, size: 40, color: const Color(0xFFEF233C)),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 18),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(13),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFD9D9D9).withOpacity(0.5),
-                    spreadRadius: 4,
-                    blurRadius: 4,
-                    offset: const Offset(0, 4),
-                  )
-                ],
-              ),
-              width: double.infinity,
-              height: 80,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(13),
-                      bottomLeft: Radius.circular(13),
-                    ),
-                    child: Image.asset(
-                      'assets/images/recipes/espaguete.jpg',
-                      height: double.infinity,
-                      width: 93,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const Spacer(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('Nome da comida.', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                      Text('outra coisa se precisar.'),
-                    ],
-                  ),
-                  const SizedBox(width: 15),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: Icon(Icons.bookmark, size: 40, color: const Color(0xFFEF233C)),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 18),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(13),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFD9D9D9).withOpacity(0.5),
-                    spreadRadius: 4,
-                    blurRadius: 4,
-                    offset: const Offset(0, 4),
-                  )
-                ],
-              ),
-              width: double.infinity,
-              height: 80,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(13),
-                      bottomLeft: Radius.circular(13),
-                    ),
-                    child: Image.asset(
-                      'assets/images/recipes/salada.jpg',
-                      height: double.infinity,
-                      width: 93,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const Spacer(),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text('Nome da comida.', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                      Text('outra coisa se precisar.'),
-                    ],
-                  ),
-                  const SizedBox(width: 15),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: Icon(Icons.bookmark, size: 40, color: const Color(0xFFEF233C)),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
