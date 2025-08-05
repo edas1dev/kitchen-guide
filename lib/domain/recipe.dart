@@ -1,4 +1,5 @@
 class Recipe {
+  late int id;
   late String title;
   late String kcal;
   late String time;
@@ -14,6 +15,7 @@ class Recipe {
   });
 
   Recipe.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     title = json['title'];
     kcal = json['kcal'];
     time = json['time'];
@@ -24,6 +26,7 @@ class Recipe {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
 
+    data['id'] = this.id;
     data['title'] = this.title;
     data['kcal'] = this.kcal;
     data['time'] = this.time;

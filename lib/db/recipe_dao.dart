@@ -17,4 +17,16 @@ class RecipeDao {
 
     return recipeList;
   }
+
+  Future<void> setRecipeBookmarkedState(int recipe_id, bool is_bookmarked) async {
+    Database db = await DBHelper().initDB();
+
+    String sql = 'UPDATE Recipes SET bookmarked = ? WHERE id = ?;';
+    await db.update(
+      'Recipes',
+      { 'bookmarked': is_bookmarked },
+      where: 'id = ?',
+      whereArgs: [recipe_id]
+    );
+  }
 }
