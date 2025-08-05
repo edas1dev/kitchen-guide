@@ -26,9 +26,10 @@ class _BookmarkButtonState extends State<BookmarkButton> {
         child: Icon(widget.is_bookmarked ? Icons.bookmark : Icons.bookmark_outline, size: 40, color: Color(0xFFEF233C),),
       ),
       onTap: () async {
-        await RecipeDao().setRecipeBookmarkedState(widget.recipe_id, widget.is_bookmarked);
+        bool invertedState = !widget.is_bookmarked;
+        await RecipeDao().setRecipeBookmarkedState(widget.recipe_id, invertedState);
         setState(() {
-          widget.is_bookmarked = !widget.is_bookmarked;
+          widget.is_bookmarked = invertedState;
         });
       },
     );
