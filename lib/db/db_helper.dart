@@ -76,7 +76,7 @@ class DBHelper {
     INSERT INTO recipes (title, kcal, time, image, bookmarked) VALUES
       ('Omelete de Legumes', '180 kcal', '10 min', 'assets/images/recipes/omelete.jpg', 1),
       ('Macarrão Alho e Óleo', '320 kcal', '15 min', 'assets/images/recipes/macarrao.jpg', 1),
-      ('Bolo de Cenoura', '280 kcal', '55 min', 'assets/images/recipes/bolo.jpg', 0);
+      ('Bolo de Cenoura', '280 kcal', '55 min', 'assets/images/recipes/bolo.jpg', 0),
       ('Espaguete de Abobrinha', '280 kcal', '15 min', 'assets/images/recipes/espaguete.jpg', 0),
       ('Salada de Frango', '130 kcal', '20 min', 'assets/images/recipes/salada.jpg', 0),
       ('Wrap de Frango', '300 kcal', '20 min', 'assets/images/recipes/wrap.jpg', 0);

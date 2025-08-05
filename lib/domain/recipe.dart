@@ -18,7 +18,7 @@ class Recipe {
     kcal = json['kcal'];
     time = json['time'];
     image = json['image'];
-    bookmarked = json['bookmarked'];
+    bookmarked = json['bookmarked'] == 1;
   }
 
   Map<String, dynamic> toJson() {
