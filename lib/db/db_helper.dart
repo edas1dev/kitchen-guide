@@ -2,15 +2,20 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
-  initDB() async {
+  static Database? databaseConnection;
+
+  static initDB() async {
+    if (databaseConnection != null)
+        return databaseConnection;
     String path = await getDatabasesPath();
     String dbName = 'kitchenguide.db';
 
     String dbPath = join(path, dbName);
-    return await openDatabase(dbPath, version: 1, onCreate: onCreate);
+    databaseConnection = await openDatabase(dbPath, version: 1, onCreate: onCreate);
+    return databaseConnection!;
   }
 
-  Future<void> onCreate(Database  db, int version) async {
+  static Future<void> onCreate(Database  db, int version) async {
     await db.execute('''
     CREATE TABLE Categories (
       id INTEGER PRIMARY KEY AUTOINCREMENT,

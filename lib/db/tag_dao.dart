@@ -6,7 +6,7 @@ import 'db_helper.dart';
 class TagDao {
   Future<List<Tag>> listarTags() async {
     List<Tag> listaTags = [];
-    Database db = await DBHelper().initDB();
+    Database db = await DBHelper.initDB();
 
     String sql = 'SELECT * FROM PopularTags;';
     var listResult = await db.rawQuery(sql);

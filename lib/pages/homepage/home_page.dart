@@ -120,16 +120,24 @@ class _HomePageState extends State<HomePage> {
           RecipeCarousell(
             title: 'Popular hoje!',
             subtitle: 'Ver mais',
-            recipes: recipeList.sublist(0, 3)
+            recipes: trySublist(recipeList, 0, 3),
           ),
           SizedBox(height: 20,),
           RecipeCarousell(
             title: 'Top fitness',
             subtitle: 'Ver mais',
-            recipes: recipeList.sublist(3, 6),
+            recipes: trySublist(recipeList, 3, 6),
           )
         ],
       ),
     );
+  }
+}
+
+trySublist(List list, int start, int end) {
+  try {
+    return list.sublist(start, end);
+  } catch(_) {
+    return list;
   }
 }

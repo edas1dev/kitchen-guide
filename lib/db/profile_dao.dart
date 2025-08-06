@@ -9,7 +9,7 @@ class ProfileDao {
   // um perfil com um email que já existe (e se o email for UNIQUE na tabela),
   // ele substitua o antigo.
   Future<void> insertProfile(Profile profile) async {
-    Database db = await DBHelper().initDB();
+    Database db = await DBHelper.initDB();
     await db.insert(
       'Profile', // Nome da tabela
       profile.toJson(),
@@ -19,7 +19,7 @@ class ProfileDao {
 
   // Recupera um único perfil pelo e-mail
   Future<Profile?> getProfileByEmail(String email) async {
-    Database db = await DBHelper().initDB();
+    Database db = await DBHelper.initDB();
     List<Map<String, dynamic>> maps = await db.query(
       'Profile', where: 'email = ?', whereArgs: [email], limit: 1,
     );
@@ -33,7 +33,7 @@ class ProfileDao {
 
   // Buscando o nome
   Future<Profile?> getProfileByNome(String nome) async {
-    Database db = await DBHelper().initDB();
+    Database db = await DBHelper.initDB();
     List<Map<String, dynamic>> maps = await db.query(
       'Profile',
       where: 'nome = ?',

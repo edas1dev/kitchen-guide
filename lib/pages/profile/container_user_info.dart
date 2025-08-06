@@ -29,7 +29,7 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
     caso userProfile seja nulo (ou seja, se nenhum perfil foi encontrado).*/
     final String userName = userProfile?.nome ?? '...';
     final String userEmail = userProfile?.email ?? '...';
-    final String userProfileImage = userProfile?.urlImage ?? '';
+    final String userProfileImage = userProfile?.urlImage ?? 'assets/images/default_pfp.jpg';
 
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 24),

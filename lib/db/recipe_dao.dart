@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 class RecipeDao {
   Future<List<Recipe>> getAllRecipes() async {
-    Database db = await DBHelper().initDB();
+    Database db = await DBHelper.initDB();
     List<Recipe> recipeList = [];
 
     String sql = 'SELECT * FROM Recipes;';
@@ -19,7 +19,7 @@ class RecipeDao {
   }
 
   Future<List<Recipe>> getBookmarkedRecipes() async {
-    Database db = await DBHelper().initDB();
+    Database db = await DBHelper.initDB();
     List<Recipe> recipeList = [];
 
     String sql = 'SELECT * FROM Recipes WHERE bookmarked = 1;';
@@ -34,7 +34,7 @@ class RecipeDao {
   }
 
   Future<void> setRecipeBookmarkedState(int recipe_id, bool is_bookmarked) async {
-    Database db = await DBHelper().initDB();
+    Database db = await DBHelper.initDB();
 
     String sql = 'UPDATE Recipes SET bookmarked = ? WHERE id = ?;';
     await db.update(
