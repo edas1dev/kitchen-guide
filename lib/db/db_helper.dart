@@ -67,7 +67,7 @@ class DBHelper {
       ('Pão'),
       ('Frango'),
       ('Cebola'),
-      ('Manteeeeeiga'),
+      ('Manteiga'),
       ('Tomate'),
       ('Açafrão');
     ''');

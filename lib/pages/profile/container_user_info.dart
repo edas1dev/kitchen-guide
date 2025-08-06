@@ -18,7 +18,6 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
   }
 
   loadData() async {
-    ProfileDao profileDao = ProfileDao();
     userProfile = await ProfileDao().getProfileByEmail('example@gmail.com');
     setState(() {});
   }

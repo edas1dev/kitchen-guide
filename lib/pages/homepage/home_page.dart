@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/db/recipe_dao.dart';
+import 'package:kitchen_guide/domain/profile.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_card.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_carousell.dart';
 
+import '../../db/profile_dao.dart';
 import '../../domain/recipe.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Recipe> recipeList = [];
+  Profile? userProfile;
 
   @override
   void initState() {
@@ -23,11 +26,15 @@ class _HomePageState extends State<HomePage> {
 
   loadData() async {
     recipeList = await RecipeDao().getAllRecipes();
+    userProfile = await ProfileDao().getProfileByEmail('example@gmail.com');
     setState(() {});
   }
   
   @override
   Widget build(BuildContext context) {
+    final String userName = userProfile?.nome ?? '...';
+    final String userProfileImage = userProfile?.urlImage ?? 'assets/images/default_pfp.jpg';
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView( // Coluna principal
@@ -40,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Olá, Fulano de Tal!",
+                      "Olá, $userName!",
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                     ),
@@ -51,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Image.asset(
-                    'assets/images/profile_person.jpg',
+                    userProfileImage,
                     height: 60,
                     width: 60,
                   ),
@@ -120,24 +127,16 @@ class _HomePageState extends State<HomePage> {
           RecipeCarousell(
             title: 'Popular hoje!',
             subtitle: 'Ver mais',
-            recipes: trySublist(recipeList, 0, 3),
+            recipes: recipeList.isEmpty ? recipeList : recipeList.sublist(0, 3)
           ),
           SizedBox(height: 20,),
           RecipeCarousell(
             title: 'Top fitness',
             subtitle: 'Ver mais',
-            recipes: trySublist(recipeList, 3, 6),
+            recipes: recipeList.isEmpty ? recipeList : recipeList.sublist(0, 3)
           )
         ],
       ),
     );
-  }
-}
-
-trySublist(List list, int start, int end) {
-  try {
-    return list.sublist(start, end);
-  } catch(_) {
-    return list;
   }
 }
