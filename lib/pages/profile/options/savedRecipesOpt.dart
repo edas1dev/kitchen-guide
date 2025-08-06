@@ -34,68 +34,66 @@ class _SavedRecipesOPTState extends State<SavedRecipesOPT> {
         title: Text('Receitas Salvas', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-        child: ListView.builder(
-          itemCount: savedRecipes.length,
-          itemBuilder: (context, i) {
-            Recipe recipe = savedRecipes[i];
-            return Container(
-              margin: EdgeInsets.only(bottom: 24),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(13),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFFD9D9D9).withOpacity(0.5),
-                    spreadRadius: 4,
-                    blurRadius: 4,
-                    offset: const Offset(0, 4),
-                  )
-                ],
-              ),
-              width: double.infinity,
-              height: 80,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(13),
-                      bottomLeft: Radius.circular(13),
-                    ),
-                    child: Image.asset(
-                      recipe.image,
-                      height: double.infinity,
-                      width: 93,
-                      fit: BoxFit.cover,
-                    ),
+      body: ListView.builder(
+        padding: EdgeInsets.only(top: 25),
+        itemCount: savedRecipes.length,
+        itemBuilder: (context, i) {
+          Recipe recipe = savedRecipes[i];
+          return Container(
+            margin: EdgeInsets.only(bottom: 24, left: 25, right: 25),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(13),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFFD9D9D9).withOpacity(0.5),
+                  spreadRadius: 4,
+                  blurRadius: 4,
+                  offset: const Offset(0, 4),
+                )
+              ],
+            ),
+            width: double.infinity,
+            height: 80,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(13),
+                    bottomLeft: Radius.circular(13),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 12),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child:
-                              Text(recipe.title, style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500)),
-                          ),
-                        ],
-                      ),
+                  child: Image.asset(
+                    recipe.image,
+                    height: double.infinity,
+                    width: 93,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 12),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child:
+                            Text(recipe.title, style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w500)),
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15.0),
-                    child: BookmarkButton(recipe_id: recipe.id, is_bookmarked: recipe.bookmarked)
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: BookmarkButton(recipe_id: recipe.id, is_bookmarked: recipe.bookmarked)
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

@@ -35,6 +35,7 @@ class _RecipeCarousellState extends State<RecipeCarousell> {
         SizedBox(
           height: 270,
           child: ListView.builder(
+            padding: EdgeInsets.only(left: 25),
             scrollDirection: Axis.horizontal,
             itemCount: widget.recipes.length,
             itemBuilder: (context, i) => RecipeCard(recipe: widget.recipes[i]),

@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
           RecipeCarousell(
             title: 'Top fitness',
             subtitle: 'Ver mais',
-            recipes: recipeList.isEmpty ? recipeList : recipeList.sublist(0, 3)
+            recipes: recipeList.isEmpty ? recipeList : recipeList.sublist(3, 6)
           )
         ],
       ),

@@ -19,7 +19,7 @@ class _RecipeCardState extends State<RecipeCard> {
         color: Colors.grey[50],
         borderRadius: BorderRadius.circular(16),
       ),
-      margin: EdgeInsets.only(left: 25),
+      margin: EdgeInsets.only(right: 25),
       width: 200,
       child: Column(
         children: [
