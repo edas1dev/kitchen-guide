@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/pages/loginPage.dart';
+import 'package:kitchen_guide/login/singUpPage.dart';
 
-class SingUpPage extends StatefulWidget {
-  const SingUpPage({super.key});
+class LoginPage extends StatefulWidget {
+  final Widget destinyPage;
+  const LoginPage({super.key, required this.destinyPage});
 
   @override
-  State<SingUpPage> createState() => _SingUpPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _SingUpPageState extends State<SingUpPage> {
+class _LoginPageState extends State<LoginPage> {
   TextEditingController userController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
@@ -24,27 +24,16 @@ class _SingUpPageState extends State<SingUpPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Cadastre-se no nosso App!',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+              'Entre ou cadastre-se no app!', textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 40),
             TextField(
               controller: userController,
               decoration: InputDecoration(
-                hintText: 'Seu nome',
+                hintText: 'Nome de usuário',
                 focusedBorder: buildUserOutlineInputBorder(),
                 border: buildUserOutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                hintText: 'Seu e-mail',
-                focusedBorder: buildPasswordOutlineInputBorder(),
-                border: buildPasswordOutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 12),
@@ -52,7 +41,7 @@ class _SingUpPageState extends State<SingUpPage> {
               controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
-                hintText: 'Sua senha',
+                hintText: 'Senha',
                 focusedBorder: buildPasswordOutlineInputBorder(),
                 border: buildPasswordOutlineInputBorder(),
               ),
@@ -63,12 +52,9 @@ class _SingUpPageState extends State<SingUpPage> {
                 backgroundColor: Color(0xFFEF233C),
                 padding: EdgeInsets.all(10),
               ),
-              onPressed: () {},
-              child: Text(
-                'Cadastrar Agora!', style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+              onPressed: onPressedLogon, child: Text(
+                'Entrar', style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16,
                 ),
               ),
             ),
@@ -79,32 +65,11 @@ class _SingUpPageState extends State<SingUpPage> {
                 padding: EdgeInsets.all(10),
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SingUpPage(destinyPage: widget.destinyPage,)),
                 );
-              }, child: Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 76.5),
-                    child: Icon(Icons.arrow_back, color: Colors.white, size: 23,
-                    ),
-                  ),
-                  const SizedBox(width: 9.5),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('Voltar para Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              }, child: Text('Cadastre-se', style: TextStyle(
+                  color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
             ),
           ],
         ),
@@ -112,19 +77,24 @@ class _SingUpPageState extends State<SingUpPage> {
     );
   }
 
-  /*void onPressed() async {
+  void onPressedLogon() async {
     String userName = userController.text;
-    String emailUser = emailController.text;
     String password = passwordController.text;
-  }*/
 
-  /*void _showSnackBar(String message) {
+    // Verifica se os campos estão vazios antes de tentar a busca
+    if (userName.isEmpty || password.isEmpty) {
+      _showSnackBar('Por favor, preencha todos os campos.');
+      return;
+    }
+  }
+
+  void _showSnackBar(String message) {
     final snackBar = SnackBar(
       content: Text(message, style: TextStyle(color: Colors.white)),
       backgroundColor: Colors.black87,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }*/
+  }
 
   OutlineInputBorder buildPasswordOutlineInputBorder() {
     return OutlineInputBorder(

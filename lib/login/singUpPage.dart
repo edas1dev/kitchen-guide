@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/db/profile_dao.dart';
 import 'package:kitchen_guide/domain/profile.dart';
-import 'package:kitchen_guide/pages/display_page.dart';
-import 'package:kitchen_guide/pages/singUpPage.dart';
+import 'package:kitchen_guide/login/loginPage.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SingUpPage extends StatefulWidget {
+  final Widget destinyPage;
+  const SingUpPage({super.key, required this.destinyPage });
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SingUpPage> createState() => _SingUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SingUpPageState extends State<SingUpPage> {
   TextEditingController userController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
@@ -26,16 +27,27 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Entre ou cadastre-se no App!', textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              'Cadastre-se no nosso app!',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 40),
             TextField(
               controller: userController,
               decoration: InputDecoration(
-                hintText: 'Nome de usuário',
+                hintText: 'Seu nome',
                 focusedBorder: buildUserOutlineInputBorder(),
                 border: buildUserOutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                hintText: 'Seu e-mail',
+                focusedBorder: buildPasswordOutlineInputBorder(),
+                border: buildPasswordOutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 12),
@@ -43,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
               controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
-                hintText: 'Senha',
+                hintText: 'Sua senha',
                 focusedBorder: buildPasswordOutlineInputBorder(),
                 border: buildPasswordOutlineInputBorder(),
               ),
@@ -54,9 +66,12 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: Color(0xFFEF233C),
                 padding: EdgeInsets.all(10),
               ),
-              onPressed: onPressedLogon, child: Text(
-                'Login', style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16,
+              onPressed: onSingupPressed,
+              child: Text(
+                'Cadastrar', style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
             ),
@@ -67,11 +82,17 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.all(10),
               ),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const SingUpPage()),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage(destinyPage: widget.destinyPage,)),
                 );
-              }, child: Text('Cadastre - se', style: TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+              }, child: Text('Fazer login',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
             ),
           ],
         ),
@@ -79,30 +100,20 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void onPressedLogon() async {
+  void onSingupPressed() async {
     String userName = userController.text;
+    String emailUser = emailController.text;
     String password = passwordController.text;
 
-    // Verifica se os campos estão vazios antes de tentar a busca
-    if (userName.isEmpty || password.isEmpty) {
+    if (userName.isEmpty || password.isEmpty || emailUser.isEmpty) {
       _showSnackBar('Por favor, preencha todos os campos.');
       return;
     }
 
-    ProfileDao profileDao = ProfileDao();
-    Profile? foundProfile = await profileDao.getProfileByNome(userName);
+    Profile profile = Profile(nome: userName, email: emailUser, urlImage: 'assets/images/profile_person.jpg');
+    await ProfileDao().insertProfile(profile);
 
-    if (foundProfile != null && password == '123456') {
-      Navigator.pushReplacement(context,
-        MaterialPageRoute(
-          builder: (context) {
-            return DisplayPage();
-          },
-        ),
-      );
-    } else {
-      _showSnackBar('Usuário e/ou senha incorretos!');
-    }
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.destinyPage));
   }
 
   void _showSnackBar(String message) {

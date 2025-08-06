@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   loadData() async {
     recipeList = await RecipeDao().getAllRecipes();
-    userProfile = await ProfileDao().getProfileByEmail('example@gmail.com');
+    userProfile = await ProfileDao().getFirstUser();
     setState(() {});
   }
   

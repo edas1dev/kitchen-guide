@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/pages/display_page.dart';
-import '../homepage/home_page.dart';
 
 class Onboarding extends StatefulWidget {
   final Image image;
   final String title;
   final String text;
   final VoidCallback onNext;
-  const Onboarding({super.key, required this.image, required this.title, required this.text, required this.onNext});
+  final Widget jumpPage;
+  const Onboarding({super.key, required this.image, required this.title, required this.text, required this.onNext, required this.jumpPage});
 
   @override
   State<Onboarding> createState() => _OnboardingState();
@@ -52,7 +51,7 @@ class _OnboardingState extends State<Onboarding> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ElevatedButton(onPressed: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DisplayPage()));
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.jumpPage));
                       },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Color(0xFFEF233C),

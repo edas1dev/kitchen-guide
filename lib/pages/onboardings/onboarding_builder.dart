@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/pages/display_page.dart';
 
 import 'onboarding.dart';
 
 class OnboardingBuilder extends StatefulWidget {
-  const OnboardingBuilder({super.key});
+  final Widget destinyPage;
+  const OnboardingBuilder({super.key, required this.destinyPage});
 
   @override
   State<OnboardingBuilder> createState() => _OnboardingBuilderState();
@@ -34,7 +34,7 @@ class _OnboardingBuilderState extends State<OnboardingBuilder> with SingleTicker
         curve: Curves.easeInOut,
       );
     } else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DisplayPage()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.destinyPage));
     }
   }
 
@@ -51,12 +51,14 @@ class _OnboardingBuilderState extends State<OnboardingBuilder> with SingleTicker
             title: 'Descubra Receitas Personalizadas',
             text: 'Conte-nos suas preferências alimentares e nós criaremos receitas deliciosas para você!',
             onNext: _nextPage,
+            jumpPage: widget.destinyPage,
           ),
           Onboarding(
             image: Image.asset('assets/images/foodOn2.jpg'),
             title: 'Digitalize ingredientes para gerar receitas',
             text: 'Use o recurso de Busca para gerar receitas com os ingredientes prontamente disponíveis com você!',
             onNext: _nextPage,
+            jumpPage: widget.destinyPage,
           ),
         ],
       ),

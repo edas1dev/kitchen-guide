@@ -17,49 +17,22 @@ class ProfileDao {
     );
   }
 
-  // Recupera um único perfil pelo e-mail
-  Future<Profile?> getProfileByEmail(String email) async {
+  Future<bool> isUserLogged() async {
     Database db = await DBHelper.initDB();
-    List<Map<String, dynamic>> maps = await db.query(
-      'Profile', where: 'email = ?', whereArgs: [email], limit: 1,
-    );
-
-    if (maps.isNotEmpty) {
-      // Se encontrou algum resultado, converte o primeiro (e único) para Profile
-      return Profile.fromJson(maps.first);
-    }
-    return null;
-  }
-
-  // Buscando o nome
-  Future<Profile?> getProfileByNome(String nome) async {
-    Database db = await DBHelper.initDB();
-    List<Map<String, dynamic>> maps = await db.query(
-      'Profile',
-      where: 'nome = ?',
-      whereArgs: [nome],
-      limit: 1,
-    );
-
-    if (maps.isNotEmpty) {
-      return Profile.fromJson(maps.first);
-    }
-    return null;
-  }
-
-  // método existente para listar todos os perfis (pode ser útil)
-  /*Future<List<Profile>> listarProfiles() async {
-    List<Profile> listaProfile = [];
-    Database db = await DBHelper().initDB();
-
     String sql = 'SELECT * FROM Profile;';
     var listResult = await db.rawQuery(sql);
+    return listResult.isNotEmpty;
+  }
 
-    for (var json in listResult) {
-      Profile profile = Profile.fromJson(json);
-      listaProfile.add(profile);
-    }
+  Future<Profile?> getFirstUser() async {
+    Database db = await DBHelper.initDB();
 
-    return listaProfile;
-  }*/
+    String sql = 'SELECT * FROM Profile;';
+    List<Map<String, dynamic>> maps = await db.rawQuery(sql);
+
+    if (maps.isNotEmpty)
+      return Profile.fromJson(maps.first);
+
+    return null;
+  }
 }
