@@ -110,7 +110,7 @@ class _SingUpPageState extends State<SingUpPage> {
       return;
     }
 
-    Profile profile = Profile(nome: userName, email: emailUser, urlImage: 'assets/images/profile_person.jpg');
+    Profile profile = Profile(nome: userName, email: emailUser, password: password, urlImage: 'assets/images/profile_person.jpg');
     await ProfileDao().insertProfile(profile);
 
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.destinyPage));
