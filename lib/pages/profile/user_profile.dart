@@ -4,6 +4,8 @@ import 'package:kitchen_guide/pages/profile/options/helpCenterOpt.dart';
 import 'package:kitchen_guide/pages/profile/options/manageAccountOpt.dart';
 import 'package:kitchen_guide/pages/profile/options/savedRecipesOpt.dart';
 import 'package:kitchen_guide/pages/profile/options/settingsOpt.dart';
+import '../../db/profile_dao.dart';
+import '../../domain/profile.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -13,6 +15,32 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  Profile? userProfile;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserProfile();
+  }
+
+  Future<void> _loadUserProfile() async {
+    final profileDao = ProfileDao();
+    final profile = await profileDao.getFirstUser();
+    setState(() {
+      userProfile = profile;
+    });
+  }
+
+  void _navigateToManageAccount() async {
+    if (userProfile != null) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ManageAccountOPT(userEmail: userProfile!.email)),
+      );
+      _loadUserProfile();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,35 +49,33 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
         child: Column(
           children: [
-            ContainerUserInfo(),
-            SizedBox(height: 30),
+            ContainerUserInfo(userProfile: userProfile),
+            const SizedBox(height: 30),
             buildContainer(
               Icons.bookmark, 'Receitas salvas', 'Suas receitas salvas aqui.', () {
-                Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const SavedRecipesOPT()),
-                );
-              },
+              Navigator.push(
+                context, MaterialPageRoute(builder: (context) => const SavedRecipesOPT()),
+              );
+            },
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             buildContainer(
               Icons.manage_accounts, 'Gerenciar conta', 'Edite com detalhes a sua conta.', () {
-                Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const ManageAccountOPT()),
-                );
-              },
+              _navigateToManageAccount();
+            },
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             buildContainer(
               Icons.settings, 'Configurações', 'Algumas configurações do App.', () {
-                Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const SettingsOPT()),
-                );
-              },
+              Navigator.push(
+                context, MaterialPageRoute(builder: (context) => const SettingsOPT()),
+              );
+            },
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             buildContainer(
               Icons.headset_mic_rounded, 'Central de ajuda', 'Entre em contato com o suporte.', () {
-                Navigator.push(
+              Navigator.push(
                   context, MaterialPageRoute(builder: (context) => const HelpCenterOPT()),
                 );
               },
