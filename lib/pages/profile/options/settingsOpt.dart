@@ -48,13 +48,6 @@ class _SettingsOPTState extends State<SettingsOPT> {
                 // Navegar para a tela de seleção de unidades
               },
             ),
-            const SizedBox(height: 15),
-            buildContainer(
-              Icons.info_outline, 'Sobre o App',
-              'Versão, licenças e termos de uso', () {
-                // Navegar para a tela "Sobre"
-              },
-            ),
           ],
         ),
       ),
