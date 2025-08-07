@@ -1,13 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/login/singUpPage.dart';
+import 'package:kitchen_guide/pages/display_page.dart';
+import 'package:kitchen_guide/pages/profile/options/subOptions/renameEmail.dart';
+import 'package:kitchen_guide/pages/profile/options/subOptions/renameUser.dart';
+import '../../../db/profile_dao.dart';
 
 class ManageAccountOPT extends StatefulWidget {
-  const ManageAccountOPT({super.key});
+  final String userEmail;
+  const ManageAccountOPT({super.key, required this.userEmail});
 
   @override
   State<ManageAccountOPT> createState() => _ManageAccountOPTState();
 }
 
 class _ManageAccountOPTState extends State<ManageAccountOPT> {
+  void _navigateToRenameUser() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RenameUser(userEmail: widget.userEmail)),
+    );
+    // Pode recarregar os dados do ManageAccountOPT se houver algum
+  }
+
+  void _navigateToRenameEmail() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RenameEmail(userEmail: widget.userEmail)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,16 +45,14 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
             buildContainer(
               Icons.drive_file_rename_outline,
               'Renomear nome de usuário', 'Reescreva o seu nome.', () {
-              /*Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const SavedRecipesOPT()),
-              );*/
-            },
+                _navigateToRenameUser();
+              },
             ),
             SizedBox(height: 15),
             buildContainer(
               Icons.alternate_email, 'Alterar E-mail',
               'Atualize seu endereço de e-mail.', () {
-                /* Navegar para a tela de alterar e-mail */
+                _navigateToRenameEmail();
               },
             ),
             const SizedBox(height: 15),
@@ -46,13 +65,63 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
             buildContainer(
               Icons.delete_forever_outlined, 'Excluir Conta',
               'Esta ação é permanente.', () {
-                // Adicionar um diálogo de confirmação aqui
+                showDeleteConfirmationDialog(widget.userEmail);
               },
             ),
           ],
         ),
       ),
     );
+  }
+  void showDeleteConfirmationDialog(String userEmail) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Excluir Conta'),
+          content: const Text('Tem certeza que deseja excluir sua conta? Esta ação é irreversível.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Confirmar', style: TextStyle(color: Colors.red)),
+              onPressed: () {
+                _deleteUserAccount(userEmail);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteUserAccount(String userEmail) async {
+    final profileDao = ProfileDao();
+    int linhasExcluidas = await profileDao.deleteAccount(userEmail);
+
+    if (linhasExcluidas > 0) {
+      _showSnackBar('Sua conta foi excluída com sucesso.', isError: false);
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => SingUpPage(destinyPage: DisplayPage())),
+        (Route<dynamic> route) => false, // Essa condição garante que todas as telas são removidas
+      );
+    } else {
+      _showSnackBar('Erro ao excluir a conta. Tente novamente.', isError: true);
+    }
+  }
+
+  void _showSnackBar(String message, {bool isError = true}) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: isError ? Colors.red : Colors.green,
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
 
