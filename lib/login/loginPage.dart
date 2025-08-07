@@ -81,7 +81,6 @@ class _LoginPageState extends State<LoginPage> {
     String userName = userController.text;
     String password = passwordController.text;
 
-    // Verifica se os campos estão vazios antes de tentar a busca
     if (userName.isEmpty || password.isEmpty) {
       _showSnackBar('Por favor, preencha todos os campos.');
       return;

@@ -66,7 +66,7 @@ class _SingUpPageState extends State<SingUpPage> {
                 backgroundColor: Color(0xFFEF233C),
                 padding: EdgeInsets.all(10),
               ),
-              onPressed: onSingupPressed,
+              onPressed: onSingUpPressed,
               child: Text(
                 'Cadastrar', style: TextStyle(
                   color: Colors.white,
@@ -100,7 +100,7 @@ class _SingUpPageState extends State<SingUpPage> {
     );
   }
 
-  void onSingupPressed() async {
+  void onSingUpPressed() async {
     String userName = userController.text;
     String emailUser = emailController.text;
     String password = passwordController.text;

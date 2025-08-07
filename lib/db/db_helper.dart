@@ -35,6 +35,7 @@ class DBHelper {
     CREATE TABLE Profile (
       nome TEXT NOT NULL,
       email TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL UNIQUE,
       urlImage TEXT NOT NULL
     );
     ''');
