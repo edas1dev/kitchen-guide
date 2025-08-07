@@ -1,26 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/db/profile_dao.dart';
 import 'package:kitchen_guide/domain/profile.dart';
 
-class ContainerUserInfo extends StatefulWidget {
-  const ContainerUserInfo({super.key});
-
-  @override
-  State<ContainerUserInfo> createState() => _ContainerUserInfoState();
-}
-
-class _ContainerUserInfoState extends State<ContainerUserInfo> {
-  Profile? userProfile;
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  loadData() async {
-    userProfile = await ProfileDao().getFirstUser();
-    setState(() {});
-  }
+class ContainerUserInfo extends StatelessWidget {
+  final Profile? userProfile;
+  const ContainerUserInfo({super.key, this.userProfile});
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +14,18 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
     final String userProfileImage = userProfile?.urlImage ?? 'assets/images/default_pfp.jpg';
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(13),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFFD9D9D9).withOpacity(0.5),
-            spreadRadius: 4,
-            blurRadius: 4,
-            offset: Offset(0, 4),
-          )
-        ]
+          borderRadius: BorderRadius.circular(13),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFD9D9D9).withOpacity(0.5),
+              spreadRadius: 4,
+              blurRadius: 4,
+              offset: const Offset(0, 4),
+            )
+          ]
       ),
       width: double.infinity,
       height: 130,
@@ -51,7 +34,6 @@ class _ContainerUserInfoState extends State<ContainerUserInfo> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
-            // spacing: 2,
             children: [
               Text(
                 userName,
