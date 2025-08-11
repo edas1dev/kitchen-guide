@@ -15,6 +15,11 @@ class _RenameEmailState extends State<RenameEmail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0, backgroundColor: Colors.white,
+        title: Text('Renomear email', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(35),
@@ -22,11 +27,6 @@ class _RenameEmailState extends State<RenameEmail> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Renomeie o seu nome de usuário!',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
             const SizedBox(height: 40),
             TextField(
               controller: userEmailController,

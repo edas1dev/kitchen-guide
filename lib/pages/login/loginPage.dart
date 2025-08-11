@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/login/singUpPage.dart';
+import 'package:kitchen_guide/pages/login/singUpPage.dart';
 
 class LoginPage extends StatefulWidget {
   final Widget destinyPage;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/login/singUpPage.dart';
+import 'package:kitchen_guide/pages/login/singUpPage.dart';
 import 'package:kitchen_guide/pages/display_page.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renameEmail.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renameUser.dart';

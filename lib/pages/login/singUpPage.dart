@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/db/profile_dao.dart';
 import 'package:kitchen_guide/domain/profile.dart';
-import 'package:kitchen_guide/login/loginPage.dart';
+import 'package:kitchen_guide/pages/login/loginPage.dart';
 
 class SingUpPage extends StatefulWidget {
   final Widget destinyPage;

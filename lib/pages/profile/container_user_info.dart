@@ -14,7 +14,7 @@ class ContainerUserInfo extends StatelessWidget {
     final String userProfileImage = userProfile?.urlImage ?? 'assets/images/default_pfp.jpg';
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(13),
           color: Colors.white,
@@ -28,33 +28,34 @@ class ContainerUserInfo extends StatelessWidget {
           ]
       ),
       width: double.infinity,
-      height: 130,
       child: Row(
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                userName,
-                style: const TextStyle(
-                  color: Color(0xFF1C1C1C),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  userName,
+                  style: const TextStyle(
+                    color: Color(0xFF1C1C1C),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                userEmail,
-                style: const TextStyle(
-                  color: Color(0xFF1C1C1C),
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300,
+                const SizedBox(height: 2),
+                Text(
+                  userEmail,
+                  style: const TextStyle(
+                    color: Color(0xFF1C1C1C),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          const Spacer(),
+          const SizedBox(width: 8),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

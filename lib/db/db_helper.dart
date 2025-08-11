@@ -5,8 +5,9 @@ class DBHelper {
   static Database? databaseConnection;
 
   static initDB() async {
-    if (databaseConnection != null)
-        return databaseConnection;
+    if (databaseConnection != null) {
+      return databaseConnection;
+    }
     String path = await getDatabasesPath();
     String dbName = 'kitchenguide.db';
 
