@@ -10,7 +10,9 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  List<Tag> listaTags = [];
+  late TextEditingController searchBarController = TextEditingController();
+  List<Tag> listaPopularTags = [];
+  List<Tag> listaRecentTags = [];
 
   @override
   void initState() {
@@ -19,7 +21,9 @@ class _SearchState extends State<Search> {
   }
 
   loadData() async {
-    listaTags = await TagDao().listarTags();
+    listaPopularTags = await TagDao().listarPopularTags();
+    listaRecentTags = await TagDao().listarRecentTags();
+
     setState(() {});
   }
 
@@ -43,6 +47,7 @@ class _SearchState extends State<Search> {
               ),
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: TextField(
+                controller: searchBarController,
                 decoration: InputDecoration(
                   icon: Icon(Icons.add),
                   hintText: 'Adicionar ingredientes',
@@ -58,10 +63,7 @@ class _SearchState extends State<Search> {
             ),
             Wrap(
               direction: Axis.horizontal,
-              children: [
-                buildTag('Cenoura'),
-                buildTag('Milho'),
-              ],
+              children: listaRecentTags.map<Widget>((tag) => buildTag(tag.nome)).toList()
             ),
             SizedBox(height: 20,),
             Padding(
@@ -72,7 +74,7 @@ class _SearchState extends State<Search> {
             ),
             Wrap(
               direction: Axis.horizontal,
-              children: listaTags.map<Widget>((tag) => buildTag(tag.nome)).toList()
+              children: listaPopularTags.map<Widget>((tag) => buildTag(tag.nome)).toList()
             ),
             ],),
           Align(
@@ -80,7 +82,16 @@ class _SearchState extends State<Search> {
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (searchBarController.text.isEmpty)
+                      return;
+                    List<String> searchText = searchBarController.text.split(', ');
+                    for (String nomeTag in searchText) {
+                      await TagDao().insertRecentTag(Tag(nome: nomeTag));
+                    }
+                    await loadData();
+                    setState(() {});
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFF96167),
                   ),
@@ -96,19 +107,28 @@ class _SearchState extends State<Search> {
   }
 
   buildTag(String titulo) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      margin: EdgeInsets.only(left: 15, top: 10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(100)),
-          color: Colors.grey[200]
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.add),
-          Text(titulo)
-        ],
+    return InkWell(
+      onTap: () {
+        if (searchBarController.text.contains(titulo)) {
+          return;
+        }
+        String add = searchBarController.text.isEmpty ? '' : ', ';
+        searchBarController.text += add + titulo;
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        margin: EdgeInsets.only(left: 15, top: 10),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(100)),
+            color: Colors.grey[200]
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.add),
+            Text(titulo)
+          ],
+        ),
       ),
     );
   }

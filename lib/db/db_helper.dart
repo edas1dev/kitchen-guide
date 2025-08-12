@@ -33,6 +33,13 @@ class DBHelper {
     ''');
 
     await db.execute('''
+    CREATE TABLE RecentTags (
+      nome TEXT NOT NULL UNIQUE,
+      createdAt INTEGER NOT NULL
+    );
+    ''');
+
+    await db.execute('''
     CREATE TABLE Profile (
       nome TEXT NOT NULL,
       email TEXT NOT NULL UNIQUE,
@@ -72,6 +79,12 @@ class DBHelper {
       ('Manteiga'),
       ('Tomate'),
       ('Açafrão');
+    ''');
+
+    await db.execute('''
+    INSERT INTO RecentTags (nome, createdAt) VALUES
+      ('Cenoura', 1),
+      ('Milho', 2);
     ''');
 
     /*await db.execute('''
