@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kitchen_guide/db/profile_dao.dart';
 import 'package:kitchen_guide/domain/profile.dart';
 import 'package:kitchen_guide/pages/login/loginPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SingUpPage extends StatefulWidget {
   final Widget destinyPage;
@@ -112,6 +113,9 @@ class _SingUpPageState extends State<SingUpPage> {
 
     Profile profile = Profile(nome: userName, email: emailUser, password: password, urlImage: 'assets/images/profile_person.jpg');
     await ProfileDao().insertProfile(profile);
+    _showSnackBar('Usuário cadastrado com sucesso!');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isUserLogged', true);
 
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.destinyPage));
   }

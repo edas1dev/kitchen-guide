@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Onboarding extends StatefulWidget {
   final Image image;
@@ -50,7 +51,9 @@ class _OnboardingState extends State<Onboarding> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ElevatedButton(onPressed: () {
+                      ElevatedButton(onPressed: () async {
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('hasSeenOnboarding', true);
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.jumpPage));
                       },
                         style: ElevatedButton.styleFrom(
@@ -58,8 +61,10 @@ class _OnboardingState extends State<Onboarding> {
                         ),
                         child: Text('Pular', style: TextStyle(fontWeight: FontWeight.w900)),
                       ),
-                      ElevatedButton(onPressed: () {
+                      ElevatedButton(onPressed: () async {
                         widget.onNext();
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('hasSeenOnboarding', true);
                       },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFEF233C),
