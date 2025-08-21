@@ -23,8 +23,9 @@ class ProfileDao {
     Database db = await DBHelper.initDB();
     String sql = 'SELECT * FROM Profile;';
     List<Map<String, dynamic>> maps = await db.rawQuery(sql);
-    if (maps.isNotEmpty)
+    if (maps.isNotEmpty) {
       return Profile.fromJson(maps.first);
+    }
     return null;
   }
 
@@ -56,6 +57,16 @@ class ProfileDao {
       where: 'email = ?',
       whereArgs: [email],
     );
+  }
+
+  Future<bool> validateUser(String nome, String password) async {
+    final db = await DBHelper.initDB();
+    final result = await db.query(
+      'Profile',
+      where: 'nome = ? AND password = ?',
+      whereArgs: [nome, password],
+    );
+    return result.isNotEmpty;
   }
 
   Future<int> deleteAccount(String email) async {
