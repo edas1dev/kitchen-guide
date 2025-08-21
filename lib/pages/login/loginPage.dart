@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/pages/login/singUpPage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../db/profile_dao.dart';
 
 class LoginPage extends StatefulWidget {
   final Widget destinyPage;
@@ -84,6 +86,19 @@ class _LoginPageState extends State<LoginPage> {
     if (userName.isEmpty || password.isEmpty) {
       _showSnackBar('Por favor, preencha todos os campos.');
       return;
+    }
+    ProfileDao profileDao = ProfileDao();
+    bool isValid = await profileDao.validateUser(userName, password);
+    if (isValid) {
+      _showSnackBar('Login realizado com sucesso!');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isUserLogged', true);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => widget.destinyPage),
+      );
+    } else {
+      _showSnackBar('Usuário ou senha inválidos.');
     }
   }
 
