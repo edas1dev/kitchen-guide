@@ -107,23 +107,23 @@ class _SingUpPageState extends State<SingUpPage> {
     String password = passwordController.text;
 
     if (userName.isEmpty || password.isEmpty || emailUser.isEmpty) {
-      _showSnackBar('Por favor, preencha todos os campos.');
+      _showSnackBar('Por favor, preencha todos os campos.', isError: true);
       return;
     }
 
     Profile profile = Profile(nome: userName, email: emailUser, password: password, urlImage: 'assets/images/profile_person.jpg');
     await ProfileDao().insertProfile(profile);
-    _showSnackBar('Usuário cadastrado com sucesso!');
+    _showSnackBar('Usuário cadastrado com sucesso!', isError: false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isUserLogged', true);
 
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.destinyPage));
   }
 
-  void _showSnackBar(String message) {
+  void _showSnackBar(String message, {required bool isError}) {
     final snackBar = SnackBar(
       content: Text(message, style: TextStyle(color: Colors.white)),
-      backgroundColor: Colors.black87,
+      backgroundColor: isError ? Colors.black87 : Colors.green,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }

@@ -59,18 +59,18 @@ class _ProfilePageState extends State<ProfilePage> {
             },
             ),
             const SizedBox(height: 15),
-            buildContainer(
-              Icons.manage_accounts, 'Gerenciar conta', 'Edite com detalhes a sua conta.', () {
-              _navigateToManageAccount();
-            },
+              buildContainer(
+                Icons.manage_accounts, 'Gerenciar conta', 'Edite com detalhes a sua conta.', () {
+                _navigateToManageAccount();
+              },
             ),
             const SizedBox(height: 15),
-            buildContainer(
-              Icons.settings, 'Configurações', 'Algumas configurações do App.', () {
-              Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const SettingsOPT()),
-              );
-            },
+              buildContainer(
+                Icons.settings, 'Configurações', 'Algumas configurações do App.', () {
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const SettingsOPT()),
+                );
+              },
             ),
             const SizedBox(height: 15),
             buildContainer(

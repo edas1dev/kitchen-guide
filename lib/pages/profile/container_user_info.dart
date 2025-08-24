@@ -20,10 +20,10 @@ class ContainerUserInfo extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFD9D9D9).withOpacity(0.5),
+              color: Color(0xFFD9D9D9).withOpacity(0.5),
               spreadRadius: 4,
               blurRadius: 4,
-              offset: const Offset(0, 4),
+              offset: Offset(0, 4),
             )
           ]
       ),
@@ -37,7 +37,7 @@ class ContainerUserInfo extends StatelessWidget {
               children: [
                 Text(
                   userName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF1C1C1C),
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -46,7 +46,7 @@ class ContainerUserInfo extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   userEmail,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF1C1C1C),
                     fontSize: 16,
                     fontWeight: FontWeight.w300,

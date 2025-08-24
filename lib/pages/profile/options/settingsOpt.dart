@@ -8,22 +8,21 @@ class SettingsOPT extends StatefulWidget {
 }
 
 class _SettingsOPTState extends State<SettingsOPT> {
-  bool _notificationsEnabled = true;
+  bool _notificationsEnabled = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Colors.black),
-        title: const Text('Configurações do App', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        elevation: 0, backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text('Configurações do App', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-        child: ListView(
+        child: Column(
           children: [
             buildSwitchContainer(
               Icons.notifications_outlined, 'Notificações', _notificationsEnabled,
@@ -55,6 +54,36 @@ class _SettingsOPTState extends State<SettingsOPT> {
   }
 }
 
+buildSwitchContainer(IconData icon, String titulo, bool value, Function(bool) onChanged) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 15),
+    height: 80,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(13),
+      color: Colors.white,
+      boxShadow: [
+        BoxShadow(
+          color: Color(0xFFD9D9D9).withOpacity(0.5),
+          spreadRadius: 4, blurRadius: 4, offset: Offset(0, 4),
+        )
+      ],
+    ),
+    child: Row(
+      children: [
+        Icon(icon, size: 40, color: Color(0xFFEF233C)),
+        const SizedBox(width: 15),
+        Text(titulo, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+        const Spacer(),
+        Switch(
+          value: value,
+          onChanged: onChanged,
+          activeColor: Color(0xFFEF233C),
+        ),
+      ],
+    ),
+  );
+}
+
 buildContainer(IconData icon, String titulo, String subtitulo, VoidCallback onTap) {
   return InkWell(
     onTap: onTap,
@@ -67,55 +96,25 @@ buildContainer(IconData icon, String titulo, String subtitulo, VoidCallback onTa
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFD9D9D9).withOpacity(0.5),
-            spreadRadius: 4, blurRadius: 4, offset: const Offset(0, 4),
+            color: Color(0xFFD9D9D9).withOpacity(0.5),
+            spreadRadius: 4, blurRadius: 4, offset: Offset(0, 4),
           )
         ]
       ),
       child: Row(
         children: [
-          Icon(icon, size: 40, color: const Color(0xFFEF233C)),
+          Icon(icon, size: 40, color: Color(0xFFEF233C)),
           const SizedBox(width: 15),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(titulo, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+              Text(titulo, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
               Text(subtitulo),
             ],
           )
         ],
       ),
-    ),
-  );
-}
-
-buildSwitchContainer(IconData icon, String titulo, bool value, Function(bool) onChanged) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 15),
-    height: 80,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(13),
-      color: Colors.white,
-      boxShadow: [
-        BoxShadow(
-          color: const Color(0xFFD9D9D9).withOpacity(0.5),
-          spreadRadius: 4, blurRadius: 4, offset: const Offset(0, 4),
-        )
-      ],
-    ),
-    child: Row(
-      children: [
-        Icon(icon, size: 40, color: const Color(0xFFEF233C)),
-        const SizedBox(width: 15),
-        Text(titulo, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-        const Spacer(),
-        Switch(
-          value: value,
-          onChanged: onChanged,
-          activeColor: const Color(0xFFEF233C),
-        ),
-      ],
     ),
   );
 }

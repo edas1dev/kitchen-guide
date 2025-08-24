@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kitchen_guide/pages/login/singUpPage.dart';
 import 'package:kitchen_guide/pages/display_page.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renameEmail.dart';
+import 'package:kitchen_guide/pages/profile/options/subOptions/renamePassword.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renameUser.dart';
 import '../../../db/profile_dao.dart';
 
@@ -19,7 +20,6 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
       context,
       MaterialPageRoute(builder: (context) => RenameUser(userEmail: widget.userEmail)),
     );
-    // Pode recarregar os dados do ManageAccountOPT se houver algum
   }
 
   void _navigateToRenameEmail() async {
@@ -29,18 +29,26 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
     );
   }
 
+  void _navigateToRenamePassword() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RenamePassword(userEmail: widget.userEmail)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0, backgroundColor: Colors.white,
-        title: Text('Gerenciar Conta', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-        centerTitle: true,
+        title: Text('Gerenciar Conta',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)
+        ), centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-        child: ListView(
+        child: Column(
           children: [
             buildContainer(
               Icons.drive_file_rename_outline,
@@ -51,14 +59,14 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
             SizedBox(height: 15),
             buildContainer(
               Icons.alternate_email, 'Alterar E-mail',
-              'Atualize seu endereço de e-mail.', () {
+              'Atualize o seu e-mail.', () {
                 _navigateToRenameEmail();
               },
             ),
             const SizedBox(height: 15),
             buildContainer(
               Icons.lock_outline, 'Alterar Senha', 'Mantenha sua conta segura.', () {
-                /* Navegar para a tela de alterar senha */
+                _navigateToRenamePassword();
               },
             ),
             const SizedBox(height: 15),
@@ -78,17 +86,17 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Excluir Conta'),
-          content: const Text('Tem certeza que deseja excluir sua conta? Esta ação é irreversível.'),
+          title: Text('Excluir Conta'),
+          content: Text('Tem certeza que deseja excluir sua conta? Esta ação é irreversível.'),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancelar'),
+              child: Text('Cancelar'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Confirmar', style: TextStyle(color: Colors.red)),
+              child: Text('Confirmar', style: TextStyle(color: Colors.red)),
               onPressed: () {
                 _deleteUserAccount(userEmail);
                 Navigator.of(context).pop();
@@ -109,16 +117,16 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => SingUpPage(destinyPage: DisplayPage())),
-        (Route<dynamic> route) => false, // Essa condição garante que todas as telas são removidas
+        (Route<dynamic> route) => false,
       );
     } else {
       _showSnackBar('Erro ao excluir a conta. Tente novamente.', isError: true);
     }
   }
 
-  void _showSnackBar(String message, {bool isError = true}) {
+  void _showSnackBar(String message, {required bool isError}) {
     final snackBar = SnackBar(
-      content: Text(message),
+      content: Text(message, style: const TextStyle(color: Colors.white)),
       backgroundColor: isError ? Colors.red : Colors.green,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

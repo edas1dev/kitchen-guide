@@ -19,7 +19,7 @@ class _HelpCenterOPTState extends State<HelpCenterOPT> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-        child: ListView(
+        child: Column(
           children: [
             buildContainer(
               Icons.help_outline, 'Perguntas Frequentes (FAQ)',
@@ -47,7 +47,7 @@ class _HelpCenterOPTState extends State<HelpCenterOPT> {
             buildContainer(
               Icons.info_outline, 'Sobre o Aplicativo',
               'Informações da versão e créditos.', () {
-                // showAboutDialog(context: context, applicationName: 'Seu App', applicationVersion: '1.0.0');
+                showAboutDialog(context: context, applicationName: 'Kitchen Guide', applicationVersion: '1.0.0');
               },
             ),
           ],

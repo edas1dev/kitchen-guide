@@ -46,10 +46,10 @@ class _SavedRecipesOPTState extends State<SavedRecipesOPT> {
               color: Colors.white,
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFFD9D9D9).withOpacity(0.5),
+                  color: Color(0xFFD9D9D9).withOpacity(0.5),
                   spreadRadius: 4,
                   blurRadius: 4,
-                  offset: const Offset(0, 4),
+                  offset: Offset(0, 4),
                 )
               ],
             ),
@@ -87,7 +87,7 @@ class _SavedRecipesOPTState extends State<SavedRecipesOPT> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 15.0),
+                  padding: const EdgeInsets.only(right: 15),
                   child: BookmarkButton(recipe_id: recipe.id, is_bookmarked: recipe.bookmarked)
                 ),
               ],
