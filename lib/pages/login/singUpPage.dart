@@ -116,6 +116,7 @@ class _SingUpPageState extends State<SingUpPage> {
     _showSnackBar('Usuário cadastrado com sucesso!', isError: false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isUserLogged', true);
+    await prefs.setString('loggedUserEmail', emailUser);
 
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.destinyPage));
   }

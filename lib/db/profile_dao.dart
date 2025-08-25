@@ -1,4 +1,5 @@
 import 'package:kitchen_guide/domain/profile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'db_helper.dart';
 
@@ -12,21 +13,21 @@ class ProfileDao {
     );
   }
 
-  Future<bool> isUserLogged() async {
-    Database db = await DBHelper.initDB();
-    String sql = 'SELECT * FROM Profile;';
-    var listResult = await db.rawQuery(sql);
-    return listResult.isNotEmpty;
-  }
+  Future<Profile?> getLoggedUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isUserLogged = prefs.getBool('isUserLogged') ?? false;
+    String currentUserEmail = prefs.getString('loggedUserEmail') ?? '';
+    if (!isUserLogged) return null;
 
-  Future<Profile?> getFirstUser() async {
     Database db = await DBHelper.initDB();
-    String sql = 'SELECT * FROM Profile;';
-    List<Map<String, dynamic>> maps = await db.rawQuery(sql);
-    if (maps.isNotEmpty) {
-      return Profile.fromJson(maps.first);
-    }
-    return null;
+
+    List<Map<String, dynamic>> user = await db.query(
+      'Profile',
+      where: 'email = ?',
+      whereArgs: [currentUserEmail]
+    );
+    if (user.isEmpty) return null;
+    return Profile.fromJson(user[0]);
   }
 
   Future<int> updateUserName(String oldEmail, String newName) async {
@@ -59,12 +60,12 @@ class ProfileDao {
     );
   }
 
-  Future<bool> validateUser(String nome, String password) async {
+  Future<bool> validateUser(String email, String password) async {
     final db = await DBHelper.initDB();
     final result = await db.query(
       'Profile',
-      where: 'nome = ? AND password = ?',
-      whereArgs: [nome, password],
+      where: 'email = ? AND password = ?',
+      whereArgs: [email, password],
     );
     return result.isNotEmpty;
   }

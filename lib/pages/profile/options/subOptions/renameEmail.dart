@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../db/profile_dao.dart';
 
 class RenameEmail extends StatefulWidget {
@@ -72,6 +73,8 @@ class _RenameEmailState extends State<RenameEmail> {
 
     if (linhasAfetadas > 0) {
       _showSnackBar('Seu email foi atualizado com sucesso!', isError: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('loggedUserEmail', newEmail);
       userEmailController.clear();
       Navigator.pop(context);
     } else {

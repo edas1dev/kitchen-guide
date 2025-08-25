@@ -25,7 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _loadUserProfile() async {
     final profileDao = ProfileDao();
-    final profile = await profileDao.getFirstUser();
+    final profile = await profileDao.getLoggedUser();
     setState(() {
       userProfile = profile;
     });

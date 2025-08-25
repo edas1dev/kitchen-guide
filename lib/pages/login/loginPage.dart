@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               controller: userController,
               decoration: InputDecoration(
-                hintText: 'Nome de usuário',
+                hintText: 'Email',
                 focusedBorder: buildUserOutlineInputBorder(),
                 border: buildUserOutlineInputBorder(),
               ),
@@ -80,19 +80,20 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void onPressedLogon() async {
-    String userName = userController.text;
+    String userEmail = userController.text;
     String password = passwordController.text;
 
-    if (userName.isEmpty || password.isEmpty) {
+    if (userEmail.isEmpty || password.isEmpty) {
       _showSnackBar('Por favor, preencha todos os campos.');
       return;
     }
     ProfileDao profileDao = ProfileDao();
-    bool isValid = await profileDao.validateUser(userName, password);
+    bool isValid = await profileDao.validateUser(userEmail, password);
     if (isValid) {
       _showSnackBar('Login realizado com sucesso!');
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isUserLogged', true);
+      await prefs.setString('loggedUserEmail', userEmail);
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => widget.destinyPage),
