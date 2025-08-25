@@ -1,6 +1,6 @@
 # kitchen_guide
 
-App que revolucionará a sua cozinha
+App que revolucionará a sua cozinha!
 
 ## Getting Started
 

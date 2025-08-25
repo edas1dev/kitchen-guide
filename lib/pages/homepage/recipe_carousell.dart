@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/domain/recipe.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_card.dart';
 
 class RecipeCarousell extends StatefulWidget {
   final String title;
   final String subtitle;
-  final List<RecipeCard> recipes;
+  final List<Recipe> recipes;
   const RecipeCarousell({super.key, required this.title, required this.subtitle, required this.recipes});
 
   @override
@@ -33,9 +34,11 @@ class _RecipeCarousellState extends State<RecipeCarousell> {
         SizedBox(height: 15),
         SizedBox(
           height: 270,
-          child: ListView(
+          child: ListView.builder(
+            padding: EdgeInsets.only(left: 25),
             scrollDirection: Axis.horizontal,
-            children: widget.recipes
+            itemCount: widget.recipes.length,
+            itemBuilder: (context, i) => RecipeCard(recipe: widget.recipes[i]),
           ),
         )
       ],
