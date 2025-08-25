@@ -70,8 +70,13 @@ class ProfileDao {
     return result.isNotEmpty;
   }
 
+  Future<bool> isAdmin(String email) async {
+    return email == 'admin@';
+  }
+
   Future<int> deleteAccount(String email) async {
     Database db = await DBHelper.initDB();
+    if (await isAdmin(email)) return 0;
     return await db.delete(
       'Profile',
       where: 'email = ?',

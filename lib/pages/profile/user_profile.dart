@@ -51,12 +51,12 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             ContainerUserInfo(userProfile: userProfile),
             const SizedBox(height: 30),
-            buildContainer(
-              Icons.bookmark, 'Receitas salvas', 'Suas receitas salvas aqui.', () {
-              Navigator.push(
-                context, MaterialPageRoute(builder: (context) => const SavedRecipesOPT()),
-              );
-            },
+              buildContainer(
+                Icons.bookmark, 'Receitas salvas', 'Suas receitas salvas aqui.', () {
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => const SavedRecipesOPT()),
+                );
+              },
             ),
             const SizedBox(height: 15),
               buildContainer(

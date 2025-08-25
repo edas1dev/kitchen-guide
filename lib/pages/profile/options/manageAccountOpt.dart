@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/pages/login/singUpPage.dart';
 import 'package:kitchen_guide/pages/display_page.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renameEmail.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renamePassword.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renameUser.dart';
 import '../../../db/profile_dao.dart';
+import '../../login/loginPage.dart';
 
 class ManageAccountOPT extends StatefulWidget {
   final String userEmail;
@@ -110,14 +110,19 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
 
   void _deleteUserAccount(String userEmail) async {
     final profileDao = ProfileDao();
-    int linhasExcluidas = await profileDao.deleteAccount(userEmail);
 
+    if (await profileDao.isAdmin(userEmail)) {
+      _showSnackBar('A conta de administrador não pode ser excluída.', isError: true);
+      return;
+    }
+
+    int linhasExcluidas = await profileDao.deleteAccount(userEmail);
     if (linhasExcluidas > 0) {
       _showSnackBar('Sua conta foi excluída com sucesso.', isError: false);
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => SingUpPage(destinyPage: DisplayPage())),
-        (Route<dynamic> route) => false,
+        MaterialPageRoute(builder: (context) => LoginPage(destinyPage: DisplayPage())),
+            (Route<dynamic> route) => false,
       );
     } else {
       _showSnackBar('Erro ao excluir a conta. Tente novamente.', isError: true);

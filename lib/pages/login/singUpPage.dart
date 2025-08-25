@@ -114,6 +114,7 @@ class _SingUpPageState extends State<SingUpPage> {
     Profile profile = Profile(nome: userName, email: emailUser, password: password, urlImage: 'assets/images/profile_person.jpg');
     await ProfileDao().insertProfile(profile);
     _showSnackBar('Usuário cadastrado com sucesso!', isError: false);
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isUserLogged', true);
     await prefs.setString('loggedUserEmail', emailUser);

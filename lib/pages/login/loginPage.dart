@@ -84,13 +84,13 @@ class _LoginPageState extends State<LoginPage> {
     String password = passwordController.text;
 
     if (userEmail.isEmpty || password.isEmpty) {
-      _showSnackBar('Por favor, preencha todos os campos.');
+      _showSnackBar('Por favor, preencha todos os campos.', isError: true);
       return;
     }
     ProfileDao profileDao = ProfileDao();
     bool isValid = await profileDao.validateUser(userEmail, password);
     if (isValid) {
-      _showSnackBar('Login realizado com sucesso!');
+      _showSnackBar('Login realizado com sucesso!', isError: false);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isUserLogged', true);
       await prefs.setString('loggedUserEmail', userEmail);
@@ -99,14 +99,14 @@ class _LoginPageState extends State<LoginPage> {
         MaterialPageRoute(builder: (context) => widget.destinyPage),
       );
     } else {
-      _showSnackBar('Usuário ou senha inválidos.');
+      _showSnackBar('Usuário ou senha inválidos.', isError: true);
     }
   }
 
-  void _showSnackBar(String message) {
+  void _showSnackBar(String message, {required bool isError}) {
     final snackBar = SnackBar(
       content: Text(message, style: TextStyle(color: Colors.white)),
-      backgroundColor: Colors.black87,
+      backgroundColor: isError ? Colors.black87 : Colors.green,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }

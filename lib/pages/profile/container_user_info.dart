@@ -7,8 +7,6 @@ class ContainerUserInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*Operadores null-aware (??) para fornecer valores padrão
-    caso userProfile seja nulo (ou seja, se nenhum perfil foi encontrado).*/
     final String userName = userProfile?.nome ?? '...';
     final String userEmail = userProfile?.email ?? '...';
     final String userProfileImage = userProfile?.urlImage ?? 'assets/images/default_pfp.jpg';
@@ -36,8 +34,7 @@ class ContainerUserInfo extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  userName,
-                  style: TextStyle(
+                  userName, style: TextStyle(
                     color: Color(0xFF1C1C1C),
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -45,8 +42,7 @@ class ContainerUserInfo extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  userEmail,
-                  style: TextStyle(
+                  userEmail, style: TextStyle(
                     color: Color(0xFF1C1C1C),
                     fontSize: 16,
                     fontWeight: FontWeight.w300,

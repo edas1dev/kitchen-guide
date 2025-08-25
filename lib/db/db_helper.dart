@@ -89,7 +89,7 @@ class DBHelper {
 
     await db.execute('''
     INSERT INTO Profile (nome, email, password, urlImage) VALUES
-      ('admin', 'admin@kitchenguide.com', '123', 'assets/images/default_pfp.jpg');
+      ('admin', 'admin@', '123', 'assets/images/default_pfp.jpg');
     ''');
 
     await db.execute('''
