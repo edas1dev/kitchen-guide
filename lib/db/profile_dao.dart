@@ -13,6 +13,20 @@ class ProfileDao {
     );
   }
 
+  Future<Profile?> getProfileByEmail(String email) async {
+    Database db = await DBHelper.initDB();
+    List<Map<String, dynamic>> user =
+    await db.query(
+      'Profile',
+      where: 'email = ?',
+      whereArgs: [email]
+    );
+    if (user.isEmpty) {
+      return null;
+    }
+    return Profile.fromJson(user.first);
+  }
+
   Future<Profile?> getLoggedUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isUserLogged = prefs.getBool('isUserLogged') ?? false;
