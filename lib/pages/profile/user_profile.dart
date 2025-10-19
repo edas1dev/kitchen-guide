@@ -4,6 +4,8 @@ import 'package:kitchen_guide/pages/profile/options/helpCenterOpt.dart';
 import 'package:kitchen_guide/pages/profile/options/manageAccountOpt.dart';
 import 'package:kitchen_guide/pages/profile/options/savedRecipesOpt.dart';
 import 'package:kitchen_guide/pages/profile/options/settingsOpt.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../api/profile_api.dart';
 import '../../db/profile_dao.dart';
 import '../../domain/profile.dart';
 
@@ -24,12 +26,36 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _loadUserProfile() async {
-    final profileDao = ProfileDao();
-    final profile = await profileDao.getLoggedUser();
-    setState(() {
-      userProfile = profile;
-    });
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userEmail = prefs.getString('loggedUserEmail');
+      if (userEmail == null) {
+        print('Nenhum email de utilizador encontrado.');
+        return;
+      }
+      final profileApi = ProfileApi();
+      final profileDao = ProfileDao();
+      try {
+        final profileMap = await profileApi.fetchProfileByEmail(userEmail);
+        setState(() {
+          userProfile = Profile.fromJson(profileMap);
+        });
+      } catch (e) {
+        print('Erro ao carregar da API, tentando DB local...');
+        final localProfile = await profileDao.getLoggedUser();
+        if (localProfile != null) {
+          setState(() {
+            userProfile = localProfile;
+          });
+        } else {
+          print('Nenhum perfil encontrado no banco local.');
+        }
+      }
+    } catch (e) {
+      print('Erro geral ao carregar perfil: $e');
+    }
   }
+
 
   void _navigateToManageAccount() async {
     if (userProfile != null) {
@@ -47,7 +73,9 @@ class _ProfilePageState extends State<ProfilePage> {
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
-        child: Column(
+        child: userProfile == null
+          ? const Center(child: CircularProgressIndicator(color: Color(0xFFEF233C)))
+          : Column(
           children: [
             ContainerUserInfo(userProfile: userProfile),
             const SizedBox(height: 30),

@@ -10,20 +10,21 @@ class ContainerUserInfo extends StatelessWidget {
     final String userName = userProfile?.nome ?? '...';
     final String userEmail = userProfile?.email ?? '...';
     final String userProfileImage = userProfile?.urlImage ?? 'assets/images/default_pfp.jpg';
+    final bool isNetworkImage = userProfileImage.startsWith('http') || userProfileImage.startsWith('https');
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(13),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xFFD9D9D9).withOpacity(0.5),
-              spreadRadius: 4,
-              blurRadius: 4,
-              offset: Offset(0, 4),
-            )
-          ]
+        borderRadius: BorderRadius.circular(13),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFFD9D9D9).withOpacity(0.5),
+            spreadRadius: 4,
+            blurRadius: 4,
+            offset: Offset(0, 4),
+          )
+        ]
       ),
       width: double.infinity,
       child: Row(
@@ -52,14 +53,24 @@ class ContainerUserInfo extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(60),
-                child: Image.asset(userProfileImage, height: 95, width: 95),
-              ),
-            ],
+          ClipRRect(
+            borderRadius: BorderRadius.circular(60),
+            child: isNetworkImage ? Image.network(
+              userProfileImage, width: 95, height: 95, fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'assets/images/default_pfp.jpg',
+                  width: 95,
+                  height: 95,
+                  fit: BoxFit.cover,
+                );
+              },
+            ): Image.asset(
+              userProfileImage,
+              width: 95,
+              height: 95,
+              fit: BoxFit.cover,
+            ),
           ),
         ],
       ),
