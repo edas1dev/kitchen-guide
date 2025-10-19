@@ -87,10 +87,10 @@ class DBHelper {
       ('Milho', 2);
     ''');
 
-    await db.execute('''
+    /*await db.execute('''
     INSERT INTO Profile (nome, email, password, urlImage) VALUES
       ('admin', 'admin@', '123', 'assets/images/default_pfp.jpg');
-    ''');
+    ''');*/
 
     await db.execute('''
     INSERT INTO recipes (title, kcal, time, image, bookmarked) VALUES

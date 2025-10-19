@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/pages/login/singUpPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../api/profile_api.dart';
 import '../../db/profile_dao.dart';
+import '../../domain/profile.dart';
 
 class LoginPage extends StatefulWidget {
   final Widget destinyPage;
@@ -32,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 40),
             TextField(
               controller: userController,
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 hintText: 'Email',
                 focusedBorder: buildUserOutlineInputBorder(),
@@ -80,26 +83,57 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void onPressedLogon() async {
-    String userEmail = userController.text;
-    String password = passwordController.text;
+    String userEmail = userController.text.trim();
+    String password = passwordController.text.trim();
 
     if (userEmail.isEmpty || password.isEmpty) {
       _showSnackBar('Por favor, preencha todos os campos.', isError: true);
       return;
     }
-    ProfileDao profileDao = ProfileDao();
-    bool isValid = await profileDao.validateUser(userEmail, password);
-    if (isValid) {
-      _showSnackBar('Login realizado com sucesso!', isError: false);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('isUserLogged', true);
-      await prefs.setString('loggedUserEmail', userEmail);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => widget.destinyPage),
-      );
-    } else {
-      _showSnackBar('Usuário ou senha inválidos.', isError: true);
+
+    try {
+      final profileApi = ProfileApi();
+      final profileDao = ProfileDao();
+
+      Map<String, dynamic>? profileMap;
+      bool loginSuccess = false;
+      try {
+        profileMap = await profileApi.fetchProfileByEmail(userEmail);
+        if (profileMap['password'] == password) {
+          loginSuccess = true;
+        }
+      } catch (e) {
+        print('Usuário não encontrado na API, tentando banco local...');
+      }
+
+      if (!loginSuccess) {
+        bool isValidLocal = await profileDao.validateUser(userEmail, password);
+        if (isValidLocal) {
+          loginSuccess = true;
+          Profile? localProfile = await profileDao.getProfileByEmail(userEmail);
+          if (localProfile != null) {
+            profileMap = localProfile.toJson();
+          } else {
+            loginSuccess = false;
+          }
+        }
+      }
+
+      if (loginSuccess && profileMap != null) {
+        _showSnackBar('Login realizado com sucesso!', isError: false);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isUserLogged', true);
+        await prefs.setString('loggedUserEmail', userEmail);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => widget.destinyPage),
+        );
+      } else {
+        _showSnackBar('Usuário ou senha inválidos.', isError: true);
+      }
+    } catch (e) {
+      print('Erro no login: $e');
+      _showSnackBar('Erro ao realizar login. Tente novamente.', isError: true);
     }
   }
 
