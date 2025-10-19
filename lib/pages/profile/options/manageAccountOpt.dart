@@ -3,6 +3,7 @@ import 'package:kitchen_guide/pages/display_page.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renameEmail.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renamePassword.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renameUser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../db/profile_dao.dart';
 import '../../login/loginPage.dart';
 
@@ -71,6 +72,12 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
             ),
             const SizedBox(height: 15),
             buildContainer(
+              Icons.logout, 'Sair da Conta', 'Saia da sua conta atual.', () {
+                logOut();
+              },
+            ),
+            const SizedBox(height: 15),
+            buildContainer(
               Icons.delete_forever_outlined, 'Excluir Conta',
               'Esta ação é permanente.', () {
                 showDeleteConfirmationDialog(widget.userEmail);
@@ -81,6 +88,40 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
       ),
     );
   }
+  void logOut() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Sair da Conta'),
+          content: Text('Tem certeza que deseja sair da sua conta?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Confirmar', style: TextStyle(color: Colors.red)),
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.setBool('isUserLogged', false);
+                await prefs.remove('loggedUserEmail');
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginPage(destinyPage: DisplayPage()),
+                  ), (Route<dynamic> route) => false
+                );
+              },
+            ),
+          ],
+        );
+      }
+    );
+  }
+
   void showDeleteConfirmationDialog(String userEmail) {
     showDialog(
       context: context,
