@@ -1,5 +1,6 @@
 import 'package:kitchen_guide/db/db_helper.dart';
 import 'package:kitchen_guide/domain/recipe.dart';
+import 'package:kitchen_guide/pages/homepage/recipe_carousell.dart';
 import 'package:sqflite/sqflite.dart';
 
 class RecipeDao {
@@ -31,6 +32,20 @@ class RecipeDao {
     }
 
     return recipeList;
+  }
+
+  Future<List<RecipeCarousell>> getRecipeCarousells() async {
+    List<Recipe> recipeList = await getAllRecipes();
+    return [
+      RecipeCarousell(
+          title: 'Popular hoje!',
+          recipes: recipeList.isEmpty ? recipeList : recipeList.sublist(0, 3)
+      ),
+      RecipeCarousell(
+          title: 'Top fitness',
+          recipes: recipeList.isEmpty ? recipeList : recipeList.sublist(3, 5)
+      ),
+    ];
   }
 
   Future<void> setRecipeBookmarkedState(int recipe_id, bool is_bookmarked) async {
