@@ -4,9 +4,8 @@ import 'package:kitchen_guide/pages/homepage/recipe_card.dart';
 
 class RecipeCarousell extends StatefulWidget {
   final String title;
-  final String subtitle;
   final List<Recipe> recipes;
-  const RecipeCarousell({super.key, required this.title, required this.subtitle, required this.recipes});
+  const RecipeCarousell({super.key, required this.title, required this.recipes});
 
   @override
   State<RecipeCarousell> createState() => _RecipeCarousellState();
@@ -25,7 +24,7 @@ class _RecipeCarousellState extends State<RecipeCarousell> {
               TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
               ),
               Spacer(),
-              Text(widget.subtitle, style:
+              Text('Ver mais', style:
               TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Color(0xFFEF233C)),
               ),
             ],
