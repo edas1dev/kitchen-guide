@@ -25,6 +25,8 @@ class _HomePageState extends State<HomePage> {
   
   @override
   Widget build(BuildContext context) {
+    final String userName = userProfile?.nome ?? '...';
+    final String userProfileImage = userProfile?.urlImage ?? 'https://raw.githubusercontent.com/gleycebarb/fake-api/refs/heads/main/default_pfp.jpg';
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
@@ -150,7 +152,7 @@ class _HomePageState extends State<HomePage> {
           Spacer(),
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
-            child: Image.asset(
+            child: Image.network(
               profile?.urlImage ?? 'assets/images/recipes/default_pfp.jpeg',
               height: 60,
               width: 60,

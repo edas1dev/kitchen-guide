@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/api/profile_api.dart';
 import 'package:kitchen_guide/db/profile_dao.dart';
 import 'package:kitchen_guide/domain/profile.dart';
 import 'package:kitchen_guide/pages/login/loginPage.dart';
@@ -111,7 +112,8 @@ class _SingUpPageState extends State<SingUpPage> {
       return;
     }
 
-    Profile profile = Profile(nome: userName, email: emailUser, password: password, urlImage: 'assets/images/profile_person.jpg');
+    ProfileApi profileApi = ProfileApi();
+    Profile profile = Profile(nome: userName, email: emailUser, password: password, urlImage: profileApi.getAvatarUrlWithRandomSize());
     await ProfileDao().insertProfile(profile);
     _showSnackBar('Usuário cadastrado com sucesso!', isError: false);
 
