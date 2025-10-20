@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 import 'db_helper.dart';
 
 class CategoriesDao {
-  Future<List<Category>> listarPropriedades() async {
+  Future<List<Category>> listarCategorias() async {
     List<Category> listaCategorias = [];
     Database db = await DBHelper.initDB();
 

@@ -1,25 +1,21 @@
+
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/db/categories_dao.dart';
-import '../../domain/category.dart';
+import 'package:kitchen_guide/domain/category.dart';
+
+import '../../db/categories_dao.dart';
 
 class Categories extends StatefulWidget {
-  const Categories({super.key});
-
   @override
-  State<Categories> createState() => _CategoriesState();
+  _CategoriesState createState() => _CategoriesState();
 }
 
+
 class _CategoriesState extends State<Categories> {
-  List<Category> listaCategorias = [];
+  late Future<List<Category>> listaCategorias;
   @override
   void initState() {
     super.initState();
-    loadData();
-  }
-
-  loadData() async {
-    listaCategorias = await CategoriesDao().listarPropriedades();
-    setState(() {});
+    listaCategorias = CategoriesDao().listarCategorias();
   }
 
   @override
@@ -33,21 +29,36 @@ class _CategoriesState extends State<Categories> {
     );
   }
 
+
   buildBody() {
     return Padding(
-      padding: const EdgeInsets.all(16),
-      child: ListView.builder(
-        itemCount: listaCategorias.length,
-        itemBuilder: (context, i) {
-          return buildCard(
-            listaCategorias[i].titulo,
-            listaCategorias[i].subtitulo,
-            listaCategorias[i].url
-          );
-        }
-      )
+        padding: const EdgeInsets.all(16),
+        child: FutureBuilder(
+          future: listaCategorias,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Category> listaCategorias = snapshot.requireData;
+              return ListView.builder(
+                  itemCount: listaCategorias.length,
+                  itemBuilder: (context, i) {
+                    return buildCard(
+                        listaCategorias[i].titulo,
+                        listaCategorias[i].subtitulo,
+                        listaCategorias[i].url
+                    );
+                  });
+            }
+
+
+            return Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xFFE41D56),
+                ));
+          },
+        )
     );
   }
+
 
   buildCard(String titulo, String descricao, String imagem) {
     return Card(
@@ -71,6 +82,7 @@ class _CategoriesState extends State<Categories> {
                   style: TextStyle(color: Colors.grey[700]),
                 ),
 
+
               ],
             ),
           ),
@@ -88,6 +100,7 @@ class _CategoriesState extends State<Categories> {
     );
   }
 
+
   buildAppBar() {
     return AppBar(
       centerTitle: false,
@@ -104,3 +117,4 @@ class _CategoriesState extends State<Categories> {
     );
   }
 }
+
