@@ -4,7 +4,7 @@ import 'package:kitchen_guide/domain/profile.dart';
 class ContainerUserInfo extends StatelessWidget {
   final Profile? userProfile;
   const ContainerUserInfo({super.key, this.userProfile});
-  static const String defaultUrl = 'assets/images/default_pfp.jpg';
+  static const String defaultUrl = 'https://raw.githubusercontent.com/gleycebarb/fake-api/refs/heads/main/default_pfp.jpg';
 
   @override
   Widget build(BuildContext context) {

@@ -41,7 +41,6 @@ class _ProfilePageState extends State<ProfilePage> {
           userProfile = Profile.fromJson(profileMap);
         });
       } catch (e) {
-        print('Erro ao carregar da API, tentando DB local...');
         final localProfile = await profileDao.getLoggedUser();
         if (localProfile != null) {
           setState(() {

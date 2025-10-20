@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/db/recipe_dao.dart';
 import 'package:kitchen_guide/domain/profile.dart';
-import 'package:kitchen_guide/pages/homepage/recipe_card.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_carousell.dart';
 
 import '../../db/profile_dao.dart';
@@ -33,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final String userName = userProfile?.nome ?? '...';
-    final String userProfileImage = userProfile?.urlImage ?? 'assets/images/default_pfp.jpg';
+    final String userProfileImage = userProfile?.urlImage ?? 'https://raw.githubusercontent.com/gleycebarb/fake-api/refs/heads/main/default_pfp.jpg';
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -57,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                 Spacer(),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image.asset(
+                  child: Image.network(
                     userProfileImage,
                     height: 60,
                     width: 60,
