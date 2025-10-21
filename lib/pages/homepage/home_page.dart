@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kitchen_guide/db/recipe_dao.dart';
 import 'package:kitchen_guide/domain/profile.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_carousell.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../db/profile_dao.dart';
 
@@ -15,34 +16,40 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late Future<List<RecipeCarousell>> carousselList;
   late Future<Profile?> userProfile;
+  late Future<SharedPreferences> prefs;
 
   @override
   void initState() {
     carousselList = RecipeDao().getRecipeCarousells();
     userProfile = ProfileDao().getLoggedUser();
+    prefs = SharedPreferences.getInstance();
+
     super.initState();
   }
   
   @override
   Widget build(BuildContext context) {
-    final String userName = userProfile?.nome ?? '...';
-    final String userProfileImage = userProfile?.urlImage ?? 'https://raw.githubusercontent.com/gleycebarb/fake-api/refs/heads/main/default_pfp.jpg';
     return Scaffold(
       backgroundColor: Colors.white,
       body: ListView(
         children: [
           FutureBuilder(
             future: userProfile,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                Profile? profile = snapshot.requireData;
-                return buildWelcomeBar(profile!);
+            builder: (context, snapshot)  {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Color(0xFFE41D56),
+                  ),
+                );
               }
 
-              return Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xFFE41D56),
-                ));
+              if (!snapshot.hasData) {
+
+
+              }
+              Profile? profile = snapshot.hasData ? snapshot.requireData : null;
+              return buildWelcomeBar(profile);
             },
           ),
           SizedBox(height: 20,),
@@ -153,7 +160,7 @@ class _HomePageState extends State<HomePage> {
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: Image.network(
-              profile?.urlImage ?? 'assets/images/recipes/default_pfp.jpeg',
+              profile?.urlImage ?? 'https://raw.githubusercontent.com/gleycebarb/fake-api/refs/heads/main/default_pfp.jpg',
               height: 60,
               width: 60,
             ),
