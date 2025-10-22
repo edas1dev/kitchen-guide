@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/pages/homepage/recipe_card.dart';
+import 'package:kitchen_guide/db/recipe_dao.dart';
+import 'package:kitchen_guide/domain/profile.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_carousell.dart';
+
+import '../../db/profile_dao.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,41 +13,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Future<List<RecipeCarousell>> carousselList;
+  late Future<Profile?> userProfile;
+
+  @override
+  void initState() {
+    carousselList = RecipeDao().getRecipeCarousells();
+    userProfile = ProfileDao().getLoggedUser();
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
+    final String userName = userProfile?.nome ?? '...';
+    final String userProfileImage = userProfile?.urlImage ?? 'https://raw.githubusercontent.com/gleycebarb/fake-api/refs/heads/main/default_pfp.jpg';
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ListView( // Coluna principal
+      body: ListView(
         children: [
-          Padding( // Barra de boas vindas
-            padding: const EdgeInsets.only(top: 25, left: 25, right: 25),
-            child: Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Olá, Fulano de Tal!",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-                    ),
-                    Text("O que você gostaria de cozinhar hoje?")
-                  ],
-                ),
-                Spacer(),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.asset(
-                    'assets/images/profile_person.jpg',
-                    height: 60,
-                    width: 60,
-                  ),
-                ),
-              ],
-            ),
+          FutureBuilder(
+            future: userProfile,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                Profile? profile = snapshot.requireData;
+                return buildWelcomeBar(profile!);
+              }
+
+              return Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xFFE41D56),
+                ));
+            },
           ),
           SizedBox(height: 20,),
-          Container( // Barra de pesqusa
+          Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -101,61 +103,61 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(height: 20,),
-          RecipeCarousell(
-            title: 'Popular hoje!',
-            subtitle: 'Ver mais',
-            recipes: [
-              RecipeCard(
-                title: 'Omelete de Legumes',
-                kcal: '180 kcal',
-                time: '10 min',
-                image: Image.asset('assets/images/recipes/omelete.jpg'),
-                bookmarked: true,
-              ),
-              RecipeCard(
-                title: 'Macarrão Alho e Óleo',
-                kcal: '320 kcal',
-                time: '15 min',
-                image: Image.asset('assets/images/recipes/macarrao.jpg'),
-                bookmarked: true,
-              ),
-              RecipeCard(
-                title: 'Bolo de Cenoura',
-                kcal: '280 kcal',
-                time: '55 min',
-                image: Image.asset('assets/images/recipes/bolo.jpg'),
-                bookmarked: false,
-              ),
-            ],
+
+          FutureBuilder(
+            future: carousselList,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<RecipeCarousell> caroussels = snapshot.requireData;
+                return ListView.builder(
+                  itemCount: caroussels.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, i) {
+                    return Column(
+                      children: [ caroussels[i], SizedBox(height: 20,)],
+                    );
+                  },
+                );
+              }
+
+              return Center(
+                  child: CircularProgressIndicator(
+                    color: Color(0xFFE41D56),
+                  ));
+            },
           ),
           SizedBox(height: 20,),
-          RecipeCarousell(
-            title: 'Top fitness',
-            subtitle: 'Ver mais',
-            recipes: [
-              RecipeCard(
-                title: 'Espaguete de Abobrinha',
-                kcal: '280 kcal',
-                time: '15 min',
-                image: Image.asset('assets/images/recipes/espaguete.jpg'),
-                bookmarked: false,
+        ],
+      ),
+    );
+  }
+
+  Widget buildWelcomeBar(Profile? profile) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 25, left: 25, right: 25),
+      child: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Olá, ${profile?.nome ?? '...'}!",
+                style:
+                TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
               ),
-              RecipeCard(
-                title: 'Salada de Frango',
-                kcal: '130 kcal',
-                time: '20 min',
-                image: Image.asset('assets/images/recipes/salada.jpg'),
-                bookmarked: false,
-              ),
-              RecipeCard(
-                title: 'Wrap de Frango',
-                kcal: '300 kcal',
-                time: '20 min',
-                image: Image.asset('assets/images/recipes/wrap.jpg'),
-                bookmarked: false,
-              ),
+              Text("O que você gostaria de cozinhar hoje?")
             ],
-          )
+          ),
+          Spacer(),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: Image.network(
+              profile?.urlImage ?? 'assets/images/recipes/default_pfp.jpeg',
+              height: 60,
+              width: 60,
+            ),
+          ),
         ],
       ),
     );

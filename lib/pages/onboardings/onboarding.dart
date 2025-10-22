@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import '../homepage/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Onboarding extends StatefulWidget {
   final Image image;
   final String title;
   final String text;
   final VoidCallback onNext;
-  const Onboarding({super.key, required this.image, required this.title, required this.text, required this.onNext});
+  final Widget jumpPage;
+  const Onboarding({super.key, required this.image, required this.title, required this.text, required this.onNext, required this.jumpPage});
 
   @override
   State<Onboarding> createState() => _OnboardingState();
@@ -50,16 +51,20 @@ class _OnboardingState extends State<Onboarding> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      ElevatedButton(onPressed: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
+                      ElevatedButton(onPressed: () async {
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('hasSeenOnboarding', true);
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.jumpPage));
                       },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Color(0xFFEF233C),
                         ),
                         child: Text('Pular', style: TextStyle(fontWeight: FontWeight.w900)),
                       ),
-                      ElevatedButton(onPressed: () {
+                      ElevatedButton(onPressed: () async {
                         widget.onNext();
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('hasSeenOnboarding', true);
                       },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFFEF233C),

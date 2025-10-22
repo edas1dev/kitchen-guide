@@ -6,7 +6,7 @@ import 'db_helper.dart';
 class CategoriesDao {
   Future<List<Category>> listarPropriedades() async {
     List<Category> listaCategorias = [];
-    Database db = await DBHelper().initDB();
+    Database db = await DBHelper.initDB();
 
     String sql = 'SELECT * FROM Categories;';
     var listResult = await db.rawQuery(sql);
