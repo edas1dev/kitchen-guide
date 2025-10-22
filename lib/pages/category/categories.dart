@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/domain/category.dart';
 
-import '../../db/categories_dao.dart';
+import '../../api/categories_api.dart';
 
 class Categories extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class _CategoriesState extends State<Categories> {
   @override
   void initState() {
     super.initState();
-    listaCategorias = CategoriesDao().listarCategorias();
+    listaCategorias = CategoriesApi().findAll();
   }
 
   @override
