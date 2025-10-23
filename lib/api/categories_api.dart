@@ -18,7 +18,6 @@ class CategoriesApi {
         listaCategorias.add(categoria);
       }
     }
-    await Future.delayed(Duration(seconds: 2));
 
     return listaCategorias;
   }

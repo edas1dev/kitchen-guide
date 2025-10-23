@@ -36,7 +36,7 @@ class _RecipeCardState extends State<RecipeCard> {
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              // spacing: 10,
+              spacing: 10,
               children: [
                 Text(widget.recipe.title, style: TextStyle(fontWeight: FontWeight.bold),),
                 Row(
@@ -44,10 +44,10 @@ class _RecipeCardState extends State<RecipeCard> {
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      // spacing: 8,
+                      spacing: 8,
                       children: [
                         Row(
-                          // spacing: 8,
+                          spacing: 8,
                           children: [
                             Icon(Icons.fastfood, color: Colors.grey[500],),
                             Text(widget.recipe.kcal, style: TextStyle(color: Colors.grey[700]),)

@@ -67,7 +67,7 @@ class _CategoriesState extends State<Categories> {
           Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
-              // spacing: 8,
+              spacing: 8,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(

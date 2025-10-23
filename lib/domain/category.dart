@@ -14,7 +14,7 @@ class Category {
   Category.fromJson(Map<String, dynamic> json) {
     titulo = json['titulo'];
     subtitulo = json['subtitulo'];
-    query = json['query'];
+    query = json['query'].cast<String>();
     url = json['url'];
   }
 
