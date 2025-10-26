@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/domain/category.dart';
+import 'package:kitchen_guide/pages/category/recipes_list.dart';
 
 import '../../api/categories_api.dart';
 
@@ -29,70 +30,84 @@ class _CategoriesState extends State<Categories> {
   }
 
   buildBody() {
-    return Padding(
-        padding: const EdgeInsets.all(16),
-        child: FutureBuilder(
-          future: listaCategorias,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<Category> listaCategorias = snapshot.requireData;
-              return ListView.builder(
-                  itemCount: listaCategorias.length,
-                  itemBuilder: (context, i) {
-                    return buildCard(
-                        listaCategorias[i].titulo,
-                        listaCategorias[i].subtitulo,
-                        listaCategorias[i].url
-                    );
-                  });
-            }
+    return FutureBuilder(
+      future: listaCategorias,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          List<Category> listaCategorias = snapshot.requireData;
+          return ListView.builder(
+            padding: EdgeInsets.only(top: 15),
+            itemCount: listaCategorias.length,
+            itemBuilder: (context, i) {
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: buildCard(listaCategorias[i])
+              );
+          });
+        }
 
-
-            return Center(
-                child: CircularProgressIndicator(
-                  color: Color(0xFFE41D56),
-                ));
-          },
-        )
+        return Center(
+            child: CircularProgressIndicator(
+              color: Color(0xFFE41D56),
+            ));
+      },
     );
   }
 
-  buildCard(String titulo, String descricao, String imagem) {
-    return Card(
-      margin: EdgeInsets.only(bottom: 16),
-      color: Colors.white,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              spacing: 8,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  titulo,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  descricao,
-                  style: TextStyle(color: Colors.grey[700]),
-                ),
-
-
-              ],
+  buildCard(Category categoria) {
+    return InkWell(
+      onTap: () async {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) => RecipeList(category: categoria)
+        ));
+      },
+      borderRadius: BorderRadius.circular(13),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(13),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Color(0xFFD9D9D9).withOpacity(0.5),
+              spreadRadius: 4,
+              blurRadius: 4,
+              offset: Offset(0, 4),
+            )
+          ]),
+        width: double.infinity,
+        margin: EdgeInsets.only(bottom: 16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                spacing: 8,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    categoria.titulo,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    categoria.subtitulo,
+                    style: TextStyle(color: Colors.grey[700]),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Spacer(),
-          ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
-            child: Image.asset(
-              imagem,
-              width: 100,
-              height: 100,
+            Spacer(),
+            ClipRRect(
+              borderRadius: BorderRadius.horizontal(right: Radius.circular(8)),
+              child: Image.asset(
+                categoria.url,
+                height: 80,
+                width: 100,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
