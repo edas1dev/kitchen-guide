@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kitchen_guide/domain/recipe.dart';
 import 'package:kitchen_guide/pages/homepage/bookmark_button.dart';
 
+import '../../api/translate_api.dart';
+
 class RecipeCard extends StatefulWidget {
   final Recipe recipe;
 
@@ -25,7 +27,7 @@ class _RecipeCardState extends State<RecipeCard> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            child: Image.asset(
+            child: Image.network(
               widget.recipe.image,
               width: 200,
               height: 150,
@@ -36,7 +38,7 @@ class _RecipeCardState extends State<RecipeCard> {
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 10,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(widget.recipe.title, style: TextStyle(fontWeight: FontWeight.bold),),
                 Row(
@@ -50,22 +52,21 @@ class _RecipeCardState extends State<RecipeCard> {
                           spacing: 8,
                           children: [
                             Icon(Icons.fastfood, color: Colors.grey[500],),
-                            Text(widget.recipe.kcal, style: TextStyle(color: Colors.grey[700]),)
+                            Text('${widget.recipe.servings.toString()} porções', style: TextStyle(color: Colors.grey[700]),)
                           ],
                         ),
                         Row(
-                          // spacing: 8,
+                          spacing: 8,
                           children: [
                             Icon(Icons.timer, color: Colors.grey[500],),
-                            Text(widget.recipe.time, style: TextStyle(color: Colors.grey[700]),)
+                            Text('${widget.recipe.readyInMinutes.toString()} minutos', style: TextStyle(color: Colors.grey[700]),)
                           ],
                         )
                       ],
                     ),
                     Spacer(),
                     BookmarkButton(
-                      recipe_id: widget.recipe.id,
-                      is_bookmarked:  widget.recipe.bookmarked
+                      recipeId: widget.recipe.id,
                     )
                   ],
                 )

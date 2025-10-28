@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/api/recipe_api.dart';
 import 'package:kitchen_guide/pages/homepage/bookmark_button.dart';
 
 import '../../../db/recipe_dao.dart';
@@ -21,7 +22,9 @@ class _SavedRecipesOPTState extends State<SavedRecipesOPT> {
   }
 
   loadData() async {
-    savedRecipes = await RecipeDao().getBookmarkedRecipes();
+    List<String> savedRecipesIds = await RecipeDao().getAllBookmarkedIds();
+    savedRecipes = await RecipeApi().getRecipes(savedRecipesIds);
+
     setState(() {});
   }
 
@@ -63,7 +66,7 @@ class _SavedRecipesOPTState extends State<SavedRecipesOPT> {
                     topLeft: Radius.circular(13),
                     bottomLeft: Radius.circular(13),
                   ),
-                  child: Image.asset(
+                  child: Image.network(
                     recipe.image,
                     height: double.infinity,
                     width: 93,
@@ -88,7 +91,7 @@ class _SavedRecipesOPTState extends State<SavedRecipesOPT> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 15),
-                  child: BookmarkButton(recipe_id: recipe.id, is_bookmarked: recipe.bookmarked)
+                  child: BookmarkButton(recipeId: recipe.id)
                 ),
               ],
             ),

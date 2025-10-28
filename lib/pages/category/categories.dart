@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/domain/category.dart';
-import 'package:kitchen_guide/pages/category/recipes_list.dart';
+import 'package:kitchen_guide/pages/category/show_recipes.dart';
 
 import '../../api/categories_api.dart';
 
@@ -58,7 +58,7 @@ class _CategoriesState extends State<Categories> {
     return InkWell(
       onTap: () async {
         Navigator.push(context, MaterialPageRoute(
-          builder: (context) => RecipeList(category: categoria)
+          builder: (context) => ShowRecipes(category: categoria)
         ));
       },
       borderRadius: BorderRadius.circular(13),

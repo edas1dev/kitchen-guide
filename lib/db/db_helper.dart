@@ -49,13 +49,10 @@ class DBHelper {
     ''');
 
     await db.execute('''
-    CREATE TABLE Recipes (
+    CREATE TABLE BookmarkedRecipes (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      kcal TEXT NOT NULL,
-      time TEXT NOT NULL,
-      image TEXT NOT NULL,
-      bookmarked INTEGER NOT NULL DEFAULT 0
+      apiId TEXT NOT NULL,
+      userEmail TEXT NOT NULL
     );
     ''');
 
@@ -91,15 +88,5 @@ class DBHelper {
     INSERT INTO Profile (nome, email, password, urlImage) VALUES
       ('admin', 'admin@', '123', 'assets/images/default_pfp.jpg');
     ''');*/
-
-    await db.execute('''
-    INSERT INTO recipes (title, kcal, time, image, bookmarked) VALUES
-      ('Omelete de Legumes', '180 kcal', '10 min', 'assets/images/recipes/omelete.jpg', 1),
-      ('Macarrão Alho e Óleo', '320 kcal', '15 min', 'assets/images/recipes/macarrao.jpg', 1),
-      ('Bolo de Cenoura', '280 kcal', '55 min', 'assets/images/recipes/bolo.jpg', 0),
-      ('Espaguete de Abobrinha', '280 kcal', '15 min', 'assets/images/recipes/espaguete.jpg', 0),
-      ('Salada de Frango', '130 kcal', '20 min', 'assets/images/recipes/salada.jpg', 0),
-      ('Wrap de Frango', '300 kcal', '20 min', 'assets/images/recipes/wrap.jpg', 0);
-    ''');
   }
 }

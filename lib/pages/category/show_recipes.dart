@@ -6,15 +6,15 @@ import 'package:kitchen_guide/domain/simple_recipe.dart';
 import '../../api/categories_api.dart';
 import '../../api/translate_api.dart';
 
-class RecipeList extends StatefulWidget {
+class ShowRecipes extends StatefulWidget {
   final Category category;
-  const RecipeList({super.key, required this.category});
+  const ShowRecipes({super.key, required this.category});
 
   @override
-  _RecipeListState createState() => _RecipeListState();
+  _ShowRecipesState createState() => _ShowRecipesState();
 }
 
-class _RecipeListState extends State<RecipeList> {
+class _ShowRecipesState extends State<ShowRecipes> {
   late Future<List<SimpleRecipe>> simpleRecipesList;
   @override
   void initState() {

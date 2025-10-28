@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/db/recipe_dao.dart';
+import 'package:kitchen_guide/api/recipe_api.dart';
 import 'package:kitchen_guide/domain/profile.dart';
+import 'package:kitchen_guide/domain/recipe_list.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_carousell.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,13 +15,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<List<RecipeCarousell>> carousselList;
+  late Future<List<RecipeList>> carouselDataList;
   late Future<Profile?> userProfile;
   late Future<SharedPreferences> prefs;
 
   @override
   void initState() {
-    carousselList = RecipeDao().getRecipeCarousells();
+    carouselDataList = RecipeApi().fetchRecipesLists();
     userProfile = ProfileDao().getLoggedUser();
     prefs = SharedPreferences.getInstance();
 
@@ -36,20 +37,15 @@ class _HomePageState extends State<HomePage> {
           FutureBuilder(
             future: userProfile,
             builder: (context, snapshot)  {
-              if (snapshot.connectionState == ConnectionState.waiting) {
+              if (!snapshot.hasData) {
                 return Center(
                   child: CircularProgressIndicator(
                     color: Color(0xFFE41D56),
                   ),
                 );
-              }
-
-              if (!snapshot.hasData) {
-
 
               }
-              Profile? profile = snapshot.hasData ? snapshot.requireData : null;
-              return buildWelcomeBar(profile);
+              return buildWelcomeBar(snapshot.requireData!);
             },
           ),
           SizedBox(height: 20,),
@@ -112,17 +108,17 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 20,),
 
           FutureBuilder(
-            future: carousselList,
+            future: carouselDataList,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                List<RecipeCarousell> caroussels = snapshot.requireData;
+                List<RecipeList> carouselsData = snapshot.requireData;
                 return ListView.builder(
-                  itemCount: caroussels.length,
+                  itemCount: carouselsData.length,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, i) {
                     return Column(
-                      children: [ caroussels[i], SizedBox(height: 20,)],
+                      children: [ RecipeCarousell(recipeList: carouselsData[i]), SizedBox(height: 20,)],
                     );
                   },
                 );
@@ -140,7 +136,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildWelcomeBar(Profile? profile) {
+  Widget buildWelcomeBar(Profile profile) {
+    String defaultImage = 'https://raw.githubusercontent.com/gleycebarb/fake-api/refs/heads/main/default_pfp.jpg';
     return Padding(
       padding: const EdgeInsets.only(top: 25, left: 25, right: 25),
       child: Row(
@@ -149,7 +146,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Olá, ${profile?.nome ?? '...'}!",
+                "Olá, ${profile.nome}!",
                 style:
                 TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
               ),
@@ -160,7 +157,7 @@ class _HomePageState extends State<HomePage> {
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: Image.network(
-              profile?.urlImage ?? 'https://raw.githubusercontent.com/gleycebarb/fake-api/refs/heads/main/default_pfp.jpg',
+              profile.urlImage == "" ? defaultImage : profile.urlImage,
               height: 60,
               width: 60,
             ),
