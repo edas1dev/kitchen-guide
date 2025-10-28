@@ -36,41 +36,44 @@ class _RecipeCardState extends State<RecipeCard> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(widget.recipe.title, style: TextStyle(fontWeight: FontWeight.bold),),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 8,
-                      children: [
-                        Row(
-                          spacing: 8,
-                          children: [
-                            Icon(Icons.fastfood, color: Colors.grey[500],),
-                            Text('${widget.recipe.servings.toString()} porções', style: TextStyle(color: Colors.grey[700]),)
-                          ],
-                        ),
-                        Row(
-                          spacing: 8,
-                          children: [
-                            Icon(Icons.timer, color: Colors.grey[500],),
-                            Text('${widget.recipe.readyInMinutes.toString()} minutos', style: TextStyle(color: Colors.grey[700]),)
-                          ],
-                        )
-                      ],
-                    ),
-                    Spacer(),
-                    BookmarkButton(
-                      recipeId: widget.recipe.id,
-                    )
-                  ],
-                )
-              ],
+            child: SizedBox(
+              height: 110,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(widget.recipe.title, style: TextStyle(fontWeight: FontWeight.bold),),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 8,
+                        children: [
+                          Row(
+                            spacing: 8,
+                            children: [
+                              Icon(Icons.fastfood, color: Colors.grey[500],),
+                              Text('${widget.recipe.servings.toString()} porções', style: TextStyle(color: Colors.grey[700]),)
+                            ],
+                          ),
+                          Row(
+                            spacing: 8,
+                            children: [
+                              Icon(Icons.timer, color: Colors.grey[500],),
+                              Text('${widget.recipe.readyInMinutes.toString()} minutos', style: TextStyle(color: Colors.grey[700]),)
+                            ],
+                          )
+                        ],
+                      ),
+                      Spacer(),
+                      BookmarkButton(
+                        recipeId: widget.recipe.id,
+                      )
+                    ],
+                  )
+                ],
+              ),
             )
           ),
         ],
