@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kitchen_guide/domain/recipe.dart';
 import 'package:kitchen_guide/pages/homepage/bookmark_button.dart';
 
-import '../../api/translate_api.dart';
-
 class RecipeCard extends StatefulWidget {
   final Recipe recipe;
 

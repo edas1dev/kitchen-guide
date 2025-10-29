@@ -10,9 +10,7 @@ class ContainerUserInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final String userName = userProfile?.nome ?? '...';
     final String userEmail = userProfile?.email ?? '...';
-    final String userProfileImage = userProfile?.urlImage ?? defaultUrl;
-    final String finalImage = (userProfileImage.isEmpty || userProfileImage == defaultUrl) ? defaultUrl : userProfileImage;
-    final bool isNetworkImage = finalImage.startsWith('http') || finalImage.startsWith('https');
+    final String userProfileImage = userProfile?.urlImage ?? '';
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -57,12 +55,9 @@ class ContainerUserInfo extends StatelessWidget {
           const SizedBox(width: 8),
           ClipRRect(
             borderRadius: BorderRadius.circular(60),
-            child: isNetworkImage ? Image.network(
-              finalImage, width: 95, height: 95, fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Image.asset(defaultUrl, width: 95, height: 95, fit: BoxFit.cover);
-              },
-            ) : Image.asset(finalImage, width: 95, height: 95, fit: BoxFit.cover),
+              child: userProfileImage == ""
+                  ? Image.asset('assets/images/default_pfp.jpg', height: 95, width: 95, fit: BoxFit.cover,)
+                  : Image.network(userProfileImage, height: 95, width: 95, fit: BoxFit.cover),
           ),
         ],
       ),

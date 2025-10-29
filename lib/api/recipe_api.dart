@@ -18,11 +18,6 @@ class RecipeApi {
       .map((json) => RecipeList.fromJson(json))
       .toList();
 
-    // Testes
-    // RecipeCache.addRecipes([
-    //   Recipe(id: 666, title: "Things in english", image: "https://img.spoonacular.com/recipes/715553-556x370.jpg", readyInMinutes: 5, servings: 5)
-    // ]);
-    // return [ RecipeList(title: "Teste", list: ["1010"]) ];
     return recipeLists;
   }
 

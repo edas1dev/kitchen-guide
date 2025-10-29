@@ -137,7 +137,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildWelcomeBar(Profile profile) {
-    String defaultImage = 'https://raw.githubusercontent.com/gleycebarb/fake-api/refs/heads/main/default_pfp.jpg';
     return Padding(
       padding: const EdgeInsets.only(top: 25, left: 25, right: 25),
       child: Row(
@@ -156,11 +155,9 @@ class _HomePageState extends State<HomePage> {
           Spacer(),
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
-            child: Image.network(
-              profile.urlImage == "" ? defaultImage : profile.urlImage,
-              height: 60,
-              width: 60,
-            ),
+            child: profile.urlImage == ""
+                ? Image.asset('assets/images/default_pfp.jpg', height: 60, width: 60,)
+                : Image.network(profile.urlImage, height: 60, width: 60),
           ),
         ],
       ),
