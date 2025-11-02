@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'dart:math';
 
+import 'package:kitchen_guide/domain/profile.dart';
+
 class ProfileApi {
   final dio = Dio();
   final String fakeApiBaseUrl = 'https://my-json-server.typicode.com/gleycebarb/fake-api';
@@ -12,7 +14,7 @@ class ProfileApi {
     return '$avatarGeneratorBaseUrl/$randomSize';
   }
 
-  Future<Map<String, dynamic>> fetchProfileByEmail(String email) async {
+  Future<Profile> fetchProfileByEmail(String email) async {
     try {
       final response = await dio.get('$fakeApiBaseUrl/Profile');
 
@@ -20,7 +22,7 @@ class ProfileApi {
         final List profiles = response.data;
         final profileData = profiles.firstWhere((p) => p['email'] == email, orElse: () => null);
         if (profileData != null) {
-          return profileData;
+          return Profile.fromJson(profileData);
         } else {
           throw Exception('Perfil não encontrado para o email informado.');
         }

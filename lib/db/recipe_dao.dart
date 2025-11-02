@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class RecipeDao {
   Future<List<String>> getAllBookmarkedIds() async {
     Database db = await DBHelper.initDB();
-    String userEmail = await ProfileDao().getUserEmail();
+    String userEmail = await ProfileDao().getUserEmail() ?? '';
 
     var result = await db.query(
       'BookmarkedRecipes',
@@ -21,7 +21,7 @@ class RecipeDao {
 
   Future<bool> toggleBookmark(int recipeApiId) async {
     Database db = await DBHelper.initDB();
-    String userEmail = await ProfileDao().getUserEmail();
+    String userEmail = await ProfileDao().getUserEmail() ?? '';
 
     final int deletedCount = await db.delete(
       'BookmarkedRecipes',
@@ -46,7 +46,7 @@ class RecipeDao {
 
   Future<bool> isBookmarked(int recipeApiId) async {
     Database db = await DBHelper.initDB();
-    String userEmail = await ProfileDao().getUserEmail();
+    String userEmail = await ProfileDao().getUserEmail() ?? '';
     try {
       final List<Map<String, dynamic>> result = await db.query(
         'BookmarkedRecipes',

@@ -32,51 +32,54 @@ class _RecipeCardState extends State<RecipeCard> {
               fit: BoxFit.cover,
             )
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            child: SizedBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    widget.recipe.title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 8,
-                        children: [
-                          Row(
-                            spacing: 8,
-                            children: [
-                              Icon(Icons.fastfood, color: Colors.grey[500],),
-                              Text('${widget.recipe.servings.toString()} porções', style: TextStyle(color: Colors.grey[700]),)
-                            ],
-                          ),
-                          Row(
-                            spacing: 8,
-                            children: [
-                              Icon(Icons.timer, color: Colors.grey[500],),
-                              Text('${widget.recipe.readyInMinutes.toString()} minutos', style: TextStyle(color: Colors.grey[700]),)
-                            ],
-                          )
-                        ],
-                      ),
-                      Spacer(),
-                      BookmarkButton(
-                        recipeId: widget.recipe.id,
-                      )
-                    ],
-                  )
-                ],
-              ),
-            )
+          SizedBox(
+            height: 124,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              child: SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      widget.recipe.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 8,
+                          children: [
+                            Row(
+                              spacing: 8,
+                              children: [
+                                Icon(Icons.fastfood, color: Colors.grey[500],),
+                                Text('${widget.recipe.servings.toString()} porções', style: TextStyle(color: Colors.grey[700]),)
+                              ],
+                            ),
+                            Row(
+                              spacing: 8,
+                              children: [
+                                Icon(Icons.timer, color: Colors.grey[500],),
+                                Text('${widget.recipe.readyInMinutes.toString()} minutos', style: TextStyle(color: Colors.grey[700]),)
+                              ],
+                            )
+                          ],
+                        ),
+                        Spacer(),
+                        BookmarkButton(
+                          recipeId: widget.recipe.id,
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ),
           ),
         ],
       ),

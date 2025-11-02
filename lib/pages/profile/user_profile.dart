@@ -38,7 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
       try {
         final externalProfile = await profileApi.fetchProfileByEmail(userEmail);
         setState(() {
-          userProfile = Profile.fromJson(externalProfile);
+          userProfile = externalProfile;
         });
       } catch (e) {
         final localProfile = await profileDao.getLoggedUser();

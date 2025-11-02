@@ -27,9 +27,9 @@ class ProfileDao {
     return Profile.fromJson(user.first);
   }
 
-  Future<String> getUserEmail() async {
+  Future<String?> getUserEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('loggedUserEmail')!;
+    return prefs.getString('loggedUserEmail');
   }
 
   Future<Profile?> getLoggedUser() async {

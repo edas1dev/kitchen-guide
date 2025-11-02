@@ -35,6 +35,7 @@ class RecipeApi {
         'ids': willBeRequestedIds.join(',')
       };
 
+      // String cachedEndpoint = 'http://192.168.1.202:8080/fetch?url=';
       Response response = await dio.get(
         '$recipeApiUrl/informationBulk',
         queryParameters: queryParams,

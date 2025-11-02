@@ -44,7 +44,7 @@ class _RecipeCarousellState extends State<RecipeCarousell> {
             future: recipesData,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator(),);
+                return Container();
               }
               List<Recipe> recipes = snapshot.requireData;
               return ListView.builder(

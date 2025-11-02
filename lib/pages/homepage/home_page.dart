@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/api/profile_api.dart';
 import 'package:kitchen_guide/api/recipe_api.dart';
 import 'package:kitchen_guide/domain/profile.dart';
 import 'package:kitchen_guide/domain/recipe_list.dart';
+import 'package:kitchen_guide/pages/homepage/carousel_placeholder.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_carousell.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../db/profile_dao.dart';
+import 'package:kitchen_guide/db/profile_dao.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,15 +17,39 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late Future<List<RecipeList>> carouselDataList;
   late Future<Profile?> userProfile;
-  late Future<SharedPreferences> prefs;
 
   @override
   void initState() {
     carouselDataList = RecipeApi().fetchRecipesLists();
-    userProfile = ProfileDao().getLoggedUser();
-    prefs = SharedPreferences.getInstance();
+    userProfile = _loadProfile();
 
     super.initState();
+  }
+
+  Future<Profile?> _loadProfile() async {
+    ProfileDao profileDao = ProfileDao();
+    String? userEmail = await profileDao.getUserEmail();
+
+    if (userEmail == null) {
+      return null;
+    }
+
+    Profile? profile = await profileDao.getLoggedUser();
+    if (profile != null) {
+      return profile;
+    }
+
+    try {
+      profile = await ProfileApi().fetchProfileByEmail(userEmail);
+    } catch(_) {
+      profile = null;
+    }
+
+    if (profile != null) {
+      return profile;
+    }
+
+    return null;
   }
   
   @override
@@ -38,10 +62,13 @@ class _HomePageState extends State<HomePage> {
             future: userProfile,
             builder: (context, snapshot)  {
               if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: Color(0xFFE41D56),
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[50],
+                    borderRadius: BorderRadius.circular(16)
                   ),
+                  margin: const EdgeInsets.only(top: 25, left: 25, right: 25),
+                  height: 60,
                 );
 
               }
@@ -110,24 +137,30 @@ class _HomePageState extends State<HomePage> {
           FutureBuilder(
             future: carouselDataList,
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                List<RecipeList> carouselsData = snapshot.requireData;
+              if (!snapshot.hasData) {
                 return ListView.builder(
-                  itemCount: carouselsData.length,
+                  itemCount: 3,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, i) {
                     return Column(
-                      children: [ RecipeCarousell(recipeList: carouselsData[i]), SizedBox(height: 20,)],
+                      children: [ CarouselPlaceholder(), SizedBox(height: 20,)],
                     );
                   },
                 );
               }
 
-              return Center(
-                  child: CircularProgressIndicator(
-                    color: Color(0xFFE41D56),
-                  ));
+              List<RecipeList> carouselsData = snapshot.requireData;
+              return ListView.builder(
+                itemCount: carouselsData.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, i) {
+                  return Column(
+                    children: [ RecipeCarousell(recipeList: carouselsData[i]), SizedBox(height: 20,)],
+                  );
+                },
+              );
             },
           ),
           SizedBox(height: 20,),
@@ -141,18 +174,22 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.only(top: 25, left: 25, right: 25),
       child: Row(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Olá, ${profile.nome}!",
-                style:
-                TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-              ),
-              Text("O que você gostaria de cozinhar hoje?")
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Olá, ${profile.nome}!",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style:
+                  TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                ),
+                Text("O que você gostaria de cozinhar hoje?")
+              ],
+            ),
           ),
-          Spacer(),
+          SizedBox(width: 25,),
           ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: profile.urlImage == ""

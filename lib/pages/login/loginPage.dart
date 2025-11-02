@@ -130,11 +130,11 @@ class _LoginPageState extends State<LoginPage> {
       final profileApi = ProfileApi();
       final profileDao = ProfileDao();
 
-      Map<String, dynamic>? profileMap;
+      Profile? profileMap;
       bool loginSuccess = false;
       try {
         profileMap = await profileApi.fetchProfileByEmail(userEmail);
-        if (profileMap['password'] == password) {
+        if (profileMap.password == password) {
           loginSuccess = true;
         }
       } catch (e) {
@@ -147,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
           loginSuccess = true;
           Profile? localProfile = await profileDao.getProfileByEmail(userEmail);
           if (localProfile != null) {
-            profileMap = localProfile.toJson();
+            profileMap = localProfile;
           } else {
             loginSuccess = false;
           }
