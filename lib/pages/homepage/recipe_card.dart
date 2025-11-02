@@ -35,12 +35,16 @@ class _RecipeCardState extends State<RecipeCard> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             child: SizedBox(
-              height: 110,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(widget.recipe.title, style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text(
+                    widget.recipe.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
