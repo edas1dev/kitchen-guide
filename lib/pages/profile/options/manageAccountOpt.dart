@@ -94,7 +94,7 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Sair da Conta'),
-          content: Text('Tem certeza que deseja sair da sua conta?'),
+          content: Text('Tem certeza que deseja sair da sua conta? Você será redirecionado para a tela de login.'),
           actions: <Widget>[
             TextButton(
               child: Text('Cancelar'),

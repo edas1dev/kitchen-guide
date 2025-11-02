@@ -1,4 +1,3 @@
-import 'package:kitchen_guide/api/profile_api.dart';
 import 'package:kitchen_guide/domain/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
@@ -51,15 +50,7 @@ class ProfileDao {
       Profile user = Profile.fromJson(res.first);
       return user;
     }
-
-    try {
-      final profileData = await ProfileApi().fetchProfileByEmail(currentUserEmail);
-      Profile user = Profile.fromJson(profileData);
-
-      return user;
-    } catch (e) {
-      return null;
-    }
+    return null;
   }
 
   Future<int> updateUserName(String oldEmail, String newName) async {

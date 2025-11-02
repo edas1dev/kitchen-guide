@@ -6,7 +6,7 @@ class ProfileApi {
   final String fakeApiBaseUrl = 'https://my-json-server.typicode.com/gleycebarb/fake-api';
   final String avatarGeneratorBaseUrl = 'https://testingbot.com/free-online-tools/random-avatar';
 
-  String getAvatarUrlWithRandomSize() {
+  String getRandomAvatar() {
     final random = Random();
     final randomSize = random.nextInt(1000) + 1;
     return '$avatarGeneratorBaseUrl/$randomSize';

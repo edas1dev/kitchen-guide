@@ -112,15 +112,19 @@ class _SingUpPageState extends State<SingUpPage> {
       return;
     }
 
-    ProfileApi profileApi = ProfileApi();
-    Profile profile = Profile(nome: userName, email: emailUser, password: password, urlImage: profileApi.getAvatarUrlWithRandomSize());
+    final ProfileApi profileApi = ProfileApi();
+    final Profile profile = Profile(
+        nome: userName,
+        email: emailUser,
+        password: password,
+        urlImage: profileApi.getRandomAvatar()
+    );
     await ProfileDao().insertProfile(profile);
     _showSnackBar('Usuário cadastrado com sucesso!', isError: false);
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isUserLogged', true);
     await prefs.setString('loggedUserEmail', emailUser);
-
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.destinyPage));
   }
 

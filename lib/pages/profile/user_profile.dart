@@ -36,9 +36,9 @@ class _ProfilePageState extends State<ProfilePage> {
       final profileApi = ProfileApi();
       final profileDao = ProfileDao();
       try {
-        final profileMap = await profileApi.fetchProfileByEmail(userEmail);
+        final externalProfile = await profileApi.fetchProfileByEmail(userEmail);
         setState(() {
-          userProfile = Profile.fromJson(profileMap);
+          userProfile = Profile.fromJson(externalProfile);
         });
       } catch (e) {
         final localProfile = await profileDao.getLoggedUser();
@@ -47,14 +47,13 @@ class _ProfilePageState extends State<ProfilePage> {
             userProfile = localProfile;
           });
         } else {
-          print('Nenhum perfil encontrado no banco local.');
+          throw Exception('Erro ao carregar perfil localmente: $e');
         }
       }
     } catch (e) {
-      print('Erro geral ao carregar perfil: $e');
+      throw Exception ('Erro ao carregar perfil do usuário: $e');
     }
   }
-
 
   void _navigateToManageAccount() async {
     if (userProfile != null) {

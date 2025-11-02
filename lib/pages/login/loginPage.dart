@@ -124,10 +124,8 @@ class _LoginPageState extends State<LoginPage> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isUserLogged', true);
         await prefs.setString('loggedUserEmail', userEmail);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => widget.destinyPage),
-        );
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.destinyPage));
+
       } else {
         _showSnackBar('Usuário ou senha inválidos.', isError: true);
       }
