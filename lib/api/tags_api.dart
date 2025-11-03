@@ -6,7 +6,7 @@ import '../domain/tag.dart';
 
 class TagsApi {
   final dio = Dio();
-  final apiKey = 'cfa55de7fc7746c7ace37e8dc5ec6334';
+  final apiKey = 'af0ffbc10c62453d9b36406e1df1a470';
   final String fakeApiUrl = 'https://my-json-server.typicode.com/gleycebarb/fake-api';
   final String recipeApiUrl = 'https://api.spoonacular.com/recipes';
   final TranslateApi translateApi = TranslateApi();

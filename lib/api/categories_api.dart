@@ -4,7 +4,7 @@ import '../domain/category.dart';
 
 class CategoriesApi {
   final dio = Dio();
-  final apiKey = 'e7a8f460dd9443ea98f31b079d3610e1';
+  final apiKey = 'af0ffbc10c62453d9b36406e1df1a470';
   final String fakeApiUrl = 'https://my-json-server.typicode.com/gleycebarb/fake-api';
   final String recipeApiUrl = 'https://api.spoonacular.com/recipes'; // ?cuisine=italian&apiKey=e7a8f460dd9443ea98f31b079d3610e1';
 
