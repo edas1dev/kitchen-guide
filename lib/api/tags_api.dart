@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:kitchen_guide/api/recipe_api.dart';
 import 'package:kitchen_guide/api/translate_api.dart';
-import 'package:kitchen_guide/domain/full_recipe.dart';
 import '../domain/tag.dart';
 
 class TagsApi {
