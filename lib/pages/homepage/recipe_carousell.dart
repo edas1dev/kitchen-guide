@@ -3,6 +3,7 @@ import 'package:kitchen_guide/api/recipe_api.dart';
 import 'package:kitchen_guide/domain/recipe.dart';
 import 'package:kitchen_guide/domain/recipe_list.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_card.dart';
+import 'package:kitchen_guide/pages/homepage/recipe_page.dart';
 
 class RecipeCarousell extends StatefulWidget {
   final RecipeList recipeList;
@@ -13,12 +14,15 @@ class RecipeCarousell extends StatefulWidget {
 }
 
 class _RecipeCarousellState extends State<RecipeCarousell> {
+  final RecipeApi recipeApi = RecipeApi();
   late Future<List<Recipe>> recipesData;
+
   @override
   void initState() {
-    recipesData = RecipeApi().getRecipes(widget.recipeList.list);
+    recipesData = recipeApi.getRecipes(widget.recipeList.list);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,12 +55,21 @@ class _RecipeCarousellState extends State<RecipeCarousell> {
                 padding: EdgeInsets.only(left: 25),
                 scrollDirection: Axis.horizontal,
                 itemCount: recipes.length,
-                itemBuilder: (context, i) => RecipeCard(recipe: recipes[i]),
+                itemBuilder: (context, i) => _buildTouchableCard(recipes[i])
               );
             },
           )
         )
       ],
+    );
+  }
+
+  Widget _buildTouchableCard(Recipe recipe) {
+    return GestureDetector(
+      child: RecipeCard(recipe: recipe),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RecipePage(recipeId: recipe.id,)));
+      },
     );
   }
 }

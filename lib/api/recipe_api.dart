@@ -1,14 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:kitchen_guide/api/recipe_cache.dart';
 import 'package:kitchen_guide/api/translate_api.dart';
+import 'package:kitchen_guide/domain/full_recipe.dart';
 import 'package:kitchen_guide/domain/recipe.dart';
 import 'package:kitchen_guide/domain/recipe_list.dart';
 
 class RecipeApi {
   final dio = Dio();
+  final TranslateApi translateApi  = TranslateApi();
   final apiKey = 'd2cc58e1144f4a9ba028a5728d66538f';
   final String fakeApiUrl = 'https://my-json-server.typicode.com/gleycebarb/fake-api';
   final String recipeApiUrl = 'https://api.spoonacular.com/recipes';
+  final String cachedEndpoint = 'http://192.168.1.202:8080/fetch?url=';
 
   Future<List<RecipeList>> fetchRecipesLists() async {
     final response = await dio.get('$fakeApiUrl/RecipeLists');
@@ -35,7 +38,6 @@ class RecipeApi {
         'ids': willBeRequestedIds.join(',')
       };
 
-      // String cachedEndpoint = 'http://192.168.1.202:8080/fetch?url=';
       Response response = await dio.get(
         '$recipeApiUrl/informationBulk',
         queryParameters: queryParams,
@@ -59,11 +61,44 @@ class RecipeApi {
     }
   }
 
+  Future<FullRecipe?> getFullRecipe(int recipeId) async {
+    try {
+      final Map<String, dynamic> queryParams = {
+        'apiKey': apiKey,
+      };
+
+      Response response = await dio.get(
+        '$recipeApiUrl/$recipeId/information',
+        queryParameters: queryParams,
+      );
+
+      if (response.statusCode != 200) {
+        return null;
+      }
+
+      return FullRecipe.fromJson(await _translateFullRecipe(response.data));
+    } catch(err) {
+      print('Erro ao buscar receita por id');
+      print(err.toString());
+      return null;
+    }
+  }
+
+  Future<Map<String, dynamic>> _translateFullRecipe(Map<String, dynamic> data) async {
+    data["title"] = await translateApi.translateToPortuguese(data["title"]);
+    if (data["instructions"] != null) {
+      data["instructions"] = data["instructions"].replaceAll(RegExp(r'<[^>]*>'), '');
+    }
+    if (data["summary"] != null) {
+      data["summary"] = data["summary"].replaceAll(RegExp(r'<[^>]*>'), '');
+    }
+    return data;
+  }
+
   Future<List<dynamic>> _translateResponseData(List<dynamic> data) async {
     List<Map<String, dynamic>> result = [];
-    TranslateApi t = TranslateApi();
     for (var json in data) {
-      json["title"] = await t.translateToPortuguese(json["title"]);
+      json["title"] = await translateApi.translateToPortuguese(json["title"]);
       result.add(json);
     }
     return result;
