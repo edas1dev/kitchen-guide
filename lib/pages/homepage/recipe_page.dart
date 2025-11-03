@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/api/recipe_api.dart';
+import 'package:kitchen_guide/api/translate_api.dart';
 import 'package:kitchen_guide/domain/full_recipe.dart';
 
 class RecipePage extends StatefulWidget {
@@ -38,14 +39,49 @@ class _RecipePageState extends State<RecipePage> {
           }
           FullRecipe fullRecipe = snapshot.requireData!;
           List<String> dietary = fullRecipe.dietaryInfo;
-          List<ExtendedIngredient> ingredients = fullRecipe.extendedIngredients;
+          List<String> ingredientsNames = fullRecipe.extendedIngredients.map((item) => item.original).toList();
+          Future<String> translatedIngredients = TranslateApi().translateToPortuguese(ingredientsNames.join('|'));
           return ListView(
             children: [
-              Image.network(
-                fullRecipe.image,
-                fit: BoxFit.cover,
-                height: MediaQuery.of(context).size.height * 0.3,
-                width: MediaQuery.of(context).size.width,
+              Stack(
+                children: [
+                  Image.network(
+                    fullRecipe.image,
+                    fit: BoxFit.cover,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      padding: EdgeInsets.all(25),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color.fromRGBO(0, 0, 0, 0.6),
+                            Colors.transparent,
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        icon:  Icon(Icons.close, color: Colors.white, size: 48,),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      )
+                    ),
+                  ),
+                ]
               ),
               Padding(
                 padding: const EdgeInsets.all(25),
@@ -81,37 +117,35 @@ class _RecipePageState extends State<RecipePage> {
                       width: double.infinity,
                       child: Text('Ingredientes:', textAlign: TextAlign.justify, style: TextStyle(fontSize: 17.8, fontWeight: FontWeight.bold),),
                     ),
-                    SizedBox(
-                      height: 100,
-                      child: ListView.builder(
-                        itemCount: ingredients.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, i) {
-                          String imageUrl = 'https://img.spoonacular.com/ingredients_100x100/${ingredients[i].image}';
-                          return Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8),
-                            margin: EdgeInsets.only(right: 20),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[50],
-                              borderRadius: BorderRadius.all(Radius.circular(16))
-                            ),
-                            child: Row(
-                              spacing: 8,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                                  child: Image.network(imageUrl, width: 50, fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Container();
-                                    },
+                    FutureBuilder(
+                      future: translatedIngredients,
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return Container();
+                        }
+
+                        List<String> ingredientsList = snapshot.requireData.split('|');
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: ingredientsList.map<Widget>(
+                            (item) =>
+                            SizedBox(
+                              width: double.infinity,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                spacing: 4,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 7),
+                                    child: Icon(Icons.circle, size: 6,),
                                   ),
-                                ),
-                                Text(ingredients[i].name)
-                              ],
-                            ),
-                          );
-                        },
-                      ),
+                                  Expanded(child: Text(item, softWrap: true,))
+                                ]
+                              )
+                            )
+                          ).toList(),
+                        );
+                      },
                     ),
                     SizedBox(height: 20),
                     Container(

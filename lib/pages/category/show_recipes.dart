@@ -5,6 +5,7 @@ import 'package:kitchen_guide/domain/simple_recipe.dart';
 
 import '../../api/categories_api.dart';
 import '../../api/translate_api.dart';
+import '../homepage/recipe_page.dart';
 
 class ShowRecipes extends StatefulWidget {
   final Category category;
@@ -70,6 +71,9 @@ class _ShowRecipesState extends State<ShowRecipes> {
   buildCard(SimpleRecipe recipe, String realTitle) {
     return InkWell(
       borderRadius: BorderRadius.circular(13),
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RecipePage(recipeId: recipe.id,)));
+      },
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(13),

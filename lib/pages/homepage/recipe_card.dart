@@ -33,7 +33,7 @@ class _RecipeCardState extends State<RecipeCard> {
             )
           ),
           SizedBox(
-            height: 124,
+            height: 140,
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
               child: SizedBox(

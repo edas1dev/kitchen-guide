@@ -99,7 +99,7 @@ class _CategoriesState extends State<Categories> {
             Spacer(),
             ClipRRect(
               borderRadius: BorderRadius.horizontal(right: Radius.circular(8)),
-              child: Image.asset(
+              child: Image.network(
                 categoria.url,
                 height: 80,
                 width: 100,

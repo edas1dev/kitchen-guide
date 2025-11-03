@@ -8,7 +8,7 @@ import 'package:kitchen_guide/domain/recipe_list.dart';
 class RecipeApi {
   final dio = Dio();
   final TranslateApi translateApi  = TranslateApi();
-  final apiKey = 'd2cc58e1144f4a9ba028a5728d66538f';
+  final apiKey = 'cfa55de7fc7746c7ace37e8dc5ec6334';
   final String fakeApiUrl = 'https://my-json-server.typicode.com/gleycebarb/fake-api';
   final String recipeApiUrl = 'https://api.spoonacular.com/recipes';
   final String cachedEndpoint = 'http://192.168.1.202:8080/fetch?url=';

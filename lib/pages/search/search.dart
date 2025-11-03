@@ -95,10 +95,11 @@ class _SearchState extends State<Search> {
                       await _tagDao.insertRecentTag(Tag(nome: nomeTag));
                     }
                     await loadData();
+                    searchBarController.text = '';
                     setState(() {});
 
                     int recipeId = await _tagApi.getRecipe(searchText);
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder:
+                    Navigator.push(context, MaterialPageRoute(builder:
                         (context) => RecipePage(recipeId: recipeId)
                     ));
                   },

@@ -43,7 +43,7 @@ class _RecipeCarousellState extends State<RecipeCarousell> {
         ),
         SizedBox(height: 15),
         SizedBox(
-          height: 290,
+          height: 300,
           child: FutureBuilder(
             future: recipesData,
             builder: (context, snapshot) {

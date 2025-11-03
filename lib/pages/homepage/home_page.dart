@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  child: Image.asset('assets/images/banner.jpeg'),
+                  child: Image.asset('assets/images/banner.jpg'),
                 ),
                 Positioned(
                   bottom: 0,
@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
-                    child: Text('Descubra receitas para o São João!', style: TextStyle(
+                    child: Text('Descubra receitas para o Natal!', style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
                       fontSize: 20
