@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kitchen_guide/db/recipe_dao.dart';
+import 'package:kitchen_guide/api/profile_api.dart';
+import 'package:kitchen_guide/api/recipe_api.dart';
 import 'package:kitchen_guide/domain/profile.dart';
-import 'package:kitchen_guide/pages/homepage/recipe_card.dart';
+import 'package:kitchen_guide/domain/recipe_list.dart';
+import 'package:kitchen_guide/pages/homepage/carousel_placeholder.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_carousell.dart';
-
-import '../../db/profile_dao.dart';
-import '../../domain/recipe.dart';
+import 'package:kitchen_guide/db/profile_dao.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,59 +15,68 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Recipe> recipeList = [];
-  Profile? userProfile;
+  late Future<List<RecipeList>> carouselDataList;
+  late Future<Profile?> userProfile;
 
   @override
   void initState() {
+    carouselDataList = RecipeApi().fetchRecipesLists();
+    userProfile = _loadProfile();
+
     super.initState();
-    loadData();
   }
 
-  loadData() async {
-    recipeList = await RecipeDao().getAllRecipes();
-    userProfile = await ProfileDao().getLoggedUser();
-    setState(() {});
+  Future<Profile?> _loadProfile() async {
+    ProfileDao profileDao = ProfileDao();
+    String? userEmail = await profileDao.getUserEmail();
+
+    if (userEmail == null) {
+      return null;
+    }
+
+    Profile? profile = await profileDao.getLoggedUser();
+    if (profile != null) {
+      return profile;
+    }
+
+    try {
+      profile = await ProfileApi().fetchProfileByEmail(userEmail);
+    } catch(_) {
+      profile = null;
+    }
+
+    if (profile != null) {
+      return profile;
+    }
+
+    return null;
   }
   
   @override
   Widget build(BuildContext context) {
-    final String userName = userProfile?.nome ?? '...';
-    final String userProfileImage = userProfile?.urlImage ?? 'assets/images/default_pfp.jpg';
-
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ListView( // Coluna principal
+      body: ListView(
         children: [
-          Padding( // Barra de boas vindas
-            padding: const EdgeInsets.only(top: 25, left: 25, right: 25),
-            child: Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Olá, $userName!",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-                    ),
-                    Text("O que você gostaria de cozinhar hoje?")
-                  ],
-                ),
-                Spacer(),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(100),
-                  child: Image.asset(
-                    userProfileImage,
-                    height: 60,
-                    width: 60,
+          FutureBuilder(
+            future: userProfile,
+            builder: (context, snapshot)  {
+              if (!snapshot.hasData) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[50],
+                    borderRadius: BorderRadius.circular(16)
                   ),
-                ),
-              ],
-            ),
+                  margin: const EdgeInsets.only(top: 25, left: 25, right: 25),
+                  height: 60,
+                );
+
+              }
+              return buildWelcomeBar(snapshot.requireData!);
+            },
           ),
           SizedBox(height: 20,),
-          Container( // Barra de pesqusa
+          Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -94,7 +103,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  child: Image.asset('assets/images/banner.jpeg'),
+                  child: Image.asset('assets/images/banner.jpg'),
                 ),
                 Positioned(
                   bottom: 0,
@@ -113,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
-                    child: Text('Descubra receitas para o São João!', style: TextStyle(
+                    child: Text('Descubra receitas para o Natal!', style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
                       fontSize: 20
@@ -124,17 +133,69 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           SizedBox(height: 20,),
-          RecipeCarousell(
-            title: 'Popular hoje!',
-            subtitle: 'Ver mais',
-            recipes: recipeList.isEmpty ? recipeList : recipeList.sublist(0, 3)
+
+          FutureBuilder(
+            future: carouselDataList,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return ListView.builder(
+                  itemCount: 3,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, i) {
+                    return Column(
+                      children: [ CarouselPlaceholder(), SizedBox(height: 20,)],
+                    );
+                  },
+                );
+              }
+
+              List<RecipeList> carouselsData = snapshot.requireData;
+              return ListView.builder(
+                itemCount: carouselsData.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, i) {
+                  return Column(
+                    children: [ RecipeCarousell(recipeList: carouselsData[i]), SizedBox(height: 20,)],
+                  );
+                },
+              );
+            },
           ),
           SizedBox(height: 20,),
-          RecipeCarousell(
-            title: 'Top fitness',
-            subtitle: 'Ver mais',
-            recipes: recipeList.isEmpty ? recipeList : recipeList.sublist(3, 6)
-          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildWelcomeBar(Profile profile) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 25, left: 25, right: 25),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Olá, ${profile.nome}!",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style:
+                  TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+                ),
+                Text("O que você gostaria de cozinhar hoje?")
+              ],
+            ),
+          ),
+          SizedBox(width: 25,),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: profile.urlImage == ""
+                ? Image.asset('assets/images/default_pfp.jpg', height: 60, width: 60,)
+                : Image.network(profile.urlImage, height: 60, width: 60),
+          ),
         ],
       ),
     );

@@ -25,52 +25,61 @@ class _RecipeCardState extends State<RecipeCard> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(16)),
-            child: Image.asset(
+            child: Image.network(
               widget.recipe.image,
               width: 200,
               height: 150,
               fit: BoxFit.cover,
             )
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              spacing: 10,
-              children: [
-                Text(widget.recipe.title, style: TextStyle(fontWeight: FontWeight.bold),),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+          SizedBox(
+            height: 140,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              child: SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 8,
+                    Text(
+                      widget.recipe.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Row(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           spacing: 8,
                           children: [
-                            Icon(Icons.fastfood, color: Colors.grey[500],),
-                            Text(widget.recipe.kcal, style: TextStyle(color: Colors.grey[700]),)
+                            Row(
+                              spacing: 8,
+                              children: [
+                                Icon(Icons.fastfood, color: Colors.grey[500],),
+                                Text('${widget.recipe.servings.toString()} porções', style: TextStyle(color: Colors.grey[700]),)
+                              ],
+                            ),
+                            Row(
+                              spacing: 8,
+                              children: [
+                                Icon(Icons.timer, color: Colors.grey[500],),
+                                Text('${widget.recipe.readyInMinutes.toString()} minutos', style: TextStyle(color: Colors.grey[700]),)
+                              ],
+                            )
                           ],
                         ),
-                        Row(
-                          spacing: 8,
-                          children: [
-                            Icon(Icons.timer, color: Colors.grey[500],),
-                            Text(widget.recipe.time, style: TextStyle(color: Colors.grey[700]),)
-                          ],
+                        Spacer(),
+                        BookmarkButton(
+                          recipeId: widget.recipe.id,
                         )
                       ],
-                    ),
-                    Spacer(),
-                    BookmarkButton(
-                      recipe_id: widget.recipe.id,
-                      is_bookmarked:  widget.recipe.bookmarked
                     )
                   ],
-                )
-              ],
-            )
+                ),
+              )
+            ),
           ),
         ],
       ),

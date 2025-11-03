@@ -13,6 +13,25 @@ class ProfileDao {
     );
   }
 
+  Future<Profile?> getProfileByEmail(String email) async {
+    Database db = await DBHelper.initDB();
+    List<Map<String, dynamic>> user =
+    await db.query(
+      'Profile',
+      where: 'email = ?',
+      whereArgs: [email]
+    );
+    if (user.isEmpty) {
+      return null;
+    }
+    return Profile.fromJson(user.first);
+  }
+
+  Future<String?> getUserEmail() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('loggedUserEmail');
+  }
+
   Future<Profile?> getLoggedUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isUserLogged = prefs.getBool('isUserLogged') ?? false;
@@ -21,13 +40,17 @@ class ProfileDao {
 
     Database db = await DBHelper.initDB();
 
-    List<Map<String, dynamic>> user = await db.query(
-      'Profile',
-      where: 'email = ?',
-      whereArgs: [currentUserEmail]
+    List<Map<String, dynamic>> res = await db.query(
+        'Profile',
+        where: 'email = ?',
+        whereArgs: [currentUserEmail]
     );
-    if (user.isEmpty) return null;
-    return Profile.fromJson(user[0]);
+
+    if (res.isNotEmpty) {
+      Profile user = Profile.fromJson(res.first);
+      return user;
+    }
+    return null;
   }
 
   Future<int> updateUserName(String oldEmail, String newName) async {

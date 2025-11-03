@@ -1,25 +1,22 @@
-class Recipe {
+class SimpleRecipe {
   final int id;
   final String title;
   final String image;
-  final int readyInMinutes;
-  final int servings;
+  final String imageType;
 
-  Recipe({
+  SimpleRecipe({
     required this.id,
     required this.title,
     required this.image,
-    required this.readyInMinutes,
-    required this.servings,
+    required this.imageType,
   });
 
-  factory Recipe.fromJson(Map<String, dynamic> json) {
-    return Recipe(
+  factory SimpleRecipe.fromJson(Map<String, dynamic> json) {
+    return SimpleRecipe(
       id: json['id'] as int,
       title: json['title'] as String,
       image: json['image'] as String,
-      readyInMinutes: json['readyInMinutes'] as int,
-      servings: json['servings'] as int,
+      imageType: json['imageType'] as String,
     );
   }
 
@@ -28,8 +25,7 @@ class Recipe {
       'id': id,
       'title': title,
       'image': image,
-      'readyInMinutes': readyInMinutes,
-      'servings': servings,
+      'imageType': imageType,
     };
   }
 }

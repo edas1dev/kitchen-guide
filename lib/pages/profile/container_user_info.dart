@@ -4,12 +4,13 @@ import 'package:kitchen_guide/domain/profile.dart';
 class ContainerUserInfo extends StatelessWidget {
   final Profile? userProfile;
   const ContainerUserInfo({super.key, this.userProfile});
+  static const String defaultUrl = 'https://raw.githubusercontent.com/gleycebarb/fake-api/refs/heads/main/default_pfp.jpg';
 
   @override
   Widget build(BuildContext context) {
     final String userName = userProfile?.nome ?? '...';
     final String userEmail = userProfile?.email ?? '...';
-    final String userProfileImage = userProfile?.urlImage ?? 'assets/images/default_pfp.jpg';
+    final String userProfileImage = userProfile?.urlImage ?? '';
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -35,31 +36,28 @@ class ContainerUserInfo extends StatelessWidget {
               children: [
                 Text(
                   userName, style: TextStyle(
-                    color: Color(0xFF1C1C1C),
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  color: Color(0xFF1C1C1C),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   userEmail, style: TextStyle(
-                    color: Color(0xFF1C1C1C),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w300,
-                  ),
+                  color: Color(0xFF1C1C1C),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                ),
                 ),
               ],
             ),
           ),
           const SizedBox(width: 8),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(60),
-                child: Image.asset(userProfileImage, height: 95, width: 95),
-              ),
-            ],
+          ClipRRect(
+            borderRadius: BorderRadius.circular(60),
+              child: userProfileImage == ""
+                  ? Image.asset('assets/images/default_pfp.jpg', height: 95, width: 95, fit: BoxFit.cover,)
+                  : Image.network(userProfileImage, height: 95, width: 95, fit: BoxFit.cover),
           ),
         ],
       ),
