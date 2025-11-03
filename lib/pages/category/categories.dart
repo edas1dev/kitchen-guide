@@ -10,6 +10,7 @@ class Categories extends StatefulWidget {
   _CategoriesState createState() => _CategoriesState();
 }
 
+
 class _CategoriesState extends State<Categories> {
   late Future<List<Category>> listaCategorias;
   @override
@@ -28,6 +29,7 @@ class _CategoriesState extends State<Categories> {
       ),
     );
   }
+
 
   buildBody() {
     return FutureBuilder(
@@ -112,6 +114,7 @@ class _CategoriesState extends State<Categories> {
     );
   }
 
+
   buildAppBar() {
     return AppBar(
       centerTitle: false,
@@ -128,3 +131,4 @@ class _CategoriesState extends State<Categories> {
     );
   }
 }
+
