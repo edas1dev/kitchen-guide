@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/api/tags_api.dart';
 import 'package:kitchen_guide/db/tag_dao.dart';
+import 'package:kitchen_guide/domain/full_recipe.dart';
+import 'package:kitchen_guide/pages/homepage/recipe_page.dart';
 import '../../domain/tag.dart';
 
 class Search extends StatefulWidget {
@@ -11,6 +14,8 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   late TextEditingController searchBarController = TextEditingController();
+  final TagDao _tagDao = TagDao();
+  final TagsApi _tagApi = TagsApi();
   List<Tag> listaPopularTags = [];
   List<Tag> listaRecentTags = [];
 
@@ -21,8 +26,8 @@ class _SearchState extends State<Search> {
   }
 
   loadData() async {
-    listaPopularTags = await TagDao().listarPopularTags();
-    listaRecentTags = await TagDao().listarRecentTags();
+    listaPopularTags = await _tagApi.findAll();
+    listaRecentTags = await _tagDao.listarRecentTags();
 
     setState(() {});
   }
@@ -87,10 +92,15 @@ class _SearchState extends State<Search> {
                       return;
                     List<String> searchText = searchBarController.text.split(', ');
                     for (String nomeTag in searchText) {
-                      await TagDao().insertRecentTag(Tag(nome: nomeTag));
+                      await _tagDao.insertRecentTag(Tag(nome: nomeTag));
                     }
                     await loadData();
                     setState(() {});
+
+                    int recipeId = await _tagApi.getRecipe(searchText);
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder:
+                        (context) => RecipePage(recipeId: recipeId)
+                    ));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFF96167),

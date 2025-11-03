@@ -13,4 +13,14 @@ class TranslateApi {
 
     return response.data[0][0][0];
   }
+
+  Future<String> translateToEnglish(String text) async {
+    final Response response = await dio.get(_baseUrl('en', text));
+
+    if (response.statusCode != 200) {
+      return "";
+    }
+
+    return response.data[0][0][0];
+  }
 }
