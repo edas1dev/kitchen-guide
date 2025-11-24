@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kitchen_guide/domain/category.dart';
+import 'package:kitchen_guide/pages/category/category_map.dart';
 import 'package:kitchen_guide/pages/category/show_recipes.dart';
 
 import '../../api/categories_api.dart';
@@ -32,27 +34,53 @@ class _CategoriesState extends State<Categories> {
 
 
   buildBody() {
-    return FutureBuilder(
-      future: listaCategorias,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          List<Category> listaCategorias = snapshot.requireData;
-          return ListView.builder(
-            padding: EdgeInsets.only(top: 15),
-            itemCount: listaCategorias.length,
-            itemBuilder: (context, i) {
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25),
-                child: buildCard(listaCategorias[i])
-              );
-          });
-        }
+    return Stack(
+      children: [
+        FutureBuilder(
+          future: listaCategorias,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<Category> listaCategorias = snapshot.requireData;
+              return ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.only(top: 15),
+                itemCount: listaCategorias.length,
+                itemBuilder: (context, i) {
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
+                    child: buildCard(listaCategorias[i])
+                  );
+              });
+            }
 
-        return Center(
-            child: CircularProgressIndicator(
-              color: Color(0xFFE41D56),
-            ));
-      },
+            return Center(
+                child: CircularProgressIndicator(
+                  color: Color(0xFFE41D56),
+                ));
+          },
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context, MaterialPageRoute(
+                      builder: (context) => CategoryMap(latLong: LatLng(-9.756007434068747, -36.66406641798375))
+                    )
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFF96167),
+                ),
+                child: Text('Encontrar inpirações', style: TextStyle(
+                    color: Colors.white
+                ),)
+            ),
+          ),
+        )
+      ],
     );
   }
 

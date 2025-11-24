@@ -37,6 +37,8 @@ dependencies:
   flutter_native_splash: ^2.4.6
   flutter_launcher_icons: ^0.14.3
   sqflite:
+  google_maps_flutter:
+  geocoding:
   shared_preferences: ^2.0.0
   dio:
 
