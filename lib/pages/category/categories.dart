@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kitchen_guide/domain/category.dart';
 import 'package:kitchen_guide/pages/category/category_map.dart';
@@ -64,13 +65,30 @@ class _CategoriesState extends State<Categories> {
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: ElevatedButton(
-                onPressed: () {
+              onPressed: () async {
+                List<Location> locations = await locationFromAddress("Brasília, Brazil");
+
+                if (locations.isNotEmpty) {
                   Navigator.push(
-                      context, MaterialPageRoute(
-                      builder: (context) => CategoryMap(latLong: LatLng(-9.756007434068747, -36.66406641798375))
-                    )
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+
+                        return CategoryMap(
+                            latLong: LatLng(
+                            locations[0].latitude,
+                            locations[0].longitude,
+                          ),
+                        );
+                      },
+                    ),
                   );
+                } else {
+                  SnackBar snackBar = SnackBar(content: Text('Local não encontrado!'));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                 }
                 },
+
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFF96167),
                 ),

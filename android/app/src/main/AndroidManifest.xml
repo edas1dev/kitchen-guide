@@ -1,11 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="Kitchen Guide"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
 
-        <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCWwPgjgqFilQNNKZQZQPiQ9GQvblrlOp4"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBKtgfjHpzqfsWHV1HlabhUpfRU1IcxlEc"/>
 
         <activity
             android:name=".MainActivity"
