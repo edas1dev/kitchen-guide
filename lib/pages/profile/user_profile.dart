@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../api/profile_api.dart';
 import '../../db/profile_dao.dart';
 import '../../domain/profile.dart';
+import 'package:provider/provider.dart';
+import 'package:kitchen_guide/provider/profile_provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -17,15 +19,21 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  Profile? userProfile;
+  bool _loading = false;
 
   @override
   void initState() {
     super.initState();
-    _loadUserProfile();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = context.read<ProfileProvider>();
+      if (!provider.hasProfile) {
+        _loadUserProfile();
+      }
+    });
   }
 
   Future<void> _loadUserProfile() async {
+    setState(() => _loading = true);
     try {
       final prefs = await SharedPreferences.getInstance();
       final userEmail = prefs.getString('loggedUserEmail');
@@ -35,76 +43,74 @@ class _ProfilePageState extends State<ProfilePage> {
       }
       final profileApi = ProfileApi();
       final profileDao = ProfileDao();
+      Profile? loaded;
       try {
-        final externalProfile = await profileApi.fetchProfileByEmail(userEmail);
-        setState(() {
-          userProfile = externalProfile;
-        });
-      } catch (e) {
-        final localProfile = await profileDao.getLoggedUser();
-        if (localProfile != null) {
-          setState(() {
-            userProfile = localProfile;
-          });
-        } else {
-          throw Exception('Erro ao carregar perfil localmente: $e');
-        }
+        loaded = await profileApi.fetchProfileByEmail(userEmail);
+      } catch (_) {
+        loaded = await profileDao.getProfileByEmail(userEmail);
+      }
+      if (loaded != null) {
+        final provider = context.read<ProfileProvider>();
+        provider.setProfile(loaded);
+      } else {
+        print('Perfil não encontrado nem na API nem no banco local.');
       }
     } catch (e) {
-      throw Exception ('Erro ao carregar perfil do usuário: $e');
+      print('Erro ao carregar perfil do usuário: $e');
+    } finally {
+      if (mounted) setState(() => _loading = false);
     }
   }
 
-  void _navigateToManageAccount() async {
-    if (userProfile != null) {
-      await Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ManageAccountOPT(userEmail: userProfile!.email)),
-      );
-      _loadUserProfile();
-    }
+  void _navigateToManageAccount(String userEmail) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ManageAccountOPT(userEmail: userEmail)),
+    );
+    _loadUserProfile();
   }
 
   @override
   Widget build(BuildContext context) {
+    final Profile? profile = context.watch<ProfileProvider>().profile;
+
+    if (_loading || profile == null) {
+      return const Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(child: CircularProgressIndicator(color: Color(0xFFEF233C))),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
-        child: userProfile == null
-          ? const Center(child: CircularProgressIndicator(color: Color(0xFFEF233C)))
-          : Column(
+        child: Column(
           children: [
-            ContainerUserInfo(userProfile: userProfile),
+            ContainerUserInfo(userProfile: profile),
             const SizedBox(height: 30),
-              buildContainer(
-                Icons.bookmark, 'Receitas salvas', 'Suas receitas salvas aqui.', () {
-                Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const SavedRecipesOPT()),
-                );
-              },
+            buildContainer(
+              Icons.bookmark, 'Receitas salvas', 'Suas receitas salvas aqui.', () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SavedRecipesOPT()));
+            },
             ),
             const SizedBox(height: 15),
-              buildContainer(
-                Icons.manage_accounts, 'Gerenciar conta', 'Edite com detalhes a sua conta.', () {
-                _navigateToManageAccount();
-              },
+            buildContainer(
+              Icons.manage_accounts, 'Gerenciar conta', 'Edite com detalhes a sua conta.', () {
+              _navigateToManageAccount(profile.email);
+            },
             ),
             const SizedBox(height: 15),
-              buildContainer(
-                Icons.settings, 'Configurações', 'Algumas configurações do App.', () {
-                Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const SettingsOPT()),
-                );
-              },
+            buildContainer(
+              Icons.settings, 'Configurações', 'Algumas configurações do App.', () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsOPT()));
+            },
             ),
             const SizedBox(height: 15),
             buildContainer(
               Icons.headset_mic_rounded, 'Central de ajuda', 'Entre em contato com o suporte.', () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const HelpCenterOPT()),
-                );
-              },
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HelpCenterOPT()));
+            },
             ),
           ],
         ),

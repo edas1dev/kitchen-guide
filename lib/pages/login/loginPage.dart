@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_guide/pages/login/singUpPage.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../api/profile_api.dart';
 import '../../db/profile_dao.dart';
 import '../../domain/profile.dart';
+import '../../provider/profile_provider.dart';
 
 class LoginPage extends StatefulWidget {
   final Widget destinyPage;
@@ -159,9 +161,13 @@ class _LoginPageState extends State<LoginPage> {
 
       if (loginSuccess && profileMap != null) {
         _showSnackBar('Login realizado com sucesso!', isError: false);
+
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('isUserLogged', true);
         await prefs.setString('loggedUserEmail', userEmail);
+        ProfileProvider profileProvider = context.read<ProfileProvider>();
+        profileProvider.setProfile(profileMap);
+
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.destinyPage));
       } else {
         _showSnackBar('Usuário ou senha inválidos.', isError: true);
