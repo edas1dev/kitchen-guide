@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kitchen_guide/api/tags_api.dart';
 import 'package:kitchen_guide/db/tag_dao.dart';
-import 'package:kitchen_guide/domain/full_recipe.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_page.dart';
+import 'package:kitchen_guide/pages/search/search_map.dart';
 import '../../domain/tag.dart';
 
 class Search extends StatefulWidget {
@@ -108,6 +110,44 @@ class _SearchState extends State<Search> {
                   ),
                   child: Text('Gerar receita', style: TextStyle(
                       color: Colors.white
+                  ),)
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: ElevatedButton(
+                  onPressed: () async {
+                    List<Location> locations = await locationFromAddress("Arapiraca, Alagoas");
+
+                    if (locations.isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+
+                            return SearchMap(
+                              latLong: LatLng(
+                                locations[0].latitude,
+                                locations[0].longitude,
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      SnackBar snackBar = SnackBar(content: Text('Local não encontrado!'));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  },
+
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                  ),
+                  child: Text('Encontrar ingredientes', style: TextStyle(
+                      color: Color(0xFFF96167)
                   ),)
               ),
             ),
