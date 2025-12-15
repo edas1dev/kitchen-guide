@@ -167,7 +167,6 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
     int linhasExcluidas = await profileDao.deleteAccount(userEmail);
     if (linhasExcluidas > 0) {
       _showSnackBar('Sua conta foi excluída com sucesso.', isError: false);
-
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('isUserLogged', false);
       await prefs.remove('loggedUserEmail');

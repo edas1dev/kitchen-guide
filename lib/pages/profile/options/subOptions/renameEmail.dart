@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import '../../../../db/profile_dao.dart';
 import '../../../../provider/profile_provider.dart';
+import '../../user_profile.dart';
 
 class RenameEmail extends StatefulWidget {
   final String userEmail;
@@ -82,9 +83,9 @@ class _RenameEmailState extends State<RenameEmail> {
       } catch (e) {
         throw Exception(e);
       }
-
       userEmailController.clear();
-      Navigator.pop(context);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+
     } else {
       _showSnackBar('Erro ao atualizar. Tente novamente.', isError: true);
     }
