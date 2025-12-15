@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:kitchen_guide/domain/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../api/profile_api.dart';
 import '../db/profile_dao.dart';
 
@@ -10,7 +9,6 @@ class ProfileProvider extends ChangeNotifier {
 
   Profile? get profile => _user;
   bool get hasProfile => _user != null;
-
   String get userName => _user?.nome ?? '';
   String get email => _user?.email ?? '';
 
@@ -32,8 +30,8 @@ class ProfileProvider extends ChangeNotifier {
       }
       if (loaded != null) {
         setProfile(loaded);
-
         notifyListeners();
+
       } else {
         print('Perfil não encontrado nem na API nem no banco local.');
       }
@@ -52,16 +50,16 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setLoggedUserEmail(String email) {
+  void setLoggedUserEmail(String email) async {
     if (_user == null) return;
-
     _user = _user!.copyWith(email: email);
+    /*SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('loggedUserEmail', email);*/
     notifyListeners();
   }
 
   void setUserName(String name) {
     if (_user == null) return;
-
     _user = _user!.copyWith(nome: name);
     notifyListeners();
   }

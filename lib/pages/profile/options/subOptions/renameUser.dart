@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kitchen_guide/pages/profile/user_profile.dart';
 import 'package:provider/provider.dart';
 import 'package:kitchen_guide/db/profile_dao.dart';
-
 import '../../../../provider/profile_provider.dart';
 
 class RenameUser extends StatefulWidget {
@@ -79,9 +79,9 @@ class _RenameUserState extends State<RenameUser> {
       } catch (e) {
         throw Exception(e);
       }
-
       userNameController.clear();
-      Navigator.pop(context);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+
     } else {
       _showSnackBar('Erro ao atualizar. Tente novamente.', isError: true);
     }
