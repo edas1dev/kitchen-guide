@@ -6,6 +6,9 @@ import 'package:kitchen_guide/domain/recipe_list.dart';
 import 'package:kitchen_guide/pages/homepage/carousel_placeholder.dart';
 import 'package:kitchen_guide/pages/homepage/recipe_carousell.dart';
 import 'package:kitchen_guide/db/profile_dao.dart';
+import 'package:kitchen_guide/provider/profile_provider.dart';
+import 'package:kitchen_guide/provider/recipe_carousel_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -58,10 +61,9 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       body: ListView(
         children: [
-          FutureBuilder(
-            future: userProfile,
-            builder: (context, snapshot)  {
-              if (!snapshot.hasData) {
+          Consumer<ProfileProvider>(
+            builder: (context, provider, _)  {
+              if (!provider.hasProfile) {
                 return Container(
                   decoration: BoxDecoration(
                     color: Colors.grey[50],
@@ -72,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                 );
 
               }
-              return buildWelcomeBar(snapshot.requireData!);
+              return buildWelcomeBar(provider.profile!);
             },
           ),
           SizedBox(height: 20,),
@@ -134,10 +136,9 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 20,),
 
-          FutureBuilder(
-            future: carouselDataList,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
+          Consumer<RecipeCarouselProvider>(
+            builder: (context, provider, _) {
+              if (provider.isLoading) {
                 return ListView.builder(
                   itemCount: 3,
                   shrinkWrap: true,
@@ -150,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                 );
               }
 
-              List<RecipeList> carouselsData = snapshot.requireData;
+              List<RecipeList> carouselsData = provider.carousels!;
               return ListView.builder(
                 itemCount: carouselsData.length,
                 shrinkWrap: true,

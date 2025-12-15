@@ -24,42 +24,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final provider = context.read<ProfileProvider>();
-      if (!provider.hasProfile) {
-        _loadUserProfile();
-      }
-    });
-  }
-
-  Future<void> _loadUserProfile() async {
-    setState(() => _loading = true);
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final userEmail = prefs.getString('loggedUserEmail');
-      if (userEmail == null) {
-        print('Nenhum email de utilizador encontrado.');
-        return;
-      }
-      final profileApi = ProfileApi();
-      final profileDao = ProfileDao();
-      Profile? loaded;
-      try {
-        loaded = await profileApi.fetchProfileByEmail(userEmail);
-      } catch (_) {
-        loaded = await profileDao.getProfileByEmail(userEmail);
-      }
-      if (loaded != null) {
-        final provider = context.read<ProfileProvider>();
-        provider.setProfile(loaded);
-      } else {
-        print('Perfil não encontrado nem na API nem no banco local.');
-      }
-    } catch (e) {
-      print('Erro ao carregar perfil do usuário: $e');
-    } finally {
-      if (mounted) setState(() => _loading = false);
-    }
   }
 
   void _navigateToManageAccount(String userEmail) async {
@@ -67,7 +31,6 @@ class _ProfilePageState extends State<ProfilePage> {
       context,
       MaterialPageRoute(builder: (context) => ManageAccountOPT(userEmail: userEmail)),
     );
-    _loadUserProfile();
   }
 
   @override

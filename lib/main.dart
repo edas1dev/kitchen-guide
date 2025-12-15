@@ -3,6 +3,7 @@ import 'package:kitchen_guide/pages/display_page.dart';
 import 'package:kitchen_guide/pages/onboardings/onboarding_builder.dart';
 import 'package:kitchen_guide/pages/login/singUpPage.dart';
 import 'package:kitchen_guide/provider/profile_provider.dart';
+import 'package:kitchen_guide/provider/recipe_carousel_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,7 +28,8 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()..loadUserProfile()),
+        ChangeNotifierProvider(create: (_) => RecipeCarouselProvider()..loadCarousels())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -26,4 +26,18 @@ class Profile {
     data['urlImage'] = this.urlImage;
     return data;
   }
+
+  Profile copyWith({
+    String? email,
+    String? nome,
+    String? urlImage,
+    String? password,
+  }) {
+    return Profile(
+      email: email ?? this.email,
+      nome: nome ?? this.nome,
+      urlImage: urlImage ?? this.urlImage,
+      password: password ?? this.password
+    );
+  }
 }

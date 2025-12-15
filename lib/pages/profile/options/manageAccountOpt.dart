@@ -111,8 +111,7 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
                   await prefs.setBool('isUserLogged', false);
                   await prefs.remove('loggedUserEmail');
                   try {
-                    context.read<ProfileProvider>().setIsUserLogged(false);
-                    context.read<ProfileProvider>().setLoggedUserEmail('');
+                    context.read<ProfileProvider>().clearProfile();
                   } catch (e) {
                     throw Exception(e);
                   }
@@ -173,8 +172,6 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
       await prefs.setBool('isUserLogged', false);
       await prefs.remove('loggedUserEmail');
       try {
-        context.read<ProfileProvider>().setIsUserLogged(false);
-        context.read<ProfileProvider>().setLoggedUserEmail('');
         context.read<ProfileProvider>().clearProfile();
       } catch (e) {
         throw Exception(e);
