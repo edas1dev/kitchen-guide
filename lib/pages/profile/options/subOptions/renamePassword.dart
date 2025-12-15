@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:kitchen_guide/db/profile_dao.dart';
+
+import '../../../../provider/profile_provider.dart';
 
 class RenamePassword extends StatefulWidget {
   final String userEmail;
@@ -72,6 +75,15 @@ class _RenamePasswordState extends State<RenamePassword> {
 
     if (linhasAfetadas > 0) {
       _showSnackBar('Sua senha foi atualizada com sucesso!', isError: false);
+
+      // Se o provider guarda informações que precisam ser atualizadas após a troca de senha,
+      // faça aqui a atualização. Caso contrário, esta chamada pode ser removida.
+      try {
+        //context.read<ProfileProvider>().notifyPasswordChanged?.call(widget.userEmail);
+      } catch (e) {
+        // ignore - método opcional no provider
+      }
+
       userPasswordController.clear();
       Navigator.pop(context);
     } else {

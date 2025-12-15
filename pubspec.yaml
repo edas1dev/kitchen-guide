@@ -41,6 +41,7 @@ dependencies:
   geocoding:
   shared_preferences: ^2.0.0
   dio:
+  provider:
 
 flutter_native_splash:
   android: true

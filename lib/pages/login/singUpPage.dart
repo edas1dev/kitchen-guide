@@ -3,7 +3,9 @@ import 'package:kitchen_guide/api/profile_api.dart';
 import 'package:kitchen_guide/db/profile_dao.dart';
 import 'package:kitchen_guide/domain/profile.dart';
 import 'package:kitchen_guide/pages/login/loginPage.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../provider/profile_provider.dart';
 
 class SingUpPage extends StatefulWidget {
   final Widget destinyPage;
@@ -161,11 +163,14 @@ class _SingUpPageState extends State<SingUpPage> {
     );
 
     await ProfileDao().insertProfile(profile);
-    _showSnackBar('Usuário cadastrado com sucesso!', isError: false);
+    final profileProvider = context.read<ProfileProvider>();
+    profileProvider.setProfile(profile);
 
+    _showSnackBar('Usuário cadastrado com sucesso!', isError: false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isUserLogged', true);
     await prefs.setString('loggedUserEmail', emailUser);
+
     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => widget.destinyPage));
   }
 

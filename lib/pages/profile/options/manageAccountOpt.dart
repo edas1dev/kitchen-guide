@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:kitchen_guide/pages/display_page.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renameEmail.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renamePassword.dart';
 import 'package:kitchen_guide/pages/profile/options/subOptions/renameUser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../db/profile_dao.dart';
+import '../../../provider/profile_provider.dart';
 import '../../login/loginPage.dart';
 
 class ManageAccountOPT extends StatefulWidget {
@@ -54,34 +56,34 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
             buildContainer(
               Icons.drive_file_rename_outline,
               'Renomear nome de usuário', 'Reescreva o seu nome.', () {
-                _navigateToRenameUser();
-              },
+              _navigateToRenameUser();
+            },
             ),
             SizedBox(height: 15),
             buildContainer(
               Icons.alternate_email, 'Alterar E-mail',
               'Atualize o seu e-mail.', () {
-                _navigateToRenameEmail();
-              },
+              _navigateToRenameEmail();
+            },
             ),
-            const SizedBox(height: 15),
+            /*const SizedBox(height: 15),
             buildContainer(
               Icons.lock_outline, 'Alterar Senha', 'Mantenha sua conta segura.', () {
-                _navigateToRenamePassword();
-              },
-            ),
+              _navigateToRenamePassword();
+            },
+            ),*/
             const SizedBox(height: 15),
             buildContainer(
               Icons.logout, 'Sair da Conta', 'Saia da sua conta atual.', () {
-                logOut();
-              },
+              logOut();
+            },
             ),
             const SizedBox(height: 15),
             buildContainer(
               Icons.delete_forever_outlined, 'Excluir Conta',
               'Esta ação é permanente.', () {
-                showDeleteConfirmationDialog(widget.userEmail);
-              },
+              showDeleteConfirmationDialog(widget.userEmail);
+            },
             ),
           ],
         ),
@@ -90,35 +92,40 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
   }
   void logOut() {
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Sair da Conta'),
-          content: Text('Tem certeza que deseja sair da sua conta? Você será redirecionado para a tela de login.'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancelar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Confirmar', style: TextStyle(color: Colors.red)),
-              onPressed: () async {
-                final prefs = await SharedPreferences.getInstance();
-                await prefs.setBool('isUserLogged', false);
-                await prefs.remove('loggedUserEmail');
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPage(destinyPage: DisplayPage()),
-                  ), (Route<dynamic> route) => false
-                );
-              },
-            ),
-          ],
-        );
-      }
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Sair da Conta'),
+            content: Text('Tem certeza que deseja sair da sua conta? Você será redirecionado para a tela de login.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Cancelar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('Confirmar', style: TextStyle(color: Colors.red)),
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setBool('isUserLogged', false);
+                  await prefs.remove('loggedUserEmail');
+                  try {
+                    context.read<ProfileProvider>().clearProfile();
+                  } catch (e) {
+                    throw Exception(e);
+                  }
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(destinyPage: DisplayPage()),
+                      ), (Route<dynamic> route) => false
+                  );
+                },
+              ),
+            ],
+          );
+        }
     );
   }
 
@@ -160,6 +167,16 @@ class _ManageAccountOPTState extends State<ManageAccountOPT> {
     int linhasExcluidas = await profileDao.deleteAccount(userEmail);
     if (linhasExcluidas > 0) {
       _showSnackBar('Sua conta foi excluída com sucesso.', isError: false);
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isUserLogged', false);
+      await prefs.remove('loggedUserEmail');
+      try {
+        context.read<ProfileProvider>().clearProfile();
+      } catch (e) {
+        throw Exception(e);
+      }
+
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => LoginPage(destinyPage: DisplayPage())),
